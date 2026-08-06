@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Unirgy_DropshipPo::udpo" resource="Unirgy_DropshipPo::udpo"
+             module="Unirgy_DropshipPo" title="Purchase Orders" sortOrder="55"
+             action="udpo/po" parent="Unirgy_Dropship::udropship" />
+        <add id="Unirgy_DropshipPo::report_udpo" resource="Unirgy_DropshipPo::report_udpo"
+             module="Unirgy_DropshipPo" title="Advanced PO Details" sortOrder="5"
+             action="udpo/report" parent="Unirgy_Dropship::report" />
+        <add id="Unirgy_DropshipPo::report_udpo_item" resource="Unirgy_DropshipPo::report_udpo_item"
+             module="Unirgy_DropshipPo" title="Advanced PO Item Details" sortOrder="7"
+             action="udpo/report/item" parent="Unirgy_Dropship::report" />
+        <update id="Unirgy_Dropship::report_general" title="Shipment Details" />
+        <update id="Unirgy_Dropship::report_item" title="Shipment Item Details" />
+    </menu>
+</config>

@@ -1,0 +1,30 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Adminhtml\Customer\Edit\Tab\Questions $this */
+?>
+<div class="entry-edit">
+    <?php echo $this->getForm()->getHtml() ?>
+</div>
+<script type="text/javascript">
+    require([
+        'prototype'
+    ], function() {
+        var input = new Element('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', 'subscribe_to');
+        input.setAttribute('data-form-part', 'customer_form');
+        var multiselect = $$('select[name="subscribe_to[]"]').first();
+        multiselect.up().appendChild(input);
+
+        input.setValue(multiselect.getValue());
+        multiselect.observe('change', function(){
+            input.setValue(multiselect.getValue());
+        });
+    });
+</script>

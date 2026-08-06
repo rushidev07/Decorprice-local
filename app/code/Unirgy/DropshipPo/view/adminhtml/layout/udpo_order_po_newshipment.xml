@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Unirgy\DropshipPo\Block\Adminhtml\Shipment\Create" name="sales_shipment_create">
+                <block class="Unirgy\DropshipPo\Block\Adminhtml\Shipment\CreateForm"
+                       template="Magento_Shipping::create/form.phtml" name="form">
+                    <block class="Unirgy\DropshipPo\Block\Adminhtml\SalesOrderView\Info"
+                           template="Unirgy_Dropship::sales/order/view/info.phtml" name="order_info"/>
+                    <block class="Magento\Sales\Block\Adminhtml\Order\Payment" name="order_payment"/>
+                    <block class="Magento\Shipping\Block\Adminhtml\Order\Tracking" name="shipment_tracking" template="Magento_Shipping::order/tracking.phtml"/>
+                    <block class="Unirgy\DropshipPo\Block\Adminhtml\Shipment\Create\Items"
+                           template="Unirgy_DropshipPo::udpo/po/shipment/create/items.phtml" name="order_items">
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRenderer" as="default" template="Magento_Shipping::create/items/renderer/default.phtml"/>
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Column\Qty" name="column_qty" template="Unirgy_DropshipPo::sales/items/column/qty.phtml" group="column"/>
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Column\Name" name="column_name" template="Magento_Sales::items/column/name.phtml" group="column"/>
+                    </block>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+    <update handle="udpoadmin_change_qty_column_renderer"/>
+</page>

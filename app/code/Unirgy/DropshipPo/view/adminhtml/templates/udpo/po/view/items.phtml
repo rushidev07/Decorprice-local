@@ -1,0 +1,46 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipPo
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+<?php
+$hlp = \Magento\Framework\App\ObjectManager::getInstance()->get('Unirgy\Dropship\Helper\Data');
+/** @var \Magento\Framework\AuthorizationInterface $auth */
+$auth = $hlp->getObj('\Magento\Framework\AuthorizationInterface');
+$isViewCost = $auth->isAllowed('Unirgy_DropshipPo::action_view_cost');
+$qtyLast = !$isViewCost ? 'last' : '';
+?>
+<div class="admin__table-wrapper">
+    <table class="data-table admin__table-primary order-shipment-table">
+        <thead>
+            <tr class="headings">
+                <th><?php echo __('Product') ?></th>
+                <?php if ($isViewCost): ?>
+                <th><?php echo __('Cost') ?></th>
+                <?php endif ?>
+                <th class="<?php echo $qtyLast?> a-center"><span class="nobr"><?php echo __('Qty') ?></span></th>
+                <?php if ($isViewCost): ?>
+                <th class="last a-right"><?php echo __('Row Cost') ?></th>
+                <?php endif ?>
+            </tr>
+        </thead>
+        <?php $_items = $this->getPo()->getAllItems() ?>
+        <?php $_i=0;foreach ($_items as $_item): if ($_item->getOrderItem()->getParentItem()): continue; endif; $_i++ ?>
+            <tbody class="<?php echo $_i%2?'odd':'even' ?>">
+                <?php echo $this->getItemHtml($_item) ?>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+</div>

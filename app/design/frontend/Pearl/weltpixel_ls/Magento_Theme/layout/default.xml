@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="head.additional">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="custom.dns.prefetch"
+                   template="Magento_Theme::html/dns-prefetch.phtml" />
+        </referenceContainer>
+        <referenceBlock name="store.menu">
+            <block class="Magento\Theme\Block\Html\Topmenu" name="catalog.topnav" template="Magento_Theme::html/topmenu.phtml" ttl="3600" before="-"/>
+        </referenceBlock>
+        <referenceContainer name="page.top">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="ls.preheader.custom"
+                   template="Magento_Theme::ls-preheader.phtml"
+                   before="-"/>
+        </referenceContainer>
+    </body>
+</page>

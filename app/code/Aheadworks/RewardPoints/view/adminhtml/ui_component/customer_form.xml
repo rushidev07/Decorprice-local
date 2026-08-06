@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="aw_reward_points_customer_section"
+              class="Aheadworks\RewardPoints\Ui\Component\Form\Customer\RewardPointsSection\Tab">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="additionalClasses" xsi:type="string">aw-reward-points__customer_section</item>
+            </item>
+            <item name="acl_resource" xsi:type="string">Aheadworks_RewardPoints::aw_reward_points</item>
+        </argument>
+        <settings>
+            <label translate="true">Reward Points by Aheadworks</label>
+        </settings>
+        <fieldset name="customer_summary"
+                  class="Aheadworks\RewardPoints\Ui\Component\Form\Customer\RewardPointsSection\AclResourceFieldset">
+            <argument name="data" xsi:type="array">
+                <item name="acl_resource" xsi:type="string">Aheadworks_RewardPoints::aw_reward_points_customers</item>
+            </argument>
+            <settings>
+                <collapsible>false</collapsible>
+                <label translate="true">Balance Summary</label>
+                <additionalClasses>
+                    <class name="aw-reward-points__customer_summary">true</class>
+                </additionalClasses>
+            </settings>
+            <insertListing name="aw_reward_points_insert_customer_summary_listing">
+                <settings>
+                    <autoRender>true</autoRender>
+                    <externalProvider>${ $.ns }.aw_reward_points_insert_customer_summary_listing_data_source</externalProvider>
+                    <ns>aw_reward_points_insert_customer_summary_listing</ns>
+                    <externalFilterMode>true</externalFilterMode>
+                    <imports>
+                        <link name="customer_id">${ $.provider }:data.customer_id</link>
+                    </imports>
+                    <exports>
+                        <link name="customer_id">${ $.externalProvider }:params.customer_id</link>
+                    </exports>
+                    <dataLinks>
+                        <exports>false</exports>
+                        <imports>true</imports>
+                    </dataLinks>
+                </settings>
+            </insertListing>
+        </fieldset>
+        <fieldset name="transaction_history"
+                  class="Aheadworks\RewardPoints\Ui\Component\Form\Customer\RewardPointsSection\AclResourceFieldset">
+            <argument name="data" xsi:type="array">
+                <item name="acl_resource" xsi:type="string">Aheadworks_RewardPoints::aw_reward_points_transaction</item>
+            </argument>
+            <settings>
+                <collapsible>false</collapsible>
+                <label translate="true">Transaction History</label>
+                <additionalClasses>
+                    <class name="aw-reward-points__transaction_history">true</class>
+                </additionalClasses>
+            </settings>
+            <insertListing name="aw_reward_points_insert_customer_transaction_listing">
+                <settings>
+                    <autoRender>true</autoRender>
+                    <externalProvider>${ $.ns }.aw_reward_points_insert_customer_transaction_listing_data_source</externalProvider>
+                    <ns>aw_reward_points_insert_customer_transaction_listing</ns>
+                    <externalFilterMode>true</externalFilterMode>
+                    <imports>
+                        <link name="customer_id">${ $.provider }:data.customer_id</link>
+                    </imports>
+                    <exports>
+                        <link name="customer_id">${ $.externalProvider }:params.customer_id</link>
+                    </exports>
+                    <dataLinks>
+                        <exports>false</exports>
+                        <imports>true</imports>
+                    </dataLinks>
+                </settings>
+            </insertListing>
+        </fieldset>
+        <fieldset name="balance_adjustment"
+                  class="Aheadworks\RewardPoints\Ui\Component\Form\Customer\RewardPointsSection\AclResourceFieldset">
+            <argument name="data" xsi:type="array">
+                <item name="acl_resource" xsi:type="string">Aheadworks_RewardPoints::aw_reward_points_transaction_save</item>
+            </argument>
+            <settings>
+                <collapsible>false</collapsible>
+                <label translate="true">Balance Adjustment</label>
+                <additionalClasses>
+                    <class name="aw-reward-points__balance_adjustment">true</class>
+                </additionalClasses>
+            </settings>
+            <field name="website_id" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">customer</item>
+                        <item name="default" xsi:type="string">0</item>
+                    </item>
+                </argument>
+                <settings>
+                    <label translate="true">Website</label>
+                    <dataType>int</dataType>
+                    <dataScope>website_id</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Aheadworks\RewardPoints\Model\Source\Transaction\Website"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+            <field name="balance" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">customer</item>
+                    </item>
+                </argument>
+                <settings>
+                    <label translate="true">Points balance adjustment</label>
+                    <dataType>number</dataType>
+                    <dataScope>balance</dataScope>
+                    <validation>
+                        <rule name="validate-number" xsi:type="boolean">true</rule>
+                    </validation>
+                    <notice translate="true">You can use negative value to decrease points balance.</notice>
+                </settings>
+            </field>
+            <field name="comment_to_customer" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">customer</item>
+                    </item>
+                </argument>
+                <settings>
+                    <label translate="true">Comment (visible for customer)</label>
+                    <dataType>text</dataType>
+                    <dataScope>comment_to_customer</dataScope>
+                </settings>
+            </field>
+            <field name="comment_to_admin" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">customer</item>
+                    </item>
+                </argument>
+                <settings>
+                    <label translate="true">Comment (visible for admin only)</label>
+                    <dataType>text</dataType>
+                    <dataScope>comment_to_admin</dataScope>
+                </settings>
+            </field>
+            <field name="expire" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">customer</item>
+                        <item name="switcherConfig" xsi:type="array">
+                            <item name="enabled" xsi:type="boolean">true</item>
+                            <item name="rules" xsi:type="array">
+                                <item name="0" xsi:type="array">
+                                    <item name="value" xsi:type="string">expire_in_x_days</item>
+                                    <item name="actions" xsi:type="array">
+                                        <item name="0" xsi:type="array">
+                                            <item name="target" xsi:type="string">${ $.parentName }.expire_in_days</item>
+                                            <item name="callback" xsi:type="string">show</item>
+                                        </item>
+                                        <item name="1" xsi:type="array">
+                                            <item name="target" xsi:type="string">${ $.parentName }.expiration_date</item>
+                                            <item name="callback" xsi:type="string">hide</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">expire_on_exact_days</item>
+                                    <item name="actions" xsi:type="array">
+                                        <item name="0" xsi:type="array">
+                                            <item name="target" xsi:type="string">${ $.parentName }.expire_in_days</item>
+                                            <item name="callback" xsi:type="string">hide</item>
+                                        </item>
+                                        <item name="1" xsi:type="array">
+                                            <item name="target" xsi:type="string">${ $.parentName }.expiration_date</item>
+                                            <item name="callback" xsi:type="string">show</item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <label translate="true">Expire</label>
+                    <dataType>text</dataType>
+                    <dataScope>expire</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Aheadworks\RewardPoints\Model\Source\Transaction\Expire"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+            <field name="expire_in_days" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">customer</item>
+                    </item>
+                </argument>
+                <settings>
+                    <label translate="true">Expire in, days</label>
+                    <dataType>text</dataType>
+                    <dataScope>expire_in_days</dataScope>
+                    <notice translate="true">0 or empty value means the transaction will never expire</notice>
+                    <validation>
+                        <rule name="validate-digits" xsi:type="boolean">true</rule>
+                    </validation>
+                </settings>
+            </field>
+            <field name="expiration_date" formElement="date">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">customer</item>
+                        <item name="options" xsi:type="array">
+                            <item name="showsTime" xsi:type="boolean">true</item>
+                            <item name="minDate" xsi:type="number">0</item>
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <label translate="true">Expiration Date</label>
+                    <dataType>text</dataType>
+                    <dataScope>expiration_date</dataScope>
+                    <notice translate="true">An empty value means the transaction never expire</notice>
+                    <validation>
+                        <rule name="validate-optional-datetime" xsi:type="boolean">true</rule>
+                    </validation>
+                </settings>
+            </field>
+        </fieldset>
+    </fieldset>
+</form>

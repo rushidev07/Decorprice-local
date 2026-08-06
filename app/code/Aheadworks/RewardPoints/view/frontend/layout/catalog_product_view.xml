@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Aheadworks_RewardPoints::css/product.css"/>
+    </head>
+    <body>
+        <referenceContainer name="product.info.main">
+            <block class="Aheadworks\RewardPoints\Block\Product\View\Earning" name="aw_reward_points.product.view.earning" as="aw_reward_points.product.view.earning" before="aw_reward_points.product.view.share" />
+            <block class="Aheadworks\RewardPoints\Block\Product\View\Discount" name="aw_reward_points.product.view.discount" as="aw_reward_points.product.view.discount" after="aw_reward_points.product.view.earning" />
+            <block class="Aheadworks\RewardPoints\Block\Product\View\Share" name="aw_reward_points.product.view.share" as="aw_reward_points.product.view.share" after="product.info.extrahint" />
+        </referenceContainer>
+    </body>
+</page>

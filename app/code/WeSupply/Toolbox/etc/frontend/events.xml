@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="websiterestriction_frontend">
+        <observer name="wesupply_website_restriction" instance="WeSupply\Toolbox\Observer\WebsiteRestrictionObserver" />
+    </event>
+</config>

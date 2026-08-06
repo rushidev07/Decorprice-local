@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright   2020 Ahy Consulting (https://www.ahyconsulting.com).
+ * Author      Ameer Potrik <ameer.potrik@ahytech.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+   <event name="checkout_onepage_controller_success_action">
+        <observer name="ahy_order_hold" instance="Ahy\UpdateOrderStatus\Observer\HoldOrder" />
+    </event>
+</config>

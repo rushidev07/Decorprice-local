@@ -1,0 +1,88 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+
+/** @var \Mageplaza\NameYourPrice\Block\Customer\Detail $block */
+/** @var \Mageplaza\NameYourPrice\Helper\Data $helperData */
+$helperData = $this->helper(\Mageplaza\NameYourPrice\Helper\Data::class);
+
+$image     = 'new_products_content_widget_grid';
+$request   = $block->getBargainRequest();
+$productId = $request->getProductId();
+$product   = $block->getProductById($productId);
+?>
+
+<div class="mpb-detail-title">
+    <span><?= /** @noEscape */ __('Bargain Price Details') ?></span>
+</div>
+<div class="mpb-product-info-main">
+    <div class="page-title-wrapper product">
+        <h2 class="page-title">
+            <span class="base"><?= /** @noEscape */ $request->getProductName() ?></span>
+        </h2>
+    </div>
+    <div class="mpb-detail mpb-detail-price">
+        <label><?= /** @noEscape */ __('Original Price: ') ?></label>
+        <?= /** @noEscape */ $helperData->convertPrice($request->getOriginalPrice()) ?>
+    </div>
+    <div class="mpb-detail mpb-detail-bargain-price">
+        <label><?= /** @noEscape */ __('Your Suggested Price Per Item: ') ?></label>
+        <?= /** @noEscape */ $helperData->formatPrice($request->getBargainPrice()) ?>
+    </div>
+    <?php if ($helperData->isBargainQty()): ?>
+        <div class="mpb-detail mpb-detail-qty">
+            <label><?= /** @noEscape */ __('Your Committed Min. Qty: ') ?></label>
+            <?= $block->escapeHtml($request->getBargainQty()) ?>
+        </div>
+    <?php endif ?>
+    <div class="mpb-detail mpb-detail-status">
+        <label><?= /** @noEscape */ __('Status: ') ?></label>
+        <?= $block->escapeHtml($helperData->getLabelStatus($request->getStatus())) ?>
+    </div>
+    <?php if ($request->getStatus() === \Mageplaza\NameYourPrice\Helper\Data::STATUS_APPROVED): ?>
+        <div class="mpb-detail mpb-detail-time-use">
+            <label><?= /** @noEscape */ __('Use before: ') ?></label>
+            <?= /** @noEscape */ $request->getTimeUse() ? date('F d, Y', strtotime($request->getTimeUse())) : __('Unlimited') ?>
+        </div>
+    <?php endif ?>
+    <div class="mpb-detail mpb-detail-customer-message">
+        <label><?= /** @noEscape */ __('Your message: ') ?></label>
+        <?= $block->escapeHtml($request->getCustomerMessage()) ?>
+    </div>
+    <div class="mpb-detail mpb-detail-admin-message">
+        <label><?= /** @noEscape */ __('Store Owners\'s Message: ') ?></label>
+        <?= $block->escapeHtml($request->getAdminMessage()) ?>
+    </div>
+    <div class="mbp-detail-action">
+        <?php if (in_array($product->getTypeId(), [\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'configurable'], true)): ?>
+            <a href="<?= $block->escapeUrl($product->getProductUrl() . '?request_id=' . $request->getId()) ?>">
+        <?php else: ?>
+            <a href="<?= /** @noEscape */ $product->getProductUrl() ?>">
+        <?php endif; ?>
+            <button type="submit" title="" class="action submit primary mpb-detail-product-page">
+                <span><?= /** @noEscape */ __('View Product Page') ?></span>
+            </button>
+        </a>
+    </div>
+</div>
+<div class="mpb-detail-img">
+    <?= $block->getImage($product, $image)->toHtml() ?>
+</div>

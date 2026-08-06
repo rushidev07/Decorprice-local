@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Url\SecurityInfo">
+        <arguments>
+            <argument name="secureUrlList" xsi:type="array">
+                <item name="udropship_vendor" xsi:type="string">/udropship/vendor/</item>
+                <item name="udropship_index" xsi:type="string">/udropship/index/</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogInventory\Api\StockItemRepositoryInterface">
+        <arguments>
+            <argument name="productCollectionFactory" xsi:type="object">Unirgy\Dropship\Model\ResourceModel\ProductCollectionFactory</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Controller\Cart">
+        <plugin name="udSetIsCartUpdateActionFlag" type="Unirgy\Dropship\Plugin\CheckoutCart" sortOrder="-100" />
+    </type>
+    <type name="Magento\Framework\Controller\ResultInterface">
+        <plugin name="result-messages" type="Unirgy\Dropship\Plugin\ThemeMessagePlugin"/>
+    </type>
+    <type name="Unirgy\Dropship\Block\Vendor\HtmlHeader">
+        <plugin name="uDropship" type="Unirgy\Dropship\Plugin\VendorHtmlHeader"/>
+    </type>
+    <type name="Magento\ConfigurableProduct\Model\Product\Type\Configurable">
+        <plugin name="uDropship" type="Unirgy\Dropship\Plugin\ProductTypeConfigurable"/>
+    </type>
+    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
+        <plugin name="ProductRepositoryPlugin" type="Unirgy\Dropship\Plugin\ProductRepository" />
+    </type>
+    <type name="Magento\Authorization\Model\CompositeUserContext">
+        <arguments>
+            <argument name="userContexts" xsi:type="array">
+                <item name="uvendorSessionUserContext" xsi:type="array">
+                    <item name="type" xsi:type="object">Unirgy\Dropship\Model\Authorization\VendorSessionUserContext</item>
+                    <item name="sortOrder" xsi:type="string">1</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

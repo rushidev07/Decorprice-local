@@ -1,0 +1,14 @@
+.eop-popup-edit .checkbox-additional-options .field {
+    width: 50%;
+    float: left;
+}
+
+.eop-popup-edit .checkbox-additional-options .control {
+    clear: both;
+    width: 100% !important;
+}
+
+.eop-popup-edit .checkbox-additional-options .control  input{
+    clear: both;
+    width: 90%;
+}

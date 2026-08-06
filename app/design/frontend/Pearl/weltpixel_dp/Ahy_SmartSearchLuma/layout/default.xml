@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+    Pearl/weltpixel_ls theme override for Ahy_SmartSearchLuma default layout.
+
+    Overrides the module's default injection (which uses after="minicart") to place
+    the FalcoSense search bar BEFORE the minicart — matching Pearl's expected header
+    order: logo → search → minicart.
+
+    Pearl header container hierarchy:
+      page.wrapper
+        header.container.v1     (Pearl-added wrapper, htmlClass="page-header page-header-v1")
+          header.container      (moved here by weltpixel_custom_header_v1.xml)
+            header-wrapper      (div.header.content — standard Magento container)
+              logo
+              top.search        (removed by ahy_smartsearch_active when frontend enabled)
+              ahy_search_bar    (injected here, before minicart)
+              minicart
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="before.body.end">
+            <block class="Ahy\SmartSearchLuma\Block\GeoConsent"
+                   name="ahy_geo_consent"
+                   template="Ahy_SmartSearchLuma::geo-consent.phtml"
+                   ifconfig="smart_search/general/frontend_enabled"/>
+        </referenceBlock>
+
+        <!-- Inject FalcoSense search bar into Pearl's header content div, before minicart -->
+        <referenceContainer name="header-wrapper">
+            <block class="Ahy\SmartSearchLuma\Block\Search"
+                   name="ahy_search_bar"
+                   template="Ahy_SmartSearchLuma::search/mini.phtml"
+                   ifconfig="smart_search/general/frontend_enabled"
+                   before="minicart"/>
+        </referenceContainer>
+    </body>
+</page>

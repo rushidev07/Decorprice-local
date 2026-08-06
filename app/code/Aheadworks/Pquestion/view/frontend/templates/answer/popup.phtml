@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Answer\Popup $this */
+?>
+<?php if ($this->canShow()) : ?>
+    <div class="aw-pq-answer-popup-overlay"></div>
+    <div class="aw-pq-answer-popup">
+        <h3 class="aw-pq-answer-popup__salutation"><?php echo $this->escapeHtml($this->getSalutation()); ?></h3>
+        <span class="aw-pq-answer-popup__close-button"></span>
+        <div class="aw-pq-answer-popup__question-wrapper">
+            <span class="aw-pq-answer-popup__label"><?php echo $this->escapeHtml(__('Question:')); ?></span>
+            <span class="aw-pq-answer-popup__question-content"><?php /* @noEscape */ echo $this->getQuestionContent(); ?></span>
+        </div>
+        <?php /* @noEscape */ echo $this->getAnswerFormHtml(); ?>
+    </div>
+    <script type="text/javascript">
+        require([
+            'AWPquestionPopup'
+        ], function($){
+            var popupConfig = {
+                'overlaySelector': '.aw-pq-answer-popup-overlay',
+                'popupSelector': '.aw-pq-answer-popup',
+                'closeButtonSelector': '.aw-pq-answer-popup__close-button'
+            };
+            new AWPqPopup(popupConfig);
+        });
+    </script>
+<?php endif; ?>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
+    <event name="adminhtml_customer_save_after">
+        <observer name="aw_pq_adminhtml_customer_save_after" instance="Aheadworks\Pquestion\Model\Observer\Adminhtml\AdminhtmlCustomerSaveAfter" />
+    </event>
+    <event name="aw_pq_question_save_after">
+        <observer name="aw_pq_question_save_after" instance="Aheadworks\Pquestion\Model\Observer\QuestionSaveAfter" />
+    </event>
+    <event name="aw_pq_answer_save_after">
+        <observer name="aw_pq_answer_save_after" instance="Aheadworks\Pquestion\Model\Observer\AnswerSaveAfter" />
+    </event>
+</config>

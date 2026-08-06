@@ -1,0 +1,121 @@
+@media all {
+    .onestepcheckout-index-index {
+        .aw-onestep-main {
+            .aw-reward-points {
+                padding: 16px;
+                border: 1px solid #d8d8d8;
+                border-radius: 2px;
+
+                .payment-option-title {
+                    .action {
+                        font-size: 14px;
+                        font-weight: 600;
+                    }
+                }
+
+                .form-reward-points {
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: space-between;
+
+                    .payment-option-inner {
+                        .conversion-rate {
+                            font-size: 14px;
+                        }
+
+                        .label {
+                            font-size: 14px;
+                        }
+                    }
+
+                    .payment-option-inner > .field {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: flex-start;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+
+                        .label {
+                            width: unset;
+                        }
+
+                        .input-text {
+                            min-height: 32px;
+                            height: 32px;
+                            width: 100%;
+                        }
+
+                        .input-text.mage-error {
+                            margin-bottom: 8px;
+                        }
+
+                        .mage-error:not(.input-text) {
+                            box-sizing: border-box;
+                            position: relative;
+                            bottom: unset;
+                            max-width: 189px;
+                            margin: 0;
+                        }
+                    }
+                }
+
+                .action-apply,
+                .action-cancel {
+                    margin: 0;
+                    min-width: 160px;
+                    box-shadow: unset;
+
+                    &:hover {
+                        background-color: #ededed;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .onestepcheckout-index-index {
+        .aw-onestep-main {
+            .aw-reward-points {
+
+                .payment-option-title {
+                    justify-content: center;
+                }
+
+                .form-reward-points {
+                    flex-direction: column;
+                    align-items: center;
+
+                    .conversion-rate {
+                        justify-content: center;
+                        margin-top: 10px;
+                    }
+
+                    .field {
+                        .control {
+                            min-width: auto;
+                            width: auto;
+                        }
+
+                        .for-input {
+                            justify-content: flex-end;
+                            min-width: 33px;
+                        }
+
+                        .input-text {
+                            text-align: center;
+                            max-width: 60px;
+                            min-width: auto;
+                            padding: 0;
+                        }
+                    }
+
+                    .actions-toolbar {
+                        margin-top: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

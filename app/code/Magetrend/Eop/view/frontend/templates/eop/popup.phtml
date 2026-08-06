@@ -1,0 +1,63 @@
+<?php
+/**
+ * MB "Vienas bitas" (Magetrend.com)
+ *
+ * PHP version 5.3 or later
+ *
+ * @category MageTrend
+ * @package  Magetend/Eop
+ * @author   Edvinas Stulpinas <edwin@magetrend.com>
+ * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link     https://www.magetrend.com/magento-2-exit-intent-popup-extension
+ */
+?>
+<?php if ($block->isActivePopup()) : ?>
+    <?php
+    $popup = $block->getPopup();
+    if ($popup) :
+        $contentType = $popup->getContentType();
+        $staticBlockId = $popup->getStaticBlockId();
+
+        // Check if the block ID is 92
+        if ($staticBlockId == 92) {
+            // Get current time in ET (Eastern Time)
+            $timezone = new DateTimeZone('America/New_York');
+            $currentTime = new DateTime('now', $timezone);
+            $currentHour = (int)$currentTime->format('G'); // 24-hour format without leading zeros
+            $currentDay = (int)$currentTime->format('N'); // Day of the week (1 for Monday, 7 for Sunday)
+
+            // Check if current time is between 9 AM and 5 PM ET
+            if ($currentHour >= 9 && $currentHour < 17 && $currentDay >= 1 && $currentDay <= 5) {
+                // Show the popup for block ID 80 within the specified time
+                echo '<div id="mteo_popup_bg_layer">';
+                echo '<div id="mteo_popup_content">';
+                if ($contentType == \Magetrend\Eop\Model\Popup::TYPE_STATIC_BLOCK) {
+                    echo $block->getStaticBlockHtml();
+                } else {
+                    echo $block->getPopupContentHtml();
+                }
+                echo '</div></div>';
+            }
+        } else {
+            // For other block IDs, use the existing functionality
+            echo '<div id="mteo_popup_bg_layer">';
+            echo '<div id="mteo_popup_content">';
+            if ($contentType == \Magetrend\Eop\Model\Popup::TYPE_STATIC_BLOCK) {
+                echo $block->getStaticBlockHtml();
+            } else {
+                echo $block->getPopupContentHtml();
+            }
+            echo '</div></div>';
+        }
+        ?>
+        <?php //@codingStandardsIgnoreStart ?>
+        <script type="text/x-magento-init">
+            {
+                "*": {
+                    "eop": <?php echo $this->getConfigJs();?>
+                }
+            }
+        </script>
+        <?php //@codingStandardsIgnoreEnd ?>
+    <?php endif; ?>
+<?php endif; ?>

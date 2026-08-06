@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="header.links">
+            <block class="WeSupply\Toolbox\Block\WeSupplyLink" name="wesupply_link" before="-" />
+        </referenceBlock>
+
+        <referenceContainer name="header.right">
+            <block class="WeSupply\Toolbox\Block\WeSupplyLinkV2" name="wesupply_link_v2" before="-" />
+        </referenceContainer>
+
+        <referenceContainer name="before.body.end">
+            <block
+                class="WeSupply\Toolbox\Block\NortonShoppingGuarantee\PackageProtection\NsgPpTemplate"
+                name="product.info.nsgpp.script"
+                template="WeSupply_Toolbox::norton_shopping_guarantee/package_protection/nsgpp_script.phtml"
+            />
+        </referenceContainer>
+    </body>
+</page>

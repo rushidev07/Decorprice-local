@@ -1,0 +1,69 @@
+<?php
+/**
+ * @var $block WeSupply\Toolbox\Block\Adminhtml\NortonShoppingGuarantee\PackageProtection\Order\Creditmemo\Totals\EpsiAmount
+ * @var $secureRenderer Magento\Framework\View\Helper\SecureHtmlRenderer
+ */
+$amount = $block->getEpsiAmount();
+$isEpsi = $block->isEpsi();
+?>
+
+<?php if ($isEpsi):  ?>
+    <?php if ($block->isEditableField()): ?>
+        <tr>
+            <td class="label"><?= $block->escapeHtml(__('Refund NSG Package Protection')) ?></td>
+            <div id="epsi_amount_adv"></div>
+            <td>
+                <input type="text"
+                       name="creditmemo[epsi_amount]"
+                       value="<?= /* @noEscape */ number_format($amount, 2) ?>"
+                       class="input-text admin__control-text not-negative-amount"
+                       id="epsi_amount" />
+                <?php $scriptString = <<<script
+                    require(['prototype'], function(){
+                    //<![CDATA[
+
+                    Validation.addAllThese([
+                        [
+                            'not-negative-amount',
+                            '{$block->escapeJs(__('Please enter a positive number in this field.'))}',
+                            function (v) {
+                                if (v.length)
+                                    return /^\s*\d+([,.]\d+)*\s*%?\s*$/.test(v);
+                                else
+                                    return true;
+                            }
+                        ]
+                    ]);
+
+                    if ($('epsi_amount')) {
+                        $('epsi_amount').advaiceContainer = $('epsi_amount_adv');
+                        unblockSubmit('epsi_amount');
+                    }
+
+                    function unblockSubmit(id) {
+                        $(id).observe('focus', function(event) {
+                            if ($$('button[class="scalable update-button disabled"]').size() > 0) {
+                                enableElements('submit-button');
+                            }
+                        });
+                        $(id).observe('change', function (event) {
+                            enableElements('submit-button');
+                        });
+                    }
+                    //]]>
+
+                    });
+                    script;
+                ?>
+                <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+            </td>
+        </tr>
+    <?php else: ?>
+        <tr>
+            <td class="label"><?= $block->escapeHtml(__('NSG Package Protection')) ?></td>
+            <td>
+                <?= /* @noEscape */ $block->getOrder()->formatPriceTxt($amount) ?>
+            </td>
+        </tr>
+    <?php endif; ?>
+<?php endif; ?>

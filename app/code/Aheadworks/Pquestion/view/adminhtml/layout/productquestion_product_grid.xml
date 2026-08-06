@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Aheadworks_Pquestion::css/style.css"/>
+    </head>
+    <body>
+        <referenceContainer name="page.main.actions">
+            <block class="Aheadworks\Pquestion\Block\Adminhtml\Question\Menu" name="aw_pq.menu" template="Aheadworks_Pquestion::widget/menu.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <uiComponent name="aw_pq_product_listing"/>
+        </referenceContainer>
+    </body>
+</page>

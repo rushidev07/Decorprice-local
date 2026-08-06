@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Unirgy\DropshipPo\Block\Adminhtml\Po\View" name="sales_udpo_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Unirgy\DropshipPo\Block\Adminhtml\Po\View\Tabs" name="udpo_po_view_tabs">
+                <block class="Unirgy\DropshipPo\Block\Adminhtml\Po\View\Tab\Info"
+                       template="Unirgy_DropshipPo::udpo/po/view/tab/info.phtml" name="udpo_po_tab_info">
+                    <block class="Unirgy\DropshipPo\Block\Adminhtml\SalesOrderView\Info"
+                           template="Unirgy_Dropship::sales/order/view/info.phtml" name="order_info"/>
+                    <block class="Magento\Sales\Block\Adminhtml\Order\Payment" name="order_payment"/>
+                    <block class="Unirgy\DropshipPo\Block\Adminhtml\Po\View\Items"
+                           template="Unirgy_DropshipPo::udpo/po/view/items.phtml" name="udpo_items">
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRenderer" as="default"
+                               template="Unirgy_DropshipPo::udpo/po/view/items/renderer/default.phtml"/>
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Column\Qty" name="column_qty"
+                               template="Magento_Sales::items/column/qty.phtml" group="column"/>
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Column\Name" name="column_name"
+                               template="Magento_Sales::items/column/name.phtml" group="column"/>
+                    </block>
+                    <block class="Unirgy\DropshipPo\Block\Adminhtml\Po\Comments\View"
+                           template="Unirgy_DropshipPo::udpo/po/comments/view.phtml" name="order_comments">
+                    </block>
+                </block>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">udpo_po_tab_info</argument>
+                    <argument name="block" xsi:type="string">udpo_po_tab_info</argument>
+                </action>
+                <!--action method="addTab">
+                    <argument xsi:type="string" name="name">order_invoices</argument>
+                    <argument xsi:type="string" name="block">Unirgy\DropshipPo\Model\Adminhtml\Po\View\Tab\Invoices</argument>
+                </action-->
+                <block class="Unirgy\DropshipPo\Block\Adminhtml\Po\View\Tab\Shipments" name="udpo_shipmentsgrid"/>
+                <action method="addTab">
+                    <argument xsi:type="string" name="name">udpo_shipmentsgrid</argument>
+                    <argument xsi:type="string" name="block">udpo_shipmentsgrid</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MB "Vienas bitas" (Magetrend.com)
+ *
+ * PHP version 5.3 or later
+ *
+ * @category MageTrend
+ * @package  Magetend/Eop
+ * @author   Edvinas Stulpinas <edwin@magetrend.com>
+ * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link     https://www.magetrend.com/magento-2-exit-intent-popup-extension
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Magetrend_Eop::eop" title="Exit Offer" module="Magetrend_Eop" sortOrder="1000" parent="Magento_Backend::marketing"  resource="Magetrend_Eop::eop"/>
+        <add id="Magetrend_Eop::popup_index" title="Popup" parent="Magetrend_Eop::eop" module="Magetrend_Eop" sortOrder="60" action="eop/popup/"  resource="Magetrend_Eop::popup"/>
+        <add id="Magetrend_Eop::campaign_index" title="Campaign" parent="Magetrend_Eop::eop" module="Magetrend_Eop" sortOrder="90" action="eop/campaign/"  resource="Magetrend_Eop::campaign"/>
+        <add id="Magetrend_Eop::settings" title="Settings" parent="Magetrend_Eop::eop" module="Magetrend_Eop" sortOrder="120" action="adminhtml/system_config/edit/section/eop"  resource="Magento_Config::config"/>
+    </menu>
+</config>

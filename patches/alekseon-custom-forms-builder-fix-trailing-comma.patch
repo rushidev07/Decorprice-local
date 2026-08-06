@@ -1,0 +1,12 @@
+--- a/vendor/alekseon/custom-forms-builder/Setup/Patch/Schema/CreateFrontendNotesTable.php
++++ b/vendor/alekseon/custom-forms-builder/Setup/Patch/Schema/CreateFrontendNotesTable.php
+@@ -18,8 +18,8 @@ class CreateFrontendNotesTable implements SchemaPatchInterface
+      * @param SchemaSetupInterface $schemaSetup
+      */
+     public function __construct(
+-        SchemaSetupInterface $schemaSetup,
+-    ) {
++        SchemaSetupInterface $schemaSetup
++    ) {
+         $this->schemaSetup = $schemaSetup;
+     }

@@ -1,0 +1,32 @@
+From 3487787934c7da96d5622a0a5f290d905af3dfb5 Mon Sep 17 00:00:00 2001
+From: Ahy DO Server <harpreet@ahyconsulting.com>
+Date: Thu, 24 Jun 2021 08:46:31 +0000
+Subject: [PATCH] change google+ share url to pinterest share url
+
+---
+ Block/Product/View/Share.php | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Block/Product/View/Share.php b/Block/Product/View/Share.php
+index 3754476..ab20634 100644
+--- a/Block/Product/View/Share.php
++++ b/Block/Product/View/Share.php
+@@ -239,12 +239,12 @@ class Share extends \Magento\Framework\View\Element\Template
+     }
+ 
+     /**
+-     * Get google plus share url
++     * Get Pinterest share url
+      *
+      * @return string
+      */
+-    public function getGooglePlusShareUrl()
++    public function getPinterestShareUrl()
+     {
+-        return self::GOOGLE_PLUS_SHARE_LINK . $this->escapeUrl($this->getCurrentProductUrl());
++        return self::PINTEREST_SHARE_LINK . $this->escapeUrl($this->getCurrentProductUrl());
+     }
+ }
+-- 
+2.17.1
+

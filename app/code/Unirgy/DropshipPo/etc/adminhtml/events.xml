@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+  <event name="controller_action_layout_render_before_udpoadmin_order_po_view">
+    <observer name="udpo" instance="Unirgy\DropshipPo\Observer\UdpoadminOrderPoView"/>
+  </event>
+  <event name="controller_action_layout_render_before_udpoadmin_order_po_editCosts">
+    <observer name="udpo" instance="Unirgy\DropshipPo\Observer\UdpoadminOrderPoView"/>
+  </event>
+  <event name="controller_action_layout_render_before_udpoadmin_order_po_newShipment">
+    <observer name="udpo" instance="Unirgy\Dropship\Observer\AdminhtmlSalesOrderShipmentView"/>
+  </event>
+  <event name="core_block_abstract_to_html_after">
+    <observer name="udpo" instance="Unirgy\DropshipPo\Observer\CoreBlockAbstractToHtmlAfter"/>
+  </event>
+  <event name="sales_order_save_before">
+    <observer name="udpo" instance="Unirgy\DropshipPo\Observer\SalesOrderSaveBefore"/>
+  </event>
+  <event name="core_block_abstract_to_html_before">
+    <observer name="udropship" instance="Unirgy\DropshipPo\Observer\CoreBlockAbstractToHtmlBefore"/>
+  </event>
+</config>

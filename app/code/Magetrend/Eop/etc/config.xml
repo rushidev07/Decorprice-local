@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MB "Vienas bitas" (Magetrend.com)
+ *
+ * PHP version 5.3 or later
+ *
+ * @category MageTrend
+ * @package  Magetend/Eop
+ * @author   Edvinas Stulpinas <edwin@magetrend.com>
+ * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link     https://www.magetrend.com/magento-2-exit-intent-popup-extension
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+        <eop>
+            <general>
+                <is_active>0</is_active>
+                <dev>0</dev>
+                <cookie_name>mt_eop_</cookie_name>
+            </general>
+            <translate>
+                <subscribe>Subscribe</subscribe>
+                <send>Send</send>
+                <email>Email</email>
+                <error_email_not_valid>Please enter a valid email address.</error_email_not_valid>
+                <email_is_assigned_to_another_user>This email address is already assigned to another user.</email_is_assigned_to_another_user>
+                <success_message><![CDATA[Thank you for your subscription. <span>Check your email, we have sent voucher for you!</span>]]></success_message>
+                <error_with_subscription>There was a problem with the subscription.</error_with_subscription>
+                <success_message_need_to_confirm>Confirmation request has been sent.</success_message_need_to_confirm>
+                <error_with_coupon_generation>There was a problem with coupon generation.</error_with_coupon_generation>
+                <wait>Wait...</wait>
+                <coupon_is_generating>Getting coupon...</coupon_is_generating>
+                <coupon_getting_success_message>Your coupon is below!</coupon_getting_success_message>
+
+                <email_already_exist>This email address already exists</email_already_exist>
+                <choose>Choose</choose>
+                <shop_now>Shop Now</shop_now>
+                <coupon>Coupon:</coupon>
+                <field>Field</field>
+                <is_required>is required!</is_required>
+                <must_be_checked>must be checked</must_be_checked>
+                <must_be_selected>must be selected</must_be_selected>
+
+                <contact_form_success_message><![CDATA[Thank you for your time. <span>We will replay your request as soon as possible.</span>]]></contact_form_success_message>
+                <contact_form_error_general>Unable to process request</contact_form_error_general>
+            </translate>
+        </eop>
+        <magetrend>
+            <module>
+                <eop>m2eop</eop>
+            </module>
+        </magetrend>
+    </default>
+</config>

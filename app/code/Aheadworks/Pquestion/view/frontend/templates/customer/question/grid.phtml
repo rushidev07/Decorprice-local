@@ -1,0 +1,53 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var Aheadworks\Pquestion\Block\Customer\Question\Grid $this */
+?>
+<h4><?php echo $this->escapeHtml(__('Your Questions'));?></h4>
+<?php $questionCollection = $this->getCollection(); ?>
+<?php if ($questionCollection->getSize()) : ?>
+<div class="table-wrapper">
+    <table class="data-table table" id="aw-pq-customer-questions-table">
+        <col width="150" />
+        <col />
+        <col width="1" />
+        <col width="130" />
+        <thead>
+        <tr>
+            <th><span class="nobr"><?php echo $this->escapeHtml(__('Product')); ?></span></th>
+            <th><span class="nobr"><?php echo $this->escapeHtml(__('Question')); ?></span></th>
+            <th><span class="nobr"><?php echo $this->escapeHtml(__('Status')); ?></span></th>
+            <th><span class="nobr"><?php echo $this->escapeHtml(__('Is Answered?')); ?></span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($questionCollection as $question) : ?>
+            <tr>
+                <td>
+                    <?php if($this->checkProductAvailableByQuestion($question)):?>
+                        <a href="<?php echo $this->escapeUrl($this->getProductUrlByQuestion($question));?>" title="<?php echo $this->escapeHtml($this->getProductNameByQuestion($question));?>">
+                            <?php echo $this->escapeHtml($this->getProductNameByQuestion($question));?>
+                        </a>
+                    <?php else:?>
+                        <?php echo $this->escapeHtml($this->getProductNameByQuestion($question));?>
+                    <?php endif; ?>
+                </td>
+                <td title="<?php echo $this->escapeHtml($this->escapeHtml($question->getContent()));?>">
+                    <?php echo $this->escapeHtml($this->truncateString($this->escapeHtml($question->getContent()), 300));?>
+                </td>
+                <td><?php echo $this->escapeHtml($this->getStatusLabelByQuestion($question)); ?></td>
+                <td><span class="nobr"><?php echo $this->escapeHtml($this->getIsAnsweredLabelForQuestion($question)); ?></span></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<?php else: ?>
+    <p><?php echo $this->escapeHtml(__('There are no questions yet.')); ?></p>
+<?php endif ?>
+<br />

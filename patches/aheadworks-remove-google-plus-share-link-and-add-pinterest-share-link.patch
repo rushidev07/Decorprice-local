@@ -1,0 +1,28 @@
+From a341d33a5007c2c4f4e6424307366b9625a172f6 Mon Sep 17 00:00:00 2001
+From: Ahy DO Server <harpreet@ahyconsulting.com>
+Date: Wed, 9 Jun 2021 11:55:02 +0000
+Subject: [PATCH] add pinterest link and remove google plus link
+
+---
+ Block/Product/View/Share.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Block/Product/View/Share.php b/Block/Product/View/Share.php
+index 23745a9..d482705 100644
+--- a/Block/Product/View/Share.php
++++ b/Block/Product/View/Share.php
+@@ -25,9 +25,9 @@ class Share extends \Magento\Framework\View\Element\Template
+     const TWITTER_SHARE_LINK = 'https://twitter.com/intent/tweet?url=';
+ 
+     /**
+-     * Template of Google+ sharing link
++     * Template of Pinterest sharing link
+      */
+-    const GOOGLE_PLUS_SHARE_LINK = 'https://plus.google.com/share?url=';
++    const PINTEREST_SHARE_LINK = 'https://www.pinterest.com/pin/create/link/?url=';
+ 
+     /**
+      * Block template filename
+-- 
+2.17.1
+

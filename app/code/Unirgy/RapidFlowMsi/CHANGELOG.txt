@@ -1,0 +1,15 @@
+===== 2022-02-01 3.0.7 =====
+  * Fixed unknown column udropship_vendor
+
+===== 2021-01-25 3.0.5 =====
+  * Integration with dropship msi
+
+===== 2020-09-18 3.0.4 =====
+  * Fixed MSISI performance
+  * Changed MSISI to use parent _getIdBySku instead of own pid fetch
+
+===== 2020-08-11 3.0.3 =====
+  * Added realtime reindex for MSISI rows
+
+===== 2019-02-13 3.0.0 =====
+  * Initial release

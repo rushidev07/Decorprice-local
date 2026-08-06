@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="udpoadmin_change_qty_column_renderer"/>
+    <referenceBlock name="sales_order_tabs">
+        <block class="Unirgy\DropshipPo\Block\Adminhtml\SalesOrderViewTab\Udpos" name="sales_order_udposgrid"/>
+        <action method="addTab">
+            <argument name="name" xsi:type="string">sales_order_udposgrid</argument>
+            <argument name="block" xsi:type="string">sales_order_udposgrid</argument>
+        </action>
+    </referenceBlock>
+</page>

@@ -1,0 +1,52 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Adminhtml\Question\Edit\Tab\General\Answers\Form $this */
+?>
+<div id="new-answer-container">
+    <input type="hidden" name="data[new_answer][question_id]" value="<?php echo (int)$this->getQuestionId();?>"/>
+    <div class="admin__field field">
+        <label class="label admin__field-label" for="_answers_general_form"><span><?php echo $this->escapeHtml(__('Add Answer'));?></span></label>
+        <div class="admin__field-control control">
+            <textarea id="_answers_general_form" name="data[new_answer][content]" rows="2" cols="15" class="textarea"></textarea>
+            <?php if ($this->isCanShowButton()): ?>
+            <button class="scalable save primary" type="button" style="float:right" id="new-answer-publish-btn">
+                <span><?php echo $this->escapeHtml(__('Publish'));?></span>
+            </button>
+            <?php endif;?>
+        </div>
+    </div>
+</div>
+<form id="new-answer-form" action="<?php echo $this->escapeUrl($this->getActionUrl());?>" method="POST">
+    <input name="form_key" type="hidden" value="<?php /* @noEscape */ echo $this->getFormKey() ?>" />
+</form>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'mage/backend/form',
+        'mage/backend/validation'
+    ], function(){
+        var form = $$('#new-answer-form').first();
+        var container = $$('#new-answer-container').first();
+        var btn = $$('#new-answer-publish-btn').first();
+        btn && btn.observe('click', function(e){
+            form.appendChild(container);
+            form.submit();
+        });
+        jQuery(form).form().validation({});
+    });
+    require(["prototype"], function(){
+        var textarea = $$('#new-answer-container textarea').first();
+        var fn = function () {
+            textarea.setStyle({height: textarea.scrollHeight + 2 + 'px'});
+        };
+        textarea.observe('keyup', function(){
+            fn();
+        });
+    });
+</script>

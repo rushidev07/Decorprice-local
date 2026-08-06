@@ -1,0 +1,59 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Question\Form $this */
+?>
+<form id="aw-pq-question-form" class="aw-pq-form" action="<?php echo $this->escapeUrl($this->getAddQuestionUrl()); ?>" method="post" >
+    <fieldset class="fieldset">
+        <div class="field required">
+            <label for="question_author_name" class="label"><span><?php echo $this->escapeHtml(__('Name')); ?></span></label>
+            <div class="control">
+                <input type="text" name="author_name" id="question_author_name" class="input-text" data-validate="{required:true}" aria-required="true" value="<?php echo $this->escapeHtml(trim($this->getCustomerName())); ?>" title="<?php echo $this->escapeHtml(__('Name')); ?>" maxlength="255">
+            </div>
+        </div>
+        <?php if (!$this->isLoggedIn()): ?>
+            <div class="field required">
+                <label for="question_author_email" class="label"><span><?php echo $this->escapeHtml(__('Email Address')); ?></span></label>
+                <div class="control">
+                    <input type="text" name="author_email" id="question_author_email" class="input-text validate-email" data-validate="{required:true}" aria-required="true" title="<?php echo $this->escapeHtml(__('Email Address')); ?>" maxlength="255">
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="field required">
+            <label for="question_content" class="label"><span><?php echo $this->escapeHtml(__('Question')); ?></span></label>
+            <div class="control">
+                <textarea name="content" id="question_content" cols="5" rows="3" data-validate="{required:true}" aria-required="true"></textarea>
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary actions-primary">
+            <?php if ($this->canSpecifyVisibility()) : ?>
+                <div class="aw-pq-form__field-checkbox">
+                    <input type="checkbox" name="is_private" id="question_visibility"><label for="question_visibility" class="aw-pq-form__label aw-pq-form__label_indent_left"><?php echo $this->escapeHtml(__('Private Question')); ?></label>
+                </div></br>
+            <?php endif; ?>
+            <button type="submit" class="action submit"><span><?php echo $this->escapeHtml(__('Send Question')); ?></span></button>
+        </div>
+    </div>
+    <input type="hidden" name="product_id" value="<?php echo (int)$this->getProduct()->getId(); ?>" />
+</form>
+<script type="text/javascript">
+    require(['prototype'], function() {
+        var formKeyElement = new Element('input');
+        formKeyElement.setAttribute('type', 'hidden');
+        formKeyElement.setAttribute('name', 'form_key');
+        formKeyElement.setAttribute('value', '<?php /* @noEscape */ echo $this->getSessionFormKey(); ?>');
+        $('aw-pq-question-form').appendChild(formKeyElement);
+    });
+</script>
+<script type="text/javascript">
+    require(["jquery","mage/mage"],function($){
+        $('#aw-pq-question-form').mage('validation');
+    });
+</script>

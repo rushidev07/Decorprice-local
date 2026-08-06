@@ -1,0 +1,8 @@
+/* Author : Ameer Potrik */
+/* Company : Ahy Consulting */
+.title-number {border-radius:0!important;box-shadow:none!important;border:none!important;background-image:none!important;color:#7ba540!important;font-size:26px!important;}
+button.iosc-place-order-button {background-color:#7ba540!important;border-radius:0!important;box-shadow:none!important;background-image:none!important;}
+button.iosc-place-order-button:hover {color:#7ba540!important;background-color:#ffffff!important;transition:0.2s!important;border:1px solid #7ba540!important;}
+img.image-styles {margin-top:15px!important;}
+.fa.fa-lock {color:#7ba540!important;font-size:20px!important;margin:20px!important;}
+span.secure-checkout {font-size:20px!important;}

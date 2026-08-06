@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<config>
+    <vendor>
+        <fields>
+            <attach_po_pdf translate="label">
+                <label>Attach PO Pdf to Notifications</label>
+                <type>select</type>
+                <fieldset>integration</fieldset>
+                <source>yesno</source>
+                <position>3</position>
+                <default>0</default>
+            </attach_po_pdf>
+
+            <batch_export_orders_export_on_po_status translate="label">
+                <label>Export On Po Statuses</label>
+                <type>multiselect</type>
+                <fieldset>batch_export</fieldset>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+                <position>59</position>
+                <default>999</default>
+            </batch_export_orders_export_on_po_status>
+
+            <batch_export_orders_po_status translate="label">
+                <label>Change PO status on export</label>
+                <type>select</type>
+                <fieldset>batch_export</fieldset>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+                <source>po_statuses</source>
+                <position>60</position>
+                <default>10</default>
+            </batch_export_orders_po_status>
+
+            <batch_import_orders_po_status translate="label">
+                <label>Change PO status on import</label>
+                <type>select</type>
+                <fieldset>batch_import</fieldset>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+                <source>po_statuses</source>
+                <position>150</position>
+                <default>1</default>
+            </batch_import_orders_po_status>
+
+            <statement_po_status translate="label">
+                <name>statement_po_status</name>
+                <label>Statement on following po statuses</label>
+                <type>multiselect</type>
+                <fieldset>statement</fieldset>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+                <position>41</position>
+                <default>999</default>
+            </statement_po_status>
+
+            <payout_po_status translate="label">
+                <name>payout_po_status</name>
+                <label>Payout on following po statuses</label>
+                <type>multiselect</type>
+                <fieldset>payout</fieldset>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+                <source>po_statuses</source>
+                <position>59</position>
+                <default>1</default>
+            </payout_po_status>
+
+            <vendor_po_grid_sortby translate="label">
+                <label>Default PO sort by in vendor interface</label>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+            </vendor_po_grid_sortby>
+
+            <vendor_po_grid_sortdir translate="label">
+                <label>Default PO sort direction in vendor interface</label>
+            </vendor_po_grid_sortdir>
+
+            <initial_shipment_status translate="label">
+                <label>Initial Customer Shipment Status</label>
+            </initial_shipment_status>
+
+            <initial_po_status translate="label">
+                <label>Initial PO Status</label>
+                <type>select</type>
+                <fieldset>integration</fieldset>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+                <position>38</position>
+                <default>999</default>
+            </initial_po_status>
+
+            <initial_virtual_po_status translate="label">
+                <label>Initial Virtual PO Status</label>
+                <type>select</type>
+                <fieldset>integration</fieldset>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+                <position>38</position>
+                <default>999</default>
+            </initial_virtual_po_status>
+
+            <vendor_po_grid_status_filter translate="label">
+                <label>Default PO status filter in vendor interface</label>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+            </vendor_po_grid_status_filter>
+
+            <hide_udpo_pdf_shipping_amount translate="label">
+                <label>Hide shipping amount in po pdf</label>
+                <type>select</type>
+                <fieldset>integration</fieldset>
+                <source>yesno_useconfig</source>
+                <position>3.4</position>
+                <default>-1</default>
+            </hide_udpo_pdf_shipping_amount>
+
+            <new_order_notifications translate="label">
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+                <frontend_model>\Unirgy\Dropship\Block\Adminhtml\Vendor\Helper\Form\DependSelect</frontend_model>
+                <depend_fields>
+                    <notify_by_udpo_status>-1</notify_by_udpo_status>
+                </depend_fields>
+            </new_order_notifications>
+
+            <notify_by_udpo_status translate="label">
+                <label>Notify vendor on PO Status</label>
+                <type>multiselect</type>
+                <fieldset>integration</fieldset>
+                <source_model>\Unirgy\DropshipPo\Model\Source</source_model>
+                <position>1.01</position>
+                <default>999</default>
+            </notify_by_udpo_status>
+
+            <use_udpo_pdf_custom_text translate="label">
+                <label>Use Vendor specific custom text on the bottom of purchase order PDF</label>
+                <type>select</type>
+                <frontend_model>\Unirgy\Dropship\Block\Adminhtml\Vendor\Helper\Form\DependSelect</frontend_model>
+                <depend_fields>
+                    <udpo_pdf_custom_text>1</udpo_pdf_custom_text>
+                </depend_fields>
+                <fieldset>integration</fieldset>
+                <source_model>\Unirgy\Dropship\Model\Source</source_model>
+                <source>yesno_useconfig</source>
+                <position>150</position>
+                <default>-1</default>
+            </use_udpo_pdf_custom_text>
+
+            <udpo_pdf_custom_text translate="label">
+                <label>Vendor specific custom text on the bottom of purchase order PDF</label>
+                <fieldset>integration</fieldset>
+                <type>textarea</type>
+                <position>160</position>
+            </udpo_pdf_custom_text>
+        </fields>
+    </vendor>
+</config>

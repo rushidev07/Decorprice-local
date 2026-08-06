@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="udropship.content">
+            <block class="Magento\Framework\View\Element\Template"
+                   template="Unirgy_DropshipPo::unirgy/udpo/vendor/dashboard.phtml" name="dashboard" cacheable="false">
+                <block class="Unirgy\DropshipPo\Block\Vendor\Po\Pager" name="udpo.grid.toolbar" />
+                <block class="Unirgy\DropshipPo\Block\Vendor\Po\Grid" template="Unirgy_DropshipPo::unirgy/udpo/vendor/po/grid.phtml" as="udpos" name="udpo.grid" cacheable="false"/>
+            </block>
+            <block class="Magento\Framework\View\Element\Template"
+                   template="Unirgy_DropshipPo::unirgy/udpo/vendor/po/progress_modal.phtml"
+                   name="udpo_progress_modal"/>
+        </referenceContainer>
+    </body>
+    <update handle="udropship_vendor"/>
+</page>

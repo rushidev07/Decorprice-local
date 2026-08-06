@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_Houzz
+ * @author 		CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license      http://cedcommerce.com/license-agreement.txt
+ */
+
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Ced_Houzz::Houzz"
+             title="Houzz Integration"
+             module="Ced_Houzz"
+             sortOrder="14"
+             resource="Ced_Houzz::Houzz"
+             dependsOnConfig="houzzconfiguration/houzzsetting/enable"
+        />
+        <add id="Ced_Houzz::houzz_profiles"
+             title="Manage Profile"
+             module="Ced_Houzz"
+             sortOrder="10"
+             parent="Ced_Houzz::houzz_products"
+             action="houzz/profile/index"
+             resource="Ced_Houzz::houzz_profiles"
+        />
+
+        <add id="Ced_Houzz::houzz_products"
+             title="Houzz Products"
+             module="Ced_Houzz"
+             sortOrder="20"
+             parent="Ced_Houzz::Houzz"
+             resource="Ced_Houzz::houzz_products"
+        />
+
+        <add id="Ced_Houzz::houzz_products_feeds"
+             title="Product Feeds"
+             module="Ced_Houzz"
+             sortOrder="30"
+             parent="Ced_Houzz::houzz_products"
+             action="houzz/products/feeds"
+             resource="Ced_Houzz::houzz_products_feeds"
+        />
+
+        <add id="Ced_Houzz::houzz_products_index"
+             title="Manage Products"
+             module="Ced_Houzz"
+             sortOrder="1"
+             parent="Ced_Houzz::houzz_products"
+             action="houzz/products/index"
+             resource="Ced_Houzz::houzz_products_index"
+        />
+
+        <add id="Ced_Houzz::houzz_orders"
+             title="Houzz Orders"
+             module="Ced_Houzz"
+             sortOrder="20"
+             parent="Ced_Houzz::Houzz"
+             resource="Ced_Houzz::houzz_orders"
+        />
+
+        <add id="Ced_Houzz::view_houzz_orders"
+             title="View Houzz Orders"
+             module="Ced_Houzz"
+             sortOrder="10"
+             parent="Ced_Houzz::houzz_orders"
+             action="houzz/order/listorder"
+             resource="Ced_Houzz::view_houzz_orders"
+        />
+        <add id="Ced_Houzz::view_failed_imported_houzz_orders_log"
+             title="Failed Imported Orders"
+             module="Ced_Houzz"
+             sortOrder="20"
+             parent="Ced_Houzz::houzz_orders"
+             action="houzz/order/failedorders"
+             resource="Ced_Houzz::view_failed_imported_houzz_orders_log"
+        />
+
+        <add id="Ced_Houzz::configurations"
+             title="Configurations"
+             module="Ced_Houzz"
+             sortOrder="50"
+             parent="Ced_Houzz::Houzz"
+             resource="Ced_Houzz::configurations"
+        />
+
+        <add id="Ced_Houzz::configuration"
+             title="Configuration"
+             module="Ced_Houzz"
+             sortOrder="1"
+             parent="Ced_Houzz::configurations"
+             action="adminhtml/system_config/edit/section/houzzconfiguration"
+             resource="Ced_Houzz::configuration"
+        />
+
+        <add id="Ced_Houzz::extra"
+             title="Extras"
+             module="Ced_Houzz"
+             sortOrder="60"
+             parent="Ced_Houzz::Houzz"
+             resource="Ced_Houzz::extra"
+        />
+
+        <add id="Ced_Houzz::houzz_cron_crongrid"
+             title="Houzz Cron Grid"
+             module="Ced_Houzz"
+             sortOrder="30" parent="Ced_Houzz::extra"
+             action="houzz/cron/crongrid"
+             resource="Ced_Houzz::houzz_cron_crongrid"
+        />
+        <add id="Ced_Houzz::houzz_logs_grid"
+             title="Houzz Log Grid"
+             module="Ced_Houzz"
+             sortOrder="30" parent="Ced_Houzz::extra"
+             action="houzz/logs/loggrid"
+             resource="Ced_Houzz::houzz_logs_grid"
+        />
+        <add id="Ced_Houzz::help"
+             title="Help"
+             translate="title"
+             module="Ced_Houzz"
+             sortOrder="70"
+             parent="Ced_Houzz::Houzz"
+             resource="Ced_Houzz::help"
+        />
+
+        <add id="Ced_Houzz::houzz_support"
+             title="Help and Support"
+             translate="title"
+             module="Ced_Houzz"
+             sortOrder="10"
+             parent="Ced_Houzz::help"
+             action="houzz/help"
+             resource="Ced_Houzz::houzz_support"
+        />
+
+    </menu>
+</config>

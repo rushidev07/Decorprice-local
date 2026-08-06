@@ -1,0 +1,145 @@
+<?php
+use Magento\Framework\App\Action\Action;
+
+/** @var \Magento\CatalogWidget\Block\Product\ProductsList $block */
+?>
+<?php
+$isModuleEnable = $this->helper(\Sparsh\BuyNow\Helper\Data::class)->getConfig('buynow/general/enable_buynow');
+$hideCart = $this->helper(\Sparsh\BuyNow\Helper\Data::class)->getConfig('buynow/advance/hide_add_to_cart');
+$magentoVersion = $this->helper(\Sparsh\BuyNow\Helper\Data::class)->getMagentoVersion();
+$flag = 1;
+if ($isModuleEnable):
+    if (version_compare($magentoVersion, '2.3.0', '<') && !$hideCart): ?>
+       <script type="text/x-magento-init">
+        {
+            "*": {
+                "Sparsh_BuyNow/js/buy-now-button": {}
+            }
+        }  
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())): ?>
+    <?php
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    $description = false;
+    ?>
+    <div class="block widget block-products-list <?= /* @noEscape */ $mode ?>">
+        <?php if ($block->getTitle()): ?>
+            <div class="block-title">
+                <strong><?= $block->escapeHtml(__($block->getTitle())) ?></strong>
+            </div>
+        <?php endif ?>
+        <div class="block-content">
+            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <ol class="product-items <?= /* @noEscape */ $type ?>">
+                    <?php $iterator = 1; ?>
+                    <?php foreach ($items as $_item): ?>
+                        <?= /* @noEscape */ ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+                        <div class="product-item-info">
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product-item-photo">
+                                <?= $block->getImage($_item, $image)->toHtml() ?>
+                            </a>
+                            <div class="product-item-details">
+                                <strong class="product-item-name">
+                                    <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                       class="product-item-link">
+                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                    </a>
+                                </strong>
+                                <?php if ($templateType): ?>
+                                    <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                <?php endif; ?>
+
+                                <?= $block->getProductPriceHtml($_item, $type) ?>
+
+                                <?= $block->getProductDetailsHtml($_item) ?>
+
+                                <?php if ($showWishlist || $showCompare || $showCart): ?>
+                                    <div class="product-item-inner">
+                                        <div class="product-item-actions">
+                                            <?php if ($showCart): ?>
+                                                <div class="actions-primary">
+                                                    <?php if ($_item->isSaleable()): ?>
+                                                        <?php $postParams = $block->getAddToCartPostParams($_item); ?>
+                                                        <form data-role="tocart-form"
+                                                              data-product-sku="<?= $block->escapeHtml($_item->getSku()) ?>"
+                                                              action="<?= /* @noEscape */ $postParams['action'] ?>"
+                                                              method="post"
+                                                              id="product_addtocart_form_<?= /* @noEscape */  $postParams['data']['product']; ?>">
+                                                            <input type="hidden" name="product" value="<?= /* @noEscape */ $postParams['data']['product'] ?>">
+                                                            <input type="hidden" name="<?= /* @noEscape */ Action::PARAM_NAME_URL_ENCODED ?>" value="<?= /* @noEscape */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED] ?>">
+                                                            <?= $block->getBlockHtml('formkey') ?>
+                                                            <?php if ($isModuleEnable ? ($hideCart ? $flag = 0 : $flag) : $flag): ?>
+                                                                <button type="submit"
+                                                                        title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
+                                                                        class="action tocart primary<?= /* @noEscape */ $isModuleEnable ? ' sparsh-buynow-custom-tocart' : '' ?>">
+                                                                    <span><?= /* @noEscape */ __('Add to Cart') ?></span>
+                                                                </button>
+                                                            <?php endif; ?>
+                                                            <?php if ($isModuleEnable):
+                                                                $buttonTitle = $this->helper("Sparsh\BuyNow\Helper\Data")->getConfig('buynow/advance/button_title'); ?>
+                                                                <button type="submit"
+                                                                        title="<?= /* @noEscape */ __($buttonTitle); ?>"
+                                                                        class="action primary sparsh-buynow-button"
+                                                                        data-mage-init='
+                                                                            {
+                                                                                "Sparsh_BuyNow/js/buy-now": {
+                                                                                    "form": "#product_addtocart_form_<?= /* @noEscape */ $postParams['data']['product']; ?>"
+                                                                                }
+                                                                            }'
+                                                                >
+                                                                    <span><?= /* @noEscape */ __($buttonTitle) ?></span>
+                                                                </button>
+                                                            <?php endif; ?>
+                                                        </form>
+                                                    <?php else: ?>
+                                                        <?php if ($_item->getIsSalable()): ?>
+                                                            <div class="stock available"><span><?= $block->escapeHtml(__('In stock')) ?></span></div>
+                                                        <?php else: ?>
+                                                            <div class="stock unavailable"><span><?= $block->escapeHtml(__('Out of stock')) ?></span></div>
+                                                        <?php endif; ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ($showWishlist || $showCompare): ?>
+                                                <div class="actions-secondary" data-role="add-to-links">
+                                                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                                        <a href="#"
+                                                           data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                                            <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                    <?php if ($block->getAddToCompareUrl() && $showCompare): ?>
+                                                        <?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');?>
+                                                        <a href="#" class="action tocompare" data-post='<?= /* @noEscape */ $compareHelper->getPostDataParams($_item) ?>' title="<?= $block->escapeHtmlAttr(__('Add to Compare')) ?>">
+                                                            <span><?= $block->escapeHtml(__('Add to Compare')) ?></span>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+            <?= $block->getPagerHtml() ?>
+        </div>
+    </div>
+<?php endif;?>

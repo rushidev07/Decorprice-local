@@ -1,0 +1,10 @@
+<?php
+/** @var $helper WeSupply\Toolbox\Helper\NortonShoppingGuarantee\PackageProtection\NsgPpData */
+$helper = $this->helper('WeSupply\Toolbox\Helper\NortonShoppingGuarantee\PackageProtection\NsgPpData');
+
+?>
+<?php if ($helper->isNsgPpEnabled()): ?>
+<div class="nsgpp catalog-product">
+    <div class="_GUARANTEE_Kicker_PDP"></div>
+</div>
+<?php endif; ?>

@@ -1,0 +1,28 @@
+<!--@subject New Shipment Request for Order # {{var order.increment_id}} from {{var store_name}} @-->
+{{template config_path="design/email/header_template"}}
+<table>
+    <tr>
+        <td>
+            <p><strong>Dear {{var vendor_name}},</strong></p>
+
+            <p>Please fulfill this new order # {{var order_id}} for:</p>
+
+            <p><strong>{{var customer_info|raw}}</strong></p>
+
+            {{layout handle="udropship_email_po_items" shipment=$shipment order=$order}}
+
+            <p>Please ship via <strong>{{var shipping_method}}</strong>. If that is not available, please notify us
+                before shipping.</p>
+
+            <p>You can <a href="{{var packingslip_url}}">download packing slip PDF here</a></p>
+
+            <p><a href="{{var shipment_url}}">Click here to logon to your shipping control panel</a> once you are ready
+                to notify us of the shipment and input tracking numbers.</p>
+
+            <p>Thank you for your partnership.</p>
+
+            <p><a href="{{store url=''}}">{{var store_name}}</a></p>
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

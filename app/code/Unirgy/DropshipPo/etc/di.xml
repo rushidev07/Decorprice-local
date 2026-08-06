@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Unirgy\Dropship\Model\Po" type="Unirgy\DropshipPo\Model\Po"/>
+    <preference for="Unirgy\Dropship\Model\ResourceModel\Po" type="Unirgy\DropshipPo\Model\ResourceModel\Po"/>
+    <preference for="Unirgy\Dropship\Model\ResourceModel\Po\Collection"
+                type="Unirgy\DropshipPo\Model\ResourceModel\Po\Collection"/>
+    <preference for="Magento\Sales\Model\Order\Invoice\Total\Shipping"
+                type="Unirgy\DropshipPo\Model\OrderInvoiceTotal\Shipping"/>
+    <preference for="Magento\Sales\Model\Order\Invoice" type="Unirgy\DropshipPo\Model\OrderInvoice"/>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\View">
+        <plugin name="udpoAddButton" type="Unirgy\DropshipPo\Plugin\AdminhtmlOrderView" />
+    </type>
+    <type name="Magento\Sales\Model\ResourceModel\Order\Handler\State">
+        <plugin name="udpoOrderStateCheck" type="Unirgy\DropshipPo\Plugin\OrderHandlerState" />
+    </type>
+    <virtualType name="udpoGridAggregator" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="mainTableName" xsi:type="string">udropship_po</argument>
+            <argument name="gridTableName" xsi:type="string">udropship_po_grid</argument>
+            <argument name="orderIdField" xsi:type="string">udropship_po.order_id</argument>
+            <argument name="joins" xsi:type="array">
+                <item name="sales_order" xsi:type="array">
+                    <item name="table" xsi:type="string">sales_order</item>
+                    <item name="origin_column" xsi:type="string">order_id</item>
+                    <item name="target_column" xsi:type="string">entity_id</item>
+                </item>
+                <item name="sales_shipping_address" xsi:type="array">
+                    <item name="table" xsi:type="string">sales_order_address</item>
+                    <item name="origin_column" xsi:type="string">shipping_address_id</item>
+                    <item name="target_column" xsi:type="string">entity_id</item>
+                </item>
+                <item name="sales_billing_address" xsi:type="array">
+                    <item name="table" xsi:type="string">sales_order_address</item>
+                    <item name="origin_column" xsi:type="string">billing_address_id</item>
+                    <item name="target_column" xsi:type="string">entity_id</item>
+                </item>
+                <item name="sales_order_payment" xsi:type="array">
+                    <item name="table" xsi:type="string">sales_order_payment</item>
+                    <item name="origin_column" xsi:type="string">order_id</item>
+                    <item name="target_column" xsi:type="string">parent_id</item>
+                </item>
+            </argument>
+            <argument name="columns" xsi:type="array">
+                <item name="entity_id" xsi:type="string">udropship_po.entity_id</item>
+                <item name="store_id" xsi:type="string">udropship_po.store_id</item>
+                <item name="udropship_vendor" xsi:type="string">udropship_po.udropship_vendor</item>
+                <item name="udropship_status" xsi:type="string">udropship_po.udropship_status</item>
+                <item name="order_id" xsi:type="string">udropship_po.order_id</item>
+                <item name="increment_id" xsi:type="string">udropship_po.increment_id</item>
+                <item name="order_increment_id" xsi:type="string">sales_order.increment_id</item>
+                <item name="created_at" xsi:type="string">udropship_po.created_at</item>
+                <item name="order_created_at" xsi:type="string">sales_order.created_at</item>
+                <item name="shipping_name" xsi:type="object">ShippingNameAggregator</item>
+                <item name="udropship_method" xsi:type="string">udropship_po.udropship_method</item>
+                <item name="udropship_method_description" xsi:type="string">udropship_po.udropship_method_description</item>
+                <item name="total_qty" xsi:type="string">udropship_po.total_qty</item>
+                <item name="base_total_value" xsi:type="string">udropship_po.base_total_value</item>
+                <item name="total_value" xsi:type="string">udropship_po.total_value</item>
+                <item name="base_shipping_amount" xsi:type="string">udropship_po.base_shipping_amount</item>
+                <item name="shipping_amount" xsi:type="string">udropship_po.shipping_amount</item>
+                <item name="base_tax_amount" xsi:type="string">udropship_po.base_tax_amount</item>
+                <item name="total_cost" xsi:type="string">udropship_po.total_cost</item>
+                <item name="base_discount_amount" xsi:type="string">udropship_po.base_discount_amount</item>
+                <item name="transaction_fee" xsi:type="string">udropship_po.transaction_fee</item>
+                <item name="commission_percent" xsi:type="string">udropship_po.commission_percent</item>
+                <item name="statement_id" xsi:type="string">udropship_po.statement_id</item>
+                <item name="statement_date" xsi:type="string">udropship_po.statement_date</item>
+                <item name="is_manual" xsi:type="string">udropship_po.is_manual</item>
+                <item name="is_virtual" xsi:type="string">udropship_po.is_virtual</item>
+                <item name="udropship_payout_status" xsi:type="string">udropship_po.udropship_payout_status</item>
+                <item name="updated_at" xsi:type="string">udropship_po.updated_at</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Sales\Model\ResourceModel\GridPool">
+        <arguments>
+            <argument name="grids" xsi:type="array">
+                <item name="udpo_grid" xsi:type="object">udpoGridAggregator</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="sales_order_udpo_grid_data_source" xsi:type="string">Unirgy\DropshipPo\Model\ResourceModel\Po\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Unirgy\DropshipPo\Model\ResourceModel\Po\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">udropship_po_grid</argument>
+            <argument name="resourceModel" xsi:type="string">Unirgy\DropshipPo\Model\ResourceModel\Po</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="udpoIndexGridSyncRemove" type="Magento\Sales\Observer\GridSyncRemoveObserver">
+        <arguments>
+            <argument name="entityGrid" xsi:type="object">udpoGridAggregator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="udpoIndexGridSyncInsert" type="Magento\Sales\Observer\GridSyncInsertObserver">
+        <arguments>
+            <argument name="entityGrid" xsi:type="object">udpoGridAggregator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="udpoIndexGridAsyncInsert" type="Magento\Sales\Model\GridAsyncInsert">
+        <arguments>
+            <argument name="entityGrid" xsi:type="object">udpoGridAggregator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="udpoIndexGridAsyncInsertObserver" type="Magento\Sales\Observer\GridAsyncInsertObserver">
+        <arguments>
+            <argument name="asyncInsert" xsi:type="object">udpoIndexGridAsyncInsert</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="udpoIndexGridAsyncInsertCron" type="Magento\Sales\Cron\GridAsyncInsert">
+        <arguments>
+            <argument name="asyncInsert" xsi:type="object">udpoIndexGridAsyncInsert</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\SalesSequence\Model\EntityPool">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="udpo_po" xsi:type="string">udpo_po</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="udpoRelationsComposite" type="Magento\Framework\Model\ResourceModel\Db\VersionControl\RelationComposite">
+        <arguments>
+            <argument name="relationProcessors" xsi:type="array">
+                <item name="default" xsi:type="object">Unirgy\DropshipPo\Model\ResourceModel\Po\Relation</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Unirgy\DropshipPo\Model\ResourceModel\Po">
+        <arguments>
+            <argument name="entityRelationComposite" xsi:type="object">udpoRelationsComposite</argument>
+        </arguments>
+    </type>
+    <virtualType name="ShipmentGridAggregator" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="udpo_id" xsi:type="string">sales_shipment.udpo_id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\Url\SecurityInfo">
+        <arguments>
+            <argument name="secureUrlList" xsi:type="array">
+                <item name="udpo_vendor" xsi:type="string">/udpo/vendor/</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\ScalableOms\Console\Command\SplitSales">
+        <arguments>
+            <argument name="tables" xsi:type="array">
+                <item name="udropship_po" xsi:type="string">udropship_po</item>
+                <item name="udropship_po_grid" xsi:type="string">udropship_po_grid</item>
+                <item name="udropship_po_item" xsi:type="string">udropship_po_item</item>
+                <item name="udropship_po_comment" xsi:type="string">udropship_po_comment</item>
+                <item name="sequence_udpo_po_0" xsi:type="string">sequence_udpo_po_0</item>
+                <item name="sequence_udpo_po_1" xsi:type="string">sequence_udpo_po_1</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

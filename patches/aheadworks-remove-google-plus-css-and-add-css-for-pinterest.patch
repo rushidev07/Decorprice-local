@@ -1,0 +1,25 @@
+From d574e452e7d7dc9e9e62d9abc8b4e180e58f0a87 Mon Sep 17 00:00:00 2001
+From: Ahy DO Server <harpreet@ahyconsulting.com>
+Date: Wed, 9 Jun 2021 10:41:38 +0000
+Subject: [PATCH] remove google plus css and add css for pinterest
+
+---
+ view/frontend/web/css/product.css | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/view/frontend/web/css/product.css b/view/frontend/web/css/product.css
+index 52fc4a7..11e6880 100644
+--- a/view/frontend/web/css/product.css
++++ b/view/frontend/web/css/product.css
+@@ -10,6 +10,6 @@
+ .product-reward-points-share a.reward-points-share-twitter {
+ 	background: url("../images/twitter.png") center center no-repeat;
+ }
+-.product-reward-points-share a.reward-points-share-google-plus {
+-	background: url("../images/google-plus.png") center center no-repeat;
++.product-reward-points-share a.reward-points-share-pinterest {
++	background: url("../images/pinterest.png") center center no-repeat;
+ }
+-- 
+2.17.1
+

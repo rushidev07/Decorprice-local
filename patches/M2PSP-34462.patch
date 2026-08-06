@@ -1,0 +1,33 @@
+diff --git a/vendor/magento/module-payment-services-paypal/view/frontend/web/js/view/payment/method-renderer/smart-buttons.js b/vendor/magento/module-payment-services-paypal/view/frontend/web/js/view/payment/method-renderer/smart-buttons.js
+index 3ee2rd..8447152 117654
+--- a/vendor/magento/module-payment-services-paypal/view/frontend/web/js/view/payment/method-renderer/smart-buttons.js
++++ b/vendor/magento/module-payment-services-paypal/view/frontend/web/js/view/payment/method-renderer/smart-buttons.js
+@@ -17,7 +17,8 @@
+     'Magento_Checkout/js/model/payment/additional-validators',
+     'Magento_Checkout/js/action/set-billing-address',
+     'Magento_Ui/js/model/messageList',
+-    'uiRegistry'
++    'uiRegistry',
++    'Aheadworks_OneStepCheckout/js/model/estimation-data-resolver',
+ ], function (
+     Component,
+     $,
+@@ -31,7 +32,8 @@
+     additionalValidators,
+     setBillingAddressAction,
+     globalMessageList,
+-    registry
++    registry,
++    estimationDataResolver
+ ) {
+     'use strict';
+ 
+@@ -249,6 +251,8 @@
+          */
+         beforeCreateOrder: function () {
+             return new Promise(function (resolve, reject) {
++                quote.billingAddress(estimationDataResolver.resolveBillingAddress());
++                quote.shippingAddress(estimationDataResolver.resolveShippingAddress());
+                 setBillingAddressAction(globalMessageList).done(resolve.bind(null, null)).fail(reject);
+             });
+         },

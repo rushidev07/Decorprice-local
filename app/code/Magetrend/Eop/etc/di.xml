@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MB "Vienas bitas" (Magetrend.com)
+ *
+ * PHP version 5.3 or later
+ *
+ * @category MageTrend
+ * @package  Magetend/Eop
+ * @author   Edvinas Stulpinas <edwin@magetrend.com>
+ * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link     https://www.magetrend.com/magento-2-exit-intent-popup-extension
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Newsletter\Block\Adminhtml\Subscriber\Grid">
+        <plugin name="magetrend-eop-subscriber-grid"
+                type="Magetrend\Eop\Plugin\Newsletter\Block\Adminhtml\Subscriber\GridPlugin"
+                sortOrder="10" />
+    </type>
+
+    <type name="Magento\Newsletter\Model\Subscriber">
+        <plugin name="magetrend-eop-subscriber"
+                type="Magetrend\Eop\Plugin\Newsletter\Model\SubscriberPlugin"
+                sortOrder="2"/>
+    </type>
+
+    <type name="Ebizmarts\MageMonkey\Model\MCAPI">
+        <plugin name="magetrend-eop-mcapi"
+                type="Magetrend\Eop\Plugin\MageMonkey\Model\McapiPlugin"
+                sortOrder="10"/>
+    </type>
+
+    <preference for="Magetrend\Eop\Api\ValidateInterface" type="Magetrend\Eop\Model\Api\Validate"/>
+
+    <!-- Magento 2.4.0 -->
+    <type name="Magento\Newsletter\Model\SubscriptionManager">
+        <plugin name="magetrend-eop-subscriber-manager" type="Magetrend\Eop\Plugin\Newsletter\Model\SubscriptionManagerPlugin" sortOrder="2"/>
+    </type>
+
+</config>

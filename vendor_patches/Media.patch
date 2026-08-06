@@ -1,0 +1,23 @@
+--- vendor/magento/module-media-storage/App/Media.php	2021-07-13 21:08:00.000000000 +0530
++++ vendor/magento/module-media-storage/App/Media.php.modified	2023-10-27 12:55:25.556124412 +0530
+@@ -222,8 +222,7 @@
+         if ($this->directoryPub->isReadable($this->relativeFileName)) {
+             return;
+         }
+-
+-        if ($this->mediaUrlFormat === CatalogMediaConfig::HASH) {
++	if ($this->mediaUrlFormat === CatalogMediaConfig::HASH) {
+             $this->imageResize->resizeFromImageName($this->getOriginalImage($this->relativeFileName));
+         }
+     }
+@@ -257,7 +256,9 @@
+      */
+     private function getOriginalImage(string $resizedImagePath): string
+     {
+-        return preg_replace('|^.*?((?:/([^/])/([^/])/\2\3)?/?[^/]+$)|', '$1', $resizedImagePath);
++	    return preg_replace('|^.*?((?:/)[^/]+/?[^/]+$)|',  '$1', $resizedImagePath);
++	    //return preg_replace('|^.*?((?:/([^/])/([^/])/\2\3)?/?[^/]+$)|', '$1', $resizedImagePath);
++
+     }
+ 
+     /**

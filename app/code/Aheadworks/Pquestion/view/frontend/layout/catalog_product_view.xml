@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Aheadworks_Pquestion::css/style.css"/>
+    </head>
+    <body>
+        <referenceBlock name="product.info.details">
+            <block class="Aheadworks\Pquestion\Block\Question\AjaxContainer" name="aw_pq_ajax_container" template="Aheadworks_Pquestion::catalog/product/view/ajax_container.phtml" group="detailed_info" after="-">
+                <block class="Aheadworks\Pquestion\Block\Question\QList" name="aw_pq_question_list" template="Aheadworks_Pquestion::catalog/product/view/list.phtml">
+                    <block class="Aheadworks\Pquestion\Block\Question\Sort" name="aw_pq_question_sort" template="Aheadworks_Pquestion::question/sort.phtml" />
+                    <block class="Aheadworks\Pquestion\Block\Question\Form" name="aw_pq_ask_question_form" template="Aheadworks_Pquestion::question/form.phtml" />
+                    <block class="Aheadworks\Pquestion\Block\Answer\Form" name="aw_pq_add_answer_form" template="Aheadworks_Pquestion::answer/form.phtml" />
+                </block>
+                <arguments>
+                    <argument name="sort_order" xsi:type="string">60</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="before_body_end">
+            <block class="Aheadworks\Pquestion\Block\Answer\Popup" name="aw_pq_answer_popup" template="Aheadworks_Pquestion::answer/popup.phtml">
+                <block class="Aheadworks\Pquestion\Block\Answer\Popup\Form" name="aw_pq_add_answer_popup_form" template="Aheadworks_Pquestion::answer/popup/form.phtml" />
+            </block>
+        </referenceBlock>
+    </body>
+</page>

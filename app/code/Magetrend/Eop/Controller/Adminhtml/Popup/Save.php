@@ -1,0 +1,71 @@
+<?php
+/**
+ * MB "Vienas bitas" (Magetrend.com)
+ *
+ * PHP version 5.3 or later
+ *
+ * @category MageTrend
+ * @package  Magetend/Eop
+ * @author   Edvinas Stulpinas <edwin@magetrend.com>
+ * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link     https://www.magetrend.com/magento-2-exit-intent-popup-extension
+ */
+
+namespace Magetrend\Eop\Controller\Adminhtml\Popup;
+
+use Magento\Backend\App\Action;
+
+/**
+ * Popup save controller class
+ *
+ * @category MageTrend
+ * @package  Magetend/Eop
+ * @author   Edvinas Stulpinas <edwin@magetrend.com>
+ * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link     https://www.magetrend.com/magento-2-exit-intent-popup-extension
+ */
+class Save extends \Magetrend\Eop\Controller\Adminhtml\Popup
+{
+    /**
+     * Process save request
+     *
+     * @return \Magento\Framework\Controller\ResultInterface
+     */
+    public function execute()
+    {
+        $data = $this->getRequest()->getPostValue();
+
+        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        $resultRedirect = $this->resultRedirectFactory->create();
+        if ($data) {
+            $model = $this->popupFactory->create();
+
+            $id = $this->getRequest()->getParam('entity_id');
+            if ($id) {
+                $model->load($id);
+            }
+
+            $model->setData($data);
+            try {
+                $model->save();
+
+                $this->messageManager->addSuccess(__('The popup has been saved.'));
+                $this->_getSession()->setFormData(false);
+                if ($this->getRequest()->getParam('back')) {
+                    return $resultRedirect->setPath('*/*/edit', ['id' => $model->getId(), '_current' => true]);
+                }
+                return $resultRedirect->setPath('*/*/');
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
+                $this->messageManager->addError($e->getMessage());
+            } catch (\RuntimeException $e) {
+                $this->messageManager->addError($e->getMessage());
+            } catch (\Exception $e) {
+                $this->messageManager->addException($e, __('Something went wrong while saving the popup.'));
+            }
+
+            $this->_getSession()->setFormData($data);
+            return $resultRedirect->setPath('*/*/edit', ['id' => $this->getRequest()->getParam('id')]);
+        }
+        return $resultRedirect->setPath('*/*/');
+    }
+}

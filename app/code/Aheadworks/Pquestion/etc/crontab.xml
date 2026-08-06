@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Cron/etc/crontab.xsd">
+    <group id="default">
+        <job name="send_queue" instance="Aheadworks\Pquestion\Model\Notification\Cron" method="sendQueue">
+            <schedule>*/5 * * * *</schedule>
+        </job>
+        <job name="remove_old_emails" instance="Aheadworks\Pquestion\Model\Notification\Cron" method="removeOldStoredEmails">
+            <schedule>0 1 * * *</schedule>
+        </job>
+    </group>
+</config>

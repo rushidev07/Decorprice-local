@@ -1,0 +1,24 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Adminhtml\Question\Edit\Tab\General\Answers $this */
+?>
+<div>
+    <?php echo $this->getFormHtml();?>
+</div>
+<?php if ($this->getAnswerCollection()->getSize() > 0):?>
+<div style="margin-top: 10px;">
+    <ul>
+        <?php foreach ($this->getAnswerCollection() as $answer): ?>
+            <li>
+                <?php /* @noEscape */ echo $this->renderAnswerForm($answer);?>
+            </li>
+        <?php endforeach;?>
+    </ul>
+</div>
+<?php endif;?>

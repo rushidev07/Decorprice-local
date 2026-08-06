@@ -1,0 +1,627 @@
+# Changelog
+
+## [3.27.2] - 2022-12-21
+### [Changed]
+- Changed response to entity not existing in controller. Rather than throw
+  exception, the noRoute (404) page is now shown and the error logged.
+
+## [3.27.1] - 2022-12-12
+### [Fixed]
+- Fixed an issue caused by removing the data from integration data retriever
+  when no add-on modules that specifically require it are installed.
+
+## [3.27.0] - 2022-12-12
+### [Added]
+- Added flag to integration data retriever. This stops the data retrieval HTTP
+  request from being fired unless an add-on module is installed that specifically
+  requires this. Currently only Multisite and Post Types require this.
+
+## [3.26.3] - 2022-12-08
+### [Changed]
+- Changed CURL HTTP request for RemoteActions from WordPress to include a
+  user agent (currently FishPig/M2WP).
+
+## [3.26.2] - 2022-12-07
+### [Fixed]
+- SQL error when search term produced zero results.
+- SQL error when using Multisite and term_order field.
+
+## [3.26.1] - 2022-11-25
+### [Changed]
+- Changed WordPress theme index.php to include post excerpt data.
+
+## [3.26.0] - 2022-11-18
+### [Added]
+- Added curlopt_resolve option to Admin config. This allows you to specify a
+  different IP for the WP domain to resolve to. This can be used to bypass
+  Cloudflare to speed up API requests or it can be used to set a dev IP, which
+  is useful if you cannot edit the hosts file on the Magento server. Value
+  should be in the format: HOST:PORT:IP so an example would be:
+  www.yoursite.com:443:127.0.0.1
+  Multiple values can be entered by separating with a comma:
+  www.yoursite.com:443:127.0.0.1,yoursite.com:443:127.0.0.1
+
+## [3.25.0] - 2022-11-08
+### [Added]
+- Search now uses WP API to get results. This allows for WP search plugins
+  to be used to affect the results. This can be disabled via the code.
+### [Changed]
+- Changed HTTP requests to include Connection: close
+
+## [3.24.5] - 2022-11-03
+### [Fixed]
+- Another Term issue when using a hyphen in taxonomy type.
+- Modified exception output in blocks to include trace. Exception output is
+  only enabled in developer mode. For production mode, see var/log/wp/error.log.
+
+## [3.24.4] - 2022-11-02
+### [Changed]
+- Changed object that generates search form URL to Magento URL builder. This
+  fixes search 404s.
+
+## [3.24.3] - 2022-11-01
+### [Fixed]
+- Using terms with a hyphen (-) in the post collection addTermFilter caused an
+  SQL error as the everything after the hyphen wasn't used as an alias.
+
+## [3.24.2] - 2022-10-26
+### [Changed]
+- Changed form action URL to fix redirect not working issue.
+
+## [3.24.1] - 2022-10-19
+### [Added]
+- Added time stamp into REST URLs
+
+### [Changed]
+- Changed WP theme files to accept Auth keys via URL.
+
+## [3.23.3] - 2022-10-18
+### [Changed]
+- Changed outdated WP theme from exception to warning.
+
+## [3.23.2] - 2022-10-15
+### [Changed]
+- Improved debug command (bin/magento fishpig:wordpress:debug)
+- Improved error log display in blocks and Router when integration not setup right
+
+## [3.23.0] - 2022-10-15
+### [Changed]
+- Renamed Test folder to Tests so that classes are added to the optimised
+  Composer autoloader.
+
+## [3.22.0] - 2022-10-13
+### [Added]
+- Added integration tests into AbstractBlock. This fixes issue where blocks
+  are included on stores that have the module disabled. It checks this before
+  running and fixes ObjectResolver issues.
+
+## [3.21.1] - 2022-10-07
+### [Changed]
+- Added fishpig wrapper tags to wp_footer
+
+## [3.21.0] - 2022-10-06
+### [Added]
+- Added terms to XML sitemap.
+### [Fixed]
+- Store base URL options detection fixed to include store ID when checking.
+
+## [3.20.1] - 2022-09-28
+### [Changed]
+- Changed SSL/TLS config options for DB when using External integration mode.
+  These options are now configurable via the config, rather than auto set.
+
+## [3.20.0] - 2022-09-23
+### [Added]
+- Added RepositoryPool object to gather all repositories into a single place.
+### [Changed]
+- Added show_in_rest => true to post and page post types.
+- Changed Repository get signature to match for both repository types
+### [Fixed]
+- Fixed bug with theme file collection when using S3 remote storage.
+
+## [3.19.2] - 2022-09-14
+### [Removed]
+- From security test. This has been moved to its own module.
+
+## [3.19.1] - 2022-09-13
+### [Added]
+- Added new test to check for infected files:
+  bin/magento fishpig:wordpress:test core.security
+
+## [3.18.14] - 2022-09-07
+### [Changed]
+- Stopped redirecting URLs for assets to include a trailing slash (if configured this way).
+- Use original case when forwarding a URL to WordPress siteurl. This fixes
+  issue for redirecting to images with uppercase characters in the filename.
+
+## [3.18.13] - 2022-09-07
+### [Changed]
+- Added an ltrim($s, '/') to the permalink structure for post types.
+  This should allow for a permalink structure of / which removes the base
+  from custom post type URLs.
+
+## [3.18.12] - 2022-09-04
+### [Fixed]
+- Removed debugging code from sitemap generation.
+
+## [3.18.11] - 2022-09-02
+### [Changed]
+- Modified URL generation for XML sitemap to now include the homepage URL
+- Includes a better URL absolute->relative conversion system.
+
+## [3.18.10] - 2022-08-31
+### [Changed]
+- Changed error message for protocol mismatch.
+
+## [3.18.9] - 2022-08-26
+### [Fixed]
+- Stopped added trailing slashes to URLs ending in .html regardless of whether
+  permalink structure has a trailing slash.
+
+## [3.18.7] - 2022-08-05
+### [Fixed]
+- Added correct post type to remote action page cache clean. This fixes a bug that
+  only allowed post_type=post to be auto flushed from the FPC.
+### [Changed]
+- Improved unserialization of WP options and added logging, rather than throwing
+  exception.
+
+## [3.18.5] - 2022-07-31
+### [Changed]
+- Changed Admin CSS to include Permalink Manager icon.
+
+## [3.18.4] - 2022-07-26
+### [Fixed]
+- PHP TypeError when searching for numerical values (eg. 2022).
+
+## [3.18.3] - 2022-07-25
+### [Changed]
+- Converted exception types in ResourceConnection to IntegrationFatalExeption.
+
+## [3.18.2] - 2022-07-25
+### [Changed]
+- Added better protection when configuration is not valid. Only direct routes
+  (eg. blog URLs) will throw an integration exception. Things such as CSP collection
+  will squash the error so the page continues to load.
+
+## [3.18.1] - 2022-07-22
+### [Changed]
+- Changed the hash of the file path and name for each theme file to a relative
+  path rather than an absolute path. This stops the theme hash being affected
+  by the install location of Magento.
+
+## [3.18.0] - 2022-07-22
+### [Changed]
+- Changed repository's to declare the object factory in the constructor. This
+  allows the code compiler to detect the factory and auto generate it during
+  compilation. This stops permission issues when using the Magento cloud.
+- Changed the WP theme builder to save the theme ZIP in var/fishpig/wptheme-builds
+  This stops it being pushed to S3 when using the remote storage adapter.
+
+## [3.17.1] - 2022-07-20
+### [Changed]
+- HTTP logging can now be configured via the config to be either Enabled (log everything), Disabled (log nothing), Reduce (log HTTP errors).
+
+## [3.17.0] - 2022-07-19
+### [Changed]
+- Fixed some auto load errors
+- Merged legacy-src into code base in PSR4 positions and added deprecated tags
+- Renamed .php files in wptheme to *.php.sample to avoid autoload and compilation issues.
+
+## [3.16.0] - 2022-07-18
+### [Added]
+- Added MetaDataProvider functionality to collections. This includes addMetaFieldToSelect, addMetaFieldToFilter, addMetaFieldToSort
+
+## [3.15.1] - 2022-07-15
+### [Removed]
+- Removed legacy-src files.
+
+## [3.14.3] - 2022-06-09
+### [Changed]
+- Added Integration tests to AssetProvider. This ensures tests have been executed for non-WP pages.
+
+## [3.14.2] - 2022-06-09
+### [Changed]
+- Added name and email hidden fields to comment form when customer logged in.
+
+## [3.14.1] - 2022-06-08
+## [Fixed]
+- New issue that caused 404 when post_type=page
+
+## [3.14.0] - 2022-06-08
+### [Added]
+- Redirect functionality to correct missing - or extra - trailing slash.
+
+## [3.12.8] - 2022-06-08
+- Fixed issue with hierarchical post types view page 404.
+
+## [3.12.7] - 2022-06-03
+- PHP strict types fix.
+
+## [3.12.6] - 2022-05-31
+### [Changed]
+- Fixed PHP 8.1 type errors.
+
+## [3.12.5] - 2022-05-30
+### [Fixed]
+- PHP 8.1 type error in Block\Sidebar\Widget\Categories
+
+## [3.12.4] - 2022-05-27
+### [Removed]
+- Removed rogue layout XML instruction in full width template to remove porto header.
+
+## [3.12.3] - 2022-05-27
+### [Fixed]
+- Fixed fatal error undefined method 'extractPhpErrorMessage' when WordPress API error occurs.
+
+## [3.12.2] - 2022-05-27
+### [Changed]
+- Changed database default charset from utf8 to utfmb4 when using external integration mode. This can still be changed in
+  the module config in the Magento admin.
+
+## [3.12.1] - 2022-05-24
+### [Changed]
+- Added a call to is_file around the mu-plugin includes. This stop errors when removing an add-on but the MU ref remains.
+
+## [3.12.0] - 2022-05-24
+### [Added]
+- Added mu-plugins functionality to WordPress theme. This allows add-on modules to add to a mu-plugin (mu=must use)
+  This allows functionality to be added to WP before the theme inits. Currently this is used by WPML.
+
+## [3.11.1] - 2022-05-21
+### [Fixed]
+- Fixed SSL support for DB connections.
+
+## [3.11.0] - 2022-05-20
+### [Added]
+- Added support for SSL connections to the WordPress DB.
+
+## [3.10.1] - 2022-05-7
+### [Fixed]
+- Sticky posts will now display when custom posts page set. Also $post->isSticky() is fixed and returns correct value.
+
+## [3.10.0] - 2022-05-16
+### [Added]
+- App\HTTP\PhpErrorExtractor to extract PHP errors from WordPress HTTP requests.
+### [Fixed]
+- Block\Sidebar issue that stopped the Custom Sidebar plugin from working.
+
+## [3.9.7] - 2022-04-28
+### [Changed]
+- Uninstalled modules are now greyed out in the config, to make it clear which add-on modules are installed and which
+  are not.
+
+## [3.9.6] - 2022-04-26
+### [Changed]
+- Error suppression when webp image used in resizer. Error (unsupported image format) is logged and original image is used.
+- Added exclusions to class map in composer.json. This is for the WP theme files and some legacy SRC files (that have their own autoloader)
+
+## [3.9.5] - 2022-04-20
+### [Changed]
+- Changed parent of Model\Term to AbstractMetaModel.
+
+## [3.9.4] - 2022-04-19
+### [Added]
+- New router to redirect posts that have %category% in the permalink structure but use the wrong category.
+
+## [3.9.3] - 2022-04-13
+### [Changed]
+- Removed addRecord from \FishPig\WordPress\App\Logger and added this functionality to a new \FishPig\WordPress\App\Logger\BacktraceProcessor
+  object. This supports Magento 2.3.2.* and 2.4.4 as it no longer extends the addRecord method.
+
+## [3.9.2] - 2022-04-12
+### [Fixed]
+- Magento 2.4.4 fix for \FishPig\WordPress\App\Logger
+
+## [3.9.1] - 2022-04-1
+### [Fixed]
+- Missing TaxonomyRepository in PostType model.
+
+## [3.9.0] - 2022-04-09
+### [Added]
+- Added "fishpig/wordpress/the_content/after" filer to WordPress theme's index.php
+
+## [3.8.0] - 2022-03-29
+### [Added]
+- Remote actions system. This is a unified system that allows authenticated WP requests to perform actions like
+  cleaning the cache for a specific post. Add-ons (eg. ACF) can use this to cache and clear data.
+### [Changed]
+- Updated FishPig WP theme files
+### [Removed]
+- wordpress/post/invalidate action. This has been replaced with RemoteActions system.
+
+## [3.7.14] - 2022-03-22
+### [Changed]
+- Changed parent block for FishPig\WordPress\Block\Catalog\Product\ListProduct to \Magento\Catalog\Block\Product\AbstractProduct
+
+## [3.7.12] - 2022-03-18
+### [Fixed]
+- Static strings in permalink structure that point to the posts page (eg. /blog/%postname%) now add the post page to
+  the breadcrumbs structure (eg. Home > Blog > Post)
+
+## [3.7.11] - 2022-03-14
+### [Fixed]
+- Undefined index issue in preview.php (WP theme file).
+- HTML tags sneaking into meta tags
+
+## [3.7.9] - 2022-03-08
+### [Fixed]
+- Added \FishPig\WordPress\Block\PostType\View::getDescription(). This adds the WordPress tag line on the blog posts
+  page.
+- Fixed Elementor layout files for canvas and full width.
+
+## [3.7.8] - 2022-03-02
+### [Fixed]
+- Fixed missing $location variable.
+
+## [3.7.7] - 2022-03-01
+### [Fixed]
+- Removed index.php from Magento URL generation.
+
+## [3.7.6] - 2022-02-25
+### [Fixed]
+- Redirect URL displayed in var/log/wp/http.log
+- Canvas template (Elementor) layout file updated to remove page title and copyright.
+
+## [3.7.5] - 2022-02-22
+### [Changed]
+- Changed theme update integration error message to include expected theme hash and current theme hash. This is useful
+  for debugging.
+
+## [3.7.4] - 2022-02-09
+### [Changed]
+- Added cachable=false block to post preview pages to fully stop them from being cached.
+
+## [3.7.3] - 2022-02-09
+### [Fixed]
+- Cache busting parameter for preview URLs is now present so previews are not cached.
+
+## [3.7.1] - 2022-02-08
+### [Fixed]
+- Removed trailing comma in method calling (not allowed in PHP 7.2)
+
+## [3.7.0] - 2022-02-04
+### [Added]
+- Class for Model\User\MetaDataProvider. Previously this was virtual type.
+
+## [3.6.6] - 2022-02-04
+### [Fixed]
+- WP URL redirect protection now only fires when auth token is present.
+- Fix for getRealHomepageUrl when changing store.
+
+## [3.6.5] - 2022-02-03
+### [Changed]
+- Improved exception messages when 301 or 302 redirects occur so that redirect URL is included. This should help with
+  debugging.
+
+## [3.6.4] - 2022-02-02
+### [Added]
+- Added getEntity to post list wrapper blocks for backwards compatibility.
+- Added Homepage/View block to legacy class list.
+
+## [3.6.3] - 2022-01-28
+### [Fixed]
+- Translation function return type cast to string when passed to stripslashes in Model/Post.
+- Modified tag cloud CSS to item inline-block. This fixes tag cloud links going out of their container.
+
+## [3.6.2] - 2022-01-23
+### [Fixed]
+- Post content not getting pre-rendered value when not using PSW add-on.
+
+## [3.6.1] - 2022-01-20
+### [Fixed]
+- WP-JSON redirect correct rest URL.
+
+## [3.6.0] - 2022-01-19
+### [Added]
+- Block for displaying posts that can be used by add-ons (PSW + Related Products).
+
+## [3.5.4] - 2022-01-18
+### [Changed]
+- Added exception handling for missing source images when resizing in local mode.
+- Added call to hello API method before getting integration data. This checks API is up and running without HTTP auth.
+
+## [3.5.3] - 2022-01-17
+### [Added]
+- Added user agent to API requests.
+
+## [3.5.2] - 2022-01-17
+### [Added]
+- List option to test command to list all installed tests: bin/magento fishpig:wordpress:test --list
+
+## [3.5.1] - 2021-01-14
+### [Fixed]
+- Callback not passed to shortcode renderer so was not executed when shortcode provided.
+
+## [3.5.0] - 2021-01-13
+### [Added]
+- Added bin/magento fishpig:wordpress:test command.
+
+## [3.4.4] - 2022-01-12
+### [Fixed]
+- WP Theme issue that stopped redirects working in WordPress Admin.
+
+## [3.4.3] - 2022-01-10
+### [Fixed]
+- Changed post type check in Homepage controller from 'posts' to 'post'
+- Fixed Exception 'wrong parameters' error when ApiTest fails.
+
+## [3.4.2] - 2022-01-04
+### [Fixed]
+- NoSuchEntityException caught when viewing invalid author URL.
+- Auto theme installation no longer creates a copy of the theme package in the WordPress themes dir (local mode).
+- Auto theme installation doesn't delete the old theme if it contains a local.php file. This should stop any old custom
+  code from being deleted.
+- App\Theme::isInstalled now checks current theme and not just the remote theme hash. This stops the theme being
+  enabled and then later disabled and still being reported as being enabled.
+- Invalid user URLs now go to noRoute action rather than an error message.
+### [Changed]
+- WordPress theme now flushes rewrites when updating the theme hash.
+
+## [3.4.1] - 2022-01-04
+### [Added]
+- MetaDataProvider for Post. This was a virtual class but is now an actual class. This allows for ACF to add plugins.
+
+## [3.3.0] - 2022-01-04
+### [Added]
+- Added option to POST using REST API.
+### [Changed]
+- Improved RequestManager error handling
+
+## [3.2.2] - 2022-01-03
+### [Changed]
+- Error messages for URLs when using Root.
+### [Fixed]
+- Fixed Option::set when option exists but has a null value.
+- Allow br and a tags in comment content.
+
+## [3.2.1] - 2022-01-02
+### [Fixed]
+- Resizable images when using Multisite in local mode. The correct path for the image is now used.
+
+## [3.2.0] - 2022-01-02
+### [Added]
+- Added hello WP API method to help with debugging.
+- Added wp_redirect protection to WP theme.
+- Caching for theme hash generation (file collection).
+- Added fishpig:wordpress:set-option console command.
+### [Changed]
+- Moved logs from var/log/wordpress.log to var/log/wp/error.log. Also added http.log to same location.
+- Updated search widget template.
+### [Fixed]
+- Automatic WP theme update registration when in local mode.
+
+## [3.1.1] - 2021-12-30
+### [Changed]
+- Removed wrapping HTML tag from wp_footer call in WordPress theme.
+
+## [3.1.0] - 2021-12-30
+### [Changed]
+- Changed HTTP status exceptions if status !== 200 or 404
+- Added UrlModifiers to RequestManager classes
+
+## [3.0.34] - 2021-12-25
+### [Fixed]
+- Compilation error: "Class FishPig\WordPress\App\HTTP\Throwable does not exist"
+
+## [3.0.33] - 2021-12-24
+### [Added]
+- Checks for HTTP auth and displays a message indicating HTTP auth failure. In a future version you will be able to
+  specify HTTP auth details in the Admin. For now, just ensure Magento and WP use the same HTTP auth details and
+  these will be shared with the WP API automatically.
+
+## [3.0.32] - 2021-12-23
+### [Changed]
+- Changed \Magento\Framework\Filesystem\DriverInterface to \Magento\Framework\Filesystem and get individual directories
+  from there.
+
+## [3.0.30] - 2021-12-22
+### [Changed]
+- Code formatting clean up.
+
+## [3.0.29] - 2021-12-21
+### [Fixed]
+- ResourceConnection checks getConnection() before calling isConnection.
+
+## [3.0.28] - 2021-12-21
+### [Fixed]
+- Issue in includes/previews.php in the WP theme when preview_id wasn't passed in the URL
+
+## [3.0.27] - 2021-12-21
+### [Fixed]
+- Module can now be disabled properly on a per store basis.
+
+## [3.0.26] - 2021-12-21
+### [Added]
+- Better exception messages when the API connection fails.
+
+## [3.0.23] - 2021-12-20
+### [Added]
+- Added API check to integration tests.
+
+## [3.0.22] - 2021-12-20
+### [Fixed]
+- Fixed 'Undefined variable: redirectUrl in Plugin/Magento/Store/Block/SwitcherPlugin.php' notice.
+
+## [3.0.21] - 2021-12-20
+### [Added]
+- API request logger now include current URL for each log. This will help with debugging.
+
+## [3.0.19] - 2021-12-20
+### [Changed]
+- PluginManager data source no longer includes isEnabled. This has been moved to the PluginManager model.
+
+## [3.0.18] - 2021-12-18
+### [Fixed]
+- Remote address missing when accessing via the CLI caused a type error.
+## [3.0.16] - 2021-12-18
+### [Fixed]
+- Case issues with some class names.
+### [Changed]
+- Return type of OptionRepository::get from false to null when option doesn't exist.
+### [Added]
+- IP address to request log to help with debugging.
+
+## [3.0.15] - 2021-12-17
+### [Changed]
+- Changed post password system to cookie based system rather than session to match WP. This also now works with the FPC.
+
+## [3.0.14] - 2021-12-17
+### [Changed]
+- Cleaned up code.
+### [Added]
+- Ability to auto switch taxonomy when displaying categories on post view. This will select a different taxonomy if
+  its a post type that doesn't support the category taxonomy.
+### [Fixed]
+- Compiler error for PostPassword.
+
+## [3.0.12] - 2021-12-17
+### [Changed]
+- Improved CSS for post grids. Removed negative margins.
+
+## [3.0.11] - 2021-12-17
+### [Fixed]
+- Fixed HTTP HEAD request bug when using CloudFlare. This broke the UrlValidation model in PSW.
+- The usermeta was adding the blog_id as a table prefix, which is invalid for this table.
+- Post password implementation was broke due to cookies no longer being shared so this has been updated for new the system.
+
+## [3.0.10] - 2021-12-16
+### [Added]
+- Added cli_commands.php to the composer.json autoload section. This is the mechanism for loading the legacy autoloader
+  when using Composer to install the modules.
+
+## [3.0.9] - 2021-12-16
+### [Fixed]
+- Code improvements for the new v3 branch.
+
+## [3.0.8] - 2021-12-16
+### [Fixed]
+- Automatic theme installation/upgrade is now fixed in local integration mode. An exception is only raised if permissions
+  do not allow for the automatic update to take place.
+
+## [3.0.7] - 2021-12-16
+### [Fixed]
+- Updated references to legacy classes to the new implementations.
+- Fixed resizing images when in local mode. Images cannot be resized in External integration mode as the images live
+  on the external server so cannot be resized by Magento. To resize images in external mode, create new image sizes in
+  in WordPress and these will be available in Magento automatically.
+
+## [3.0.3] - 2021-12-15
+### [Fixed]
+- PHP URL class error in HeadAdditional block
+
+## [3.0.1] - 2021-12-15
+### [Changed]
+- References to FishPig\WordPress\Model\Logger have been changed to FishPig\WordPress\App\Logger
+
+## [3.0.0] - 2021-12-15
+This is a new major version of this module and all add-on modules. The module now uses semantic versioning and each module has a public change log.
+You can see the old change log here: https://github.com/bentideswell/magento2-wordpress-integration/blob/dbce94d8089fc4f8d5c88225010394ec4c5f7dd5/changelog.txt
+
+
+### [Added]
+- Ability to connect/integrate WordPress hosted on a separate server. Can still integrate local installations. This can be selected in the module config.
+
+### [Removed]
+- No longer able to resize images dynamically
+- No longer able to run WP code in Magento using

@@ -1,0 +1,37 @@
+<?php
+$product = $block->getProduct();
+$brand = $product->getAttributeText('manufacturer');
+$mpn = $product->getData('mpn');
+$spec_main = ($product->getData('spec_main')!="0") ? $product->getData('spec_main') : "";
+$spec_parts = ($product->getData('spec_parts')!="0") ? $product->getData('spec_parts') : "";
+$spec_manual = ($product->getData('spec_manual')!="0") ? $product->getData('spec_manual') : "";
+$spec_installation = ($product->getData('spec_installation')!="0") ? $product->getData('spec_installation') : "";
+$warranty = ($product->getData('warranty')!="0") ? $product->getData('warranty') : "";
+$energy_guide = ($product->getData('energy_guide')!="0") ? $product->getData('energy_guide') : "";
+if ($spec_main !="" || $spec_installation !="" || $spec_manual !="" || $spec_parts !="" || $energy_guide !="" || $warranty !=""):
+?>
+        <?php if ($spec_main !=""):?>
+            <a class="spec-sheet" href="<?php echo $spec_main;?>" target="_blank"><i class="icon-file-alt"></i> &nbsp; Specification Sheet for <?php echo $brand ;?> <?php echo $mpn?></a><br />
+        <?php endif; ?>
+        <?php if ($spec_parts !=""):?>
+            <a class="spec-sheet" href="<?php echo $spec_parts;?>" target="_blank"><i class="icon-file-alt"></i> &nbsp; Parts Diagram for <?php echo $brand ;?> <?php echo $mpn?></a><br />
+        <?php endif; ?>
+        <?php if ($spec_installation !=""):?>
+            <a class="spec-sheet" href="<?php echo $spec_installation;?>" target="_blank"><i class="icon-file-alt"></i> &nbsp; Installation Manual for <?php echo $brand ;?> <?php echo $mpn?></a><br />
+        <?php endif; ?>
+        <?php if ($spec_manual !=""):?>
+            <a class="spec-sheet" href="<?php echo $spec_manual;?>" target="_blank"><i class="icon-file-alt"></i> &nbsp; Owners Manual for <?php echo $brand ;?> <?php echo $mpn?></a><br />
+        <?php endif; ?>
+        <?php if ($energy_guide !=""):?>
+            <a class="spec-sheet" href="<?php echo $energy_guide;?>" target="_blank"><i class="icon-file-alt"></i> &nbsp; Energy Guide for <?php echo $brand ;?> <?php echo $mpn?></a><br />
+        <?php endif; ?>
+        <?php if ($warranty !=""):?>
+            <a class="spec-sheet" href="<?php echo $warranty;?>" target="_blank"><i class="icon-file-alt"></i> &nbsp; Warranty for <?php echo $brand ;?> <?php echo $mpn?></a><br />
+        <?php endif; ?>
+<?php
+else:
+?>
+    <span>No Specifications</span>
+<?php
+endif;
+?>

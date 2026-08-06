@@ -1,0 +1,98 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Backend\Block\Widget\Form\Container */
+ ?>
+<?php /* @escapeNotVerified */ echo $block->getFormInitScripts() ?>
+<?php if ($block->getButtonsHtml('header')): ?>
+    <div class="page-form-actions" <?php /* @escapeNotVerified */ echo $block->getUiId('content-header') ?>><?php echo $block->getButtonsHtml('header') ?></div>
+<?php endif; ?>
+<?php echo $block->getFormHtml() ?>
+<?php if ($block->hasFooterButtons()): ?>
+    <div class="content-footer">
+        <p class="form-buttons"><?php echo $block->getButtonsHtml('footer') ?></p>
+    </div>
+<?php endif; ?>
+<script>
+require([
+    'jquery',
+    'mage/backend/form',
+    'mage/backend/validation'
+], function($){
+
+    $('#edit_form').form()
+        .validation({
+            validationUrl: '<?php /* @escapeNotVerified */ echo $block->getValidationUrl() ?>',
+            highlight: function(element) {
+                var detailsElement = $(element).closest('details');
+                if (detailsElement.length && detailsElement.is('.details')) {
+                    var summaryElement = detailsElement.find('summary');
+                    if (summaryElement.length && summaryElement.attr('aria-expanded') === "false") {
+                        summaryElement.trigger('click');
+                    }
+                }
+                $(element).trigger('highlight.validate');
+            }
+        });
+
+});
+</script>
+<?php /* @escapeNotVerified */ echo $block->getFormScripts() ?>
+
+<script type="text/javascript">
+
+var deps = [];
+deps.push('jquery');
+deps.push('prototype');
+deps.push('mage/adminhtml/grid');
+deps.push("domReady!");
+
+require(['jquery','mage/backend/form','mage/backend/validation'], function($) {
+    $('#edit_form').form().validation('option', 'ignore', ":hidden,:disabled");
+    $('#save_continue_btn').click(function () {
+        $('#save_continue').val(1);
+        $('#edit_form').form().submit();
+    });
+});
+
+require(deps, function(jQuery) {
+
+    var updater = new RegionUpdater('country_id', 'region', 'region_id', <?php echo $this->getRegionJson() ?>, 'disable');
+    var bUpdater = new RegionUpdater('billing_country_id', 'billing_region', 'billing_region_id', <?php echo $this->getRegionJson() ?>, 'disable');
+
+    function udSyncRegField(countrySel) {
+        var regionIdRow = countrySel.up(1).next();
+        var regionRow = countrySel.up(1).next(1);
+        var regionIdSel = regionIdRow.select('select[name=region_id],select[name=billing_region_id]')
+        if (regionIdSel && (regionIdSel = regionIdSel[0])) {
+            if (regionIdSel.disabled) {
+                regionIdRow.hide();//.select('select,input').invoke('disable');
+                regionRow.show();//.select('select,input').invoke('enable');
+            } else {
+                regionIdRow.show();//.select('select,input').invoke('enable');
+                regionRow.hide();//.select('select,input').invoke('disable');
+            }
+        }
+    }
+
+    jQuery('#billing_country_id').change();
+
+    udSyncRegField($('country_id'));
+    //if (!$F('billing_use_shipping')) {
+        udSyncRegField($('billing_country_id'));
+    //}
+    try {
+        $('billing_use_shipping').udSyncDependFields();
+        $('billing_use_shipping').skipFirstRun = false;
+    } catch (e) {
+    }
+
+    varienGlobalEvents.attachEventHandler("address_country_changed", udSyncRegField);
+});
+
+</script>

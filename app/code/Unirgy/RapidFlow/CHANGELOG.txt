@@ -1,0 +1,929 @@
+===== 2022-05-08 3.0.159 =====
+  * Added 2.4.4 compatibility
+
+===== 2022-04-01 3.0.157 =====
+  * Added 'Export entity ids' Yes/No configuration to include/exclude entity ids fields in default export
+
+===== 2022-03-17 3.0.156 =====
+  * Changed 'inventory resolution failed' exception into warning
+
+===== 2022-03-08 3.0.155 =====
+  * Fixed datetime attributes import broken during recent changes
+
+===== 2022-02-22 3.0.154 =====
+  * Fixed "If stock qty is less than configured minimum qty, mark product as Out of stock" does not consider backorders
+  * Fixed isValueEmpty, isValueSkip methods does not consider false, 0 special cases
+
+===== 2022-01-13 3.0.153 =====
+  * Added turn off storeviews other then admin when singlestore mode on
+
+===== 2022-01-06 3.0.152 =====
+  * Fixed cannot import static backend_type attributes
+  * Fixed image import insert null in media_gallery_value.position column
+
+===== 2021-12-28 3.0.151 =====
+  * Factored out $removeFields, $importRemoveFields into Catalog\Product\AbstractProduct class members
+
+===== 2021-12-17 3.0.150 =====
+  * Fixed image not updated when imported without retain subfolders option
+
+===== 2021-12-08 3.0.149 =====
+  * Fixed Yes/No attributes cannot be updated from Yes to No
+
+===== 2021-11-03 3.0.148 =====
+  * Fixed array to string conversion error in ResourceModel/AbstractResourceBase
+
+===== 2021-10-22 3.0.147 =====
+  * Added 'Constant to nullify attribute value' in product import profile
+
+===== 2021-10-16 3.0.146 =====
+  * Fixed missing url normalization during images import
+
+===== 2021-09-08 3.0.144 =====
+  * Fixed Call to a member function getStoreId() on null in AbstractProduct::_prepareAttributes
+
+===== 2021-08-09 3.0.142 =====
+  * Fixed possible empty progress response if import file is not utf8 encoded
+
+===== 2021-07-26 3.0.141 =====
+  * Added auto-create swatch entry on option auto-create when attribute.additional_data.use_product_image_for_swatch=true
+
+===== 2021-07-09 3.0.139 =====
+  * Fixed "fixed rows" data types does not use sku as string if it has numeric value
+
+===== 2021-06-18 3.0.137 =====
+  * Added periodic fixed rows flush to prevent memory exhaustion
+
+===== 2021-06-03 3.0.135 =====
+  * Fixed row types not filtered if respective table does not exist (magento module disabled)
+
+===== 2021-05-26 3.0.134 =====
+  * Moved saveAndRun edit form handler from urapidflow.js to form container _formScripts
+
+===== 2021-05-07 3.0.133 =====
+  * Fixed Notice: Undefined index: u1732 in ResourceModel/Catalog/Product/AbstractProduct.php during _fetchStockValues call
+
+===== 2021-04-29 3.0.132 =====
+  * Fixed incorrect processing of relative directories in new file handler caused by remote storage integration
+  * Fixed log tail missing after remote storage integration
+
+===== 2021-04-27 3.0.131 =====
+  * Added cache clear for updated products only
+
+===== 2021-04-23 3.0.130 =====
+  * Added compatibility with remote storage module
+
+===== 2021-03-24 3.0.129 =====
+  * Fixed "column 'status' cannot be null, query was: INSERT INTO `inventory_source_item` ..."
+
+===== 2021-03-19 3.0.128 =====
+  * Fixed msi queries does not use sku as string if it has numeric value
+  * Fixed possible "Invalid method Magento\Eav\Model\Entity\Attribute::isScopeGlobal" error
+
+===== 2021-03-03 3.0.127 =====
+  * Fixed Call to undefined method LoggerProxy::pushHandler() in Helper/Data.php
+
+===== 2021-02-03 3.0.126 =====
+  * Fixed default msi inventory source item not used during import/export
+
+===== 2021-01-27 3.0.125 =====
+  * Fixed possible 'Uncaught TypeError: $.ui.plugin is undefined' in firefox cause by uploader js
+
+===== 2020-11-05 3.0.124 =====
+  * Fixed can't add profile column in columns tab when option labels are numeric
+
+===== 2020-11-02 3.0.123 =====
+  * Refactored image cache flush / resize
+
+===== 2020-10-13 3.0.122 =====
+  * Fixed delete old images sql performance
+
+===== 2020-10-06 3.0.120 =====
+  * Fixed undefined var indexer in Profile.php
+  * Optimization for gallery processing
+  * Added profiler stats (hardcoded in code)
+  * Added workaround for url rewrites refresh failure due to duplicate url keys
+
+===== 2020-09-30 3.0.119 =====
+  * Optimized fetchAttributeValues method sql query
+
+===== 2020-09-18 3.0.118 =====
+  * Changed _getIdBySku to have extra param $isSeqId
+
+===== 2020-09-16 3.0.117 =====
+  * Fixed possible duplicate gallery db records
+
+===== 2020-08-21 3.0.116 =====
+  * Fixed urapidflow_profile.columns_json db column too small
+
+===== 2020-08-18 3.0.115 =====
+  * Changed 'Field Delimiter' optional to support tab char
+
+===== 2020-06-23 3.0.114 =====
+  * Fixed qty changed for products which type does not support it
+
+===== 2020-06-15 3.0.113 =====
+  * Extracted few methods to allow post-process header and rows right after csv file read
+
+===== 2020-06-12 3.0.112 =====
+  * Fixed Class Unirgy\RapidFlow\Model\CacheType does not exist
+
+===== 2020-05-27 3.0.111 =====
+  * Fixed configurables export with "Skip out of stock products"=Yes
+
+===== 2020-05-21 3.0.109 =====
+  * Fixed price import of bundle products with fixed price type
+
+===== 2020-05-12 3.0.108 =====
+  * Fixed media gallery being case insensitive
+
+===== 2020-05-07 3.0.107 =====
+  * Fixed import creates duplicate entries in catalog_product_entity_media_gallery* tables
+
+===== 2020-05-05 3.0.106 =====
+  * Fixed auto-import categories on EE
+
+===== 2020-04-30 3.0.105 =====
+  * Fixed depricated url addSessionParam
+  * Fixed categories filter in product export on EE
+
+===== 2020-04-29 3.0.104 =====
+  * Fixed wrong saved filename displayed in Upload files tab
+
+===== 2020-04-13 3.0.103 =====
+  * Fixed Duplicate entry 'xx-xx' for key 'xxx', query was: INSERT INTO catalog_product_entity_media_gallery_value_to_entity
+
+===== 2020-04-12 3.0.102 =====
+  * Fixed Indexer handler is not available: elasticsearch
+
+===== 2020-04-10 3.0.101 =====
+  * Fixed media gallery entries not created
+
+===== 2020-04-01 3.0.99 =====
+  * Fixed usage of category.ids from different website issue sql error (should be warning)
+
+===== 2020-03-30 3.0.96 =====
+  * Fixed possible sql error during images import
+
+===== 2020-03-27 3.0.95 =====
+  * Fixed usage of category.ids in EE
+
+===== 2020-03-02 3.0.94 =====
+  * Fixed profile "save and run" redirect to new profile page when exception happens during run
+
+===== 2020-02-05 3.0.93 =====
+  * Added check for wrong attributes source which issue Invalid argument supplied for foreach() in Block/Adminhtml/Profile/Edit/Tab/Columns.php on line 83
+  * Fixed 2.3.4 Declaration of UrlRewriteDbStorage::insertMultiple($data) must be
+compatible with Magento\UrlRewrite\Model\Storage\DbStorage::insertMultiple($data): void
+
+===== 2020-01-14 3.0.92 =====
+  * Added "restrictions/magento_edition" flag support in urapidflow.xml config
+
+===== 2019-01-13 3.0.91 =====
+  * Added workaround in categories autocreate when category name doesn't match url_key
+  * Added workaround for magento bug in Product::getStoreIds in single store mode
+
+===== 2019-12-05 3.0.90 =====
+  * Added workaround to handle image urls with space char instead of %20
+  * Added exception handling around \Zend\Validator\File\MimeType::isValid call
+  * Added '400 Bad Request' handling during image fetch
+
+===== 2019-11-14 3.0.89 =====
+  * Fixed image resize problem on some themes by usage of Magento_MediaStorage resize features if that module available
+
+===== 2019-11-12 3.0.88 =====
+  * Added more informative logging of url_rewrites errors
+
+===== 2019-11-05 3.0.87 =====
+  * Fixed "Skip usage check when delete old image"=No doesn't work
+
+===== 2019-10-31 3.0.86 =====
+  * Fixed categories auto create set wrong parent_id in EE
+
+===== 2019-10-17 3.0.85 =====
+  * Removed "catalog_product_category" from full reindex list to eliminate redundant run after "catalog_category_product" reindex as they do the same
+  * Added safeguard code to eliminate duplicate run of category/product full reindex to fix possible
+  "Base table or view not found: catalog_category_product_index_store1_tmp doesn't exist"
+
+===== 2019-10-15 3.0.84 =====
+  * Fixed "category.ids" in EE export row_id instead of entity_id
+
+===== 2019-10-11 3.0.83 =====
+  * Fixed "Delete old image" doesn't remove the file when new value is empty
+
+===== 2019-10-10 3.0.82 =====
+  * Fixed "Retain remote subfolders" instead of save in subfolders save in root folder with / replaced with  -
+
+===== 2019-09-27 3.0.81 =====
+  * Fixed Undefined index: extension in \Magento\Framework\File\Uploader when import image name don't have extension
+
+===== 2019-09-24 3.0.80 =====
+  * Fixed realtime reindex
+
+===== 2019-08-14 3.0.77 =====
+  * Added 'Auto-archive Import File' option
+
+===== 2019-08-12 3.0.76 =====
+  * Fixed url_key gets updated with default value in non-admin storeview import
+    even if not exists in the import file
+  * Fixed products extra export filter in EE
+  * Added profile history tab
+  * Fixed "Allow mutable attributes" checkbox cannot be saved
+
+===== 2019-07-05 3.0.75 =====
+  * Added 'Generate resized images' option for magento >2.2.8
+
+===== 2019-06-07 3.0.74 =====
+  * Fixed catalog_rules indexer does not exist.
+
+===== 2019-06-05 3.0.73 =====
+  * Fixed product.configurable_parent_sku export in EE
+  * Fixed product.row_id export in EE
+
+===== 2019-05-23 3.0.71 =====
+  * Added 'save_rewrites_history' paremeter during generate url rewrites
+  * Fixed mixing of attribute custom source model and presence of options in eav_attribute_option table lead to unexpected results
+
+===== 2019-05-08 3.0.70 =====
+  * Added export entity_id/row_id
+
+===== 2019-05-06 3.0.69 =====
+  * Fixed realtime product flat indexer run even if disabled
+
+===== 2019-04-30 3.0.68 =====
+  * Fixed 'indexer does not exist' error break whole reindex process
+
+===== 2019-04-25 3.0.67 =====
+  * Fixed call to a member function refreshProductRewrite() on null
+    in ResourceModel/Catalog/Product/AbstractProduct.php
+
+===== 2019-02-21 3.0.66 =====
+  * Fixed catch of wrong exception in ProductUrlUpdateObserver
+
+===== 2019-02-11 3.0.65 =====
+  * Added MSI tables references
+
+===== 2019-01-30 3.0.64 =====
+  * Fixed visibility not considered during products url rewrites generate
+
+===== 2018-12-10 3.0.63 =====
+  * Fixed null attribute values in storeview level not exported
+
+===== 2018-11-26 3.0.62 =====
+  * Fixed url_key/url_path exported without suffix when column format=URL
+
+===== 2018-11-26 3.0.61 =====
+  * Fixed remote images import when url contain query string with slash char in it
+
+===== 2018-09-04 3.0.60 =====
+  * Added safeguard to not save url rewrite with empty request path
+
+===== 2018-08-28 3.0.59 =====
+  * Added extra constants
+
+===== 2018-08-16 3.0.58 =====
+  * Fixed unhandled exceptions in generate category url rewrite functionality which didn't restore url path in case of exception
+
+===== 2018-08-15 3.0.57 =====
+  * Fixed category url rewrites not refreshed when using db table prefix
+
+===== 2018-07-23 3.0.56 =====
+  * Added extra vars for fixed rows import events
+
+===== 2018-07-13 3.0.55 =====
+  * Fixed mixed usage of numeric and non-numeric skus degrade perfromance
+
+===== 2018-06-25 3.0.54 =====
+  * Added logging of url rewrite errors
+  * Fixed A non-numeric value encountered in Model/Profile.php on line 1259
+
+===== 2018-06-25 3.0.53 =====
+  * Fixed ResourceModel\AbstractResource::getConnection()  must be public (as in class Magento\Framework\Model\ResourceModel\AbstractResource) in  ResourceModel/AbstractResource21.php on line 5 on magento cloud
+
+===== 2018-06-20 3.0.52 =====
+  * Fixed url rewrites not created for new products on some import files
+
+===== 2018-06-11 3.0.51 =====
+  * Fixed usage of only "category.ids" in import file on EE lead to wrong assignment
+
+===== 2018-06-05 3.0.50 =====
+  * Fixed A non-numeric value in Model/Profile.php on line 1259
+
+===== 2018-05-30 3.0.49 =====
+  * Fixed usage of "category.name" in import file create duplicate categories
+
+===== 2018-04-20 3.0.48 =====
+  * Fixed delete from url_rewrite use subselect (changed to multiple-table delete for better performance)
+
+===== 2018-04-06 3.0.47 =====
+  * Fixed auto-create categories save url_path with suffix
+
+===== 2018-04-06 3.0.46 =====
+  * Fixed inconsistency between stock fetch and stock update
+
+===== 2018-03-29 3.0.45 =====
+  * Fixed multiple profiles run from script have issues due to data caching in data type models
+
+===== 2018-03-21 3.0.44 =====
+  * Fixed EE category url rewrites not generated for auto-created categories
+
+===== 2018-03-07 3.0.43 =====
+  * Fixed missing skipcheck for root category in ResourceModel\AbstractResourceBase::catBuildPath method
+
+===== 2018-02-26 3.0.42 =====
+  * Fixed export filter "Skip out of stock products"=Yes doesn't work in EE
+
+===== 2018-02-23 3.0.41 =====
+  * Fixed export filter by website join by row_id instead of entity_id
+  * Fixed export don't use order by entity_id which lead to some data duplication and/or absence
+
+===== 2018-02-14 3.0.40 =====
+  * Fixed call \Magento\Framework\App\Cache\Manager::clean only when types not empty. To eliminate possible issues with third-party modules
+
+===== 2018-02-06 3.0.39 =====
+  * Fixed Can only flip STRING and INTEGER values! in ResourceModel/Catalog/Product/AbstractProduct.php
+
+===== 2018-01-30 3.0.38 =====
+  * Fixed export in php 7.1 issue warning "A non-numeric value encountered"
+
+===== 2018-01-04 3.0.37 =====
+  * Fixed compatibility with 2.2 bundle option/selection sequence new parent_product_id column
+
+===== 2018-01-02 3.0.36 =====
+  * Added compatibility with EE 2.2 bundle option/selection sequence
+
+===== 2017-12-21 3.0.35 =====
+  * Added CURL options in "Fine Tuning" section of global config
+
+===== 2017-12-07 3.0.34 =====
+  * Excluded configurable from "apply to" ('special_price','special_from_date','special_to_date') attributes definition
+
+===== 2017-12-04 3.0.33 =====
+  * Added flush only effected products image cache
+
+===== 2017-11-30 3.0.32 =====
+  * Fixed category url_path attribute deleted after refresh url rewrites
+  * Fixed remote batch image download does not set small_image and thumbnail
+
+===== 2017-11-21 3.0.31 =====
+
+  * Added "Force URL Rewrites Refresh" products import configuration option
+
+===== 2017-11-10 3.0.30 =====
+
+  * Fixed 2.2.x compilation without db access (for Magento EE Cloud)
+
+===== 2017-11-06 3.0.29 =====
+
+  * Fixed recognizing B2B as EE
+
+===== 2017-11-01 3.0.28 =====
+
+  * Added import option for multi-thread batch downloading remote images to improve performance
+  * Added import option for empty values strategy and special "#EMPTY#" entry to force empty value
+  * Fixed handling attributes with custom backend_table
+  * Fixed RF Config Cache issue in magento 2.2
+  * Fixed getConnection method visibility issue in magento 2.2
+
+===== 2017-10-04 3.0.27 =====
+
+  * added product extra profile events
+
+===== 2017-09-30 3.0.26 =====
+
+  * fixed issues with EE staging feature
+
+====== 2017-09-13 3.0.25 =====
+
+  * fixed issue with new valid values equaling 0
+
+===== 2017-07-28 3.0.24 =====
+
+  * added configuration to set url increment limit
+  * passing profile store id when updating category urls to enable category url generation for non default stores
+
+===== 2017-04-19 3.0.23 =====
+
+  * changed query to table CATALOG_PRODUCT_ENTITY_MEDIA_GALLERY to speed it up
+
+===== 2017-04-03 3.0.22 =====
+
+  * added index to table CATALOG_PRODUCT_ENTITY_MEDIA_GALLERY
+  * fixed sql in delete images query
+
+===== 2017-02-20 3.0.21 =====
+
+  * fixed table name used directly and not prefixed when needed
+
+===== 2017-02-03 3.0.20 =====
+
+  * fix wrong . appended to category url_path
+  * fix in EE entity_id and not row_id should be passed to url_rewrite system
+
+===== 2017-01-26 3.0.19 =====
+
+  * changed how websites are retrieved from Magento
+  * fix, config load, added extend overwrite option to be true, this allows for proper override of urapidflow.xml
+  * fix, reset product url updates after each batch
+  * fix, import columns settings not saving multiselect values
+  * fix, for category - product relations in EE
+
+===== 2016-12-28 3.0.18 =====
+
+  * improved product image processing
+
+===== 2016-12-19 3.0.17 =====
+
+  * fixes related to sequence tables in EE
+
+===== 2016-12-19 3.0.16 =====
+
+  * fixes related to sequence tables
+
+===== 2016-12-09 3.0.15 =====
+
+  * fixes related to sequence tables
+
+===== 2016-11-30 3.0.14 =====
+
+  * fixed issue with stock import on EE
+  * fixed issue with image import
+
+===== 2016-11-10 3.0.13 =====
+
+  * added CPBOSL code for import/export of bundle option selection price
+
+===== 2016-10-13 3.0.12 =====
+
+  * fixed sequence_xyz tables being inserted in during dry run
+  * implemented product url rewrites update
+
+===== 2016-09-20 3.0.11 =====
+
+  * fixed issue with auto-generated categories
+
+===== 2016-09-20 3.0.10 =====
+
+  * fixed Magento error when running compiled classes
+  * internal fixes
+
+===== 2016-08-08 3.0.9 =====
+
+  * EE updated_in, created_in fields populated for product and category
+
+===== 2016-07-28 3.0.8 =====
+
+  * updated code to provide compatibility with PHP7 with Ion Cube Loader
+
+===== 2016-07-08 3.0.7 =====
+
+  * fix for sequence table
+
+===== 2016-07-06 3.0.6 =====
+
+  * updated to work with Magento 2.1.0 EE
+  * adding created_at and updated_at to export conditions
+
+===== 2016-06-02 3.0.5 =====
+
+  * fixed array to string conversion
+
+===== 2016-06-01 3.0.4 =====
+
+  * fix changed alias for Url import in helper class
+  * fix using FQCN in Unirgy/RapidFlow/Model/ResourceModel/AbstractResource/Fixed.php to prevent autoloading issues
+
+===== 2016-04-20 3.0.3 =====
+
+  * added more details when image file copy fails
+
+===== 2016-04-20 3.0.2 =====
+
+  * updated config.xml
+
+===== 2016-04-18 3.0.1 =====
+
+  * fix image file deletion
+  * fix logging old and new value
+  * updated design of profile options
+
+===== 2016-04-02 3.0.0 =====
+
+  * initial Magento 2 version
+
+===== 2015-10-28 2.0.0.20 =====
+
+  * updated routing for patch SUPEE-6788
+
+===== 2015-10-20 2.0.0.19 =====
+
+  * added options to choose what to do when imported image exists.
+  * fixes for category import
+  * added reset argument to setHeader to prewent duplicate header issue
+  * fix for reporting success only when actual update is performed
+  * allow for url format for url_key attribute
+
+===== 2015-03-27 2.0.0.18 =====
+
+  * fix mismatching table names.
+  * fix a notice from ProfileController
+
+===== 2015-03-16 2.0.0.17 =====
+
+  * fix wrong array syntax
+
+===== 2015-03-10 2.0.0.16 =====
+
+  * using separate url key collection to build url_path
+  * added catalog suffix path getter
+
+===== 2014-09-30 2.0.0.14 =====
+
+  * fix for default store value for global attribute
+
+===== 2014-07-08 2.0.0.13 =====
+
+  * fixed url_key issue for products in same batch
+  * changed some things about url path generation , changed behavior when global attribute is updated
+  * changed datetime columns to be datetime string not timestamp
+  * added event for successful image import
+
+===== 2014-05-12 2.0.0.12 =====
+
+  * fixed is_null usage
+
+===== 2014-04-23 2.0.0.11 =====
+
+  * fix bug for non numeric cat id added for update, fix for default store id
+  * minor fixes
+  * improved unique url_key generation
+  * some code optimizations added
+
+===== 2014-02-26 2.0.0.10 =====
+
+  * fix for importing remote images to admin view
+
+===== 2013-10-30 2.0.0.9 =====
+
+  * fix for exception caused by missing index field
+  * fix check if array key isset
+
+===== 2013-10-03 2.0.0.8 =====
+
+  * fix for EE 1.13.0.2 unique url key
+  * fix catching SQL exceptions not to break entire import process.
+  * changes to enable logging of old values
+
+===== 2013-08-14 2.0.0.7 =====
+
+  * fix for backend table being prefixed twice
+  * fix for categories build path
+
+===== 2013-06-27 2.0.0.6 =====
+
+  * fixed regression
+
+===== 2013-06-06 2.0.0.5 =====
+
+  * fixed empty backend string breaking attribute table setting
+  * fixed code parsing not accounting for empty space around code
+  * fixed non working option to copy duplicate value on store view level
+  * added export option to load product if price indexes are missing (such as when product is out of stock)
+  * added export option to retain folder structure when exporting images, makes it easier to transfer them
+
+===== 2013-05-31 2.0.0.4 =====
+
+  * Added compatibility with EE 1.13 new url model
+
+===== 2013-05-18 2.0.0.3 =====
+
+  * Fixed, compatibility bug with EE 1.13 and its indexing
+  * Fixed, added missing method in helper Data.php
+  * Fixed, multiple minor changes
+  * Fixed, added is array and isset checks, because $f is not an array and !empty emits a warning, Abstract.php line 364
+  * Fixed, bug when importing product in default store. Assumed that if store id is 0, attribute should be updated, which when attribute is missing causes sql error
+
+===== 2012-08-30 2.0.0.2 =====
+
+  * Fixed a bug where slash position for image name imported uses if(strpos($filename, $ds)) which will return false when / is at beginning of file name
+
+===== 2012-08-08 2.0.0.1 =====
+
+  * Added image cache flush to doReindexActions method
+  * Fixed a bug in rendering ftp settings.
+  * Fixed a bug in category prepare attributes, the bug omits any attributes that have frontend_input NULL
+
+===== 2012-03-20 2.0.0.0 =====
+
+  * Added separate options to control ftp - 'Ftp File Mode', 'Ftp Passive Mode'
+  * Added "Configurable Parent Sku" column for export
+  * Added support for mutable attributes
+  * Added "Increment/Decrement Qty in Stock" import attribute for products data type
+  * changed escaping of cell data for excel export. Used htmlentities instead of htmlspecialchars
+  * fixed a bug with condition attribute. In 1.6 attribute table prefix is changed
+  * fixed workaround for mysql 5.5 for query that clears media table
+  * fixed a bug with empty default attribute value, such as special_price, being obligatory updated when importing on another store level and not performing the update on profile's store level
+
+===== 2011-08-14 1.6.2.5 =====
+
+  * Added option to delete old images ("Delete old image") with optional usage check of file to delete
+    ("Skip usage check when delete old image")
+  * Fixed error when auto-creating categories in Magento development mode
+
+===== 2011-06-15 1.6.2.3 =====
+
+  * Fixed scope problems for price attributes
+  * Fixed unique multiselect values during import to eliminate further magento indexer problems
+  * Fixed explode by ',' only multiselect attributes
+===== 2011-04-29 1.6.2.0 =====
+
+  * Added new product stock fields introduced in Magento CE 1.4.1
+
+===== 2011-04-26 1.6.1.1 =====
+
+  * Fixed safe inserts into product_website, category_product tables
+  * Fixed SQL error when import file has stock.<not_existing_column>
+
+===== 2011-03-26 1.6.1.0 =====
+
+  * Fixed throwing error on missing remote image file
+  * Fixed reindexing inventory when 'Display Out of Stock Products' = No
+  * Fixed multiple const.value fields are merged in event argument arrays
+  * Fixed not updating successfully updated rows count in for some fields (product import)
+  * Added has_options and required_options to Product Import/Export
+
+===== 2011-03-02 1.6.0.1 =====
+
+  * Fixed recognizing product attributes with source_model as dropdown attributes
+
+===== 2011-02-12 1.6.0.0 =====
+
+  * Added compatibility with CE 1.5.0.1
+  * Added date formatting for import/export
+  * Added date formatting processor global option (strtotime, Zend_Date, date_parse_from_format)
+  * Added integration with EE AdminGws module (import limitation by allowed websites)
+  * Fixed setting default values for category.* columns
+  * Fixed merging associated categories when importing from multiple category.* columns
+  * Fixed updating categories children_count on auto-create
+
+===== 2011-01-27 1.5.9.5 =====
+
+  * Fixed auto-creating multiple options and categories for the same field
+
+===== 2011-01-24 1.5.9.4 =====
+
+  * Added auto_detect_line_endings=1 runtime configuration to handle Mac line endings
+
+===== 2011-01-21 1.5.9.3 =====
+
+  * Fixed error on product.attribute_set for existing products, introduced in 1.5.9.2
+
+===== 2011-01-12 1.5.9.2 =====
+
+  * Fixed intermittent SQL error when importing product.attribute_set
+
+===== 2011-01-12 1.5.9.1 =====
+
+  * Fixed mapping the same column in import file to multiple attributes
+
+===== 2011-01-12 1.5.9 =====
+
+  * Added validation of local image files, accounting for automatic dispertion path
+
+===== 2011-01-10 1.5.8 =====
+
+  * Added mapping the same column in import file to multiple attributes
+  * Added support for upcoming Sales import/export add-on
+  * Fixed intermittent error on product update (product.type)
+
+===== 2010-12-31 1.5.7 =====
+
+  * Added option to refresh catalog price rules after import
+
+===== 2010-12-06 1.5.6.1 =====
+
+  * Fixed recognizing selection_sku column in CPBOS rows
+  * Fixed creating bundle products with "Fixed" price type
+
+===== 2010-11-18 1.5.6 =====
+
+  * Fixed Product / Export / price.* fields for out of stock and disabled products.
+  * Fixed importing gallery images (duplicate records)
+
+===== 2010-11-17 1.5.5 =====
+
+  * Fixed showing all attributes in export conditions, instead of only price rule ones.
+
+===== 2010-11-05 1.5.4 =====
+
+  * Fixed product conditions for "Product Extra" data type
+  * Fixed backslashes in imported image filenames on Windows
+  * Fixed uRapidFlow configuration cache
+  * Remove product gallery image duplicates
+
+===== 2010-10-30 1.5.3 =====
+
+  * Worked around a PDO bug on some PHP versions (5.2.0)
+  * Added websites filter in product export
+  * Added not exporting simple products that are using in configurable
+  * Added configuration to calculate configurable product qty as sum of its simple products
+  * Added special price columns: price.final, price.minimal, price.maximum
+    (This feature replaces previous configuration option [Use minimal/final price])
+  * Added const.function column to allow custom column logic (custom/model::customMethod)
+
+===== 2010-10-07 1.5.2 =====
+
+  * Fixed handling missing default attribute values
+  * Added handling orphan dropdown attributes left from uninstalled extensions
+
+===== 2010-10-05 1.5.1 =====
+
+  * Added exporting product.entity_id
+
+===== 2010-09-29 1.5.0 =====
+
+  * Fixed issues with reindexing in CE 1.4.1.1
+
+===== 2010-09-22 1.4.15 =====
+
+  * Added profile configuration to export internal values of product attributes
+
+===== 2010-09-20 1.4.14 =====
+
+  * Fixed auto-creating categories with custom level delimiter
+  * Added option to skip out of stock products during export
+
+===== 2010-09-17 1.4.13 =====
+
+  * Added configuration for handling illegal characters during encoding conversion
+
+===== 2010-09-10 1.4.12 =====
+
+  * Added workaround for empty default value select boxes in Import Columns tab
+
+===== 2010-09-03 1.4.11 =====
+
+  * Replaced configuration for saving attributes method with number of inserted records in a chunk.
+  * Fixed recognizing invalid attribute names
+
+===== 2010-09-03 1.4.10 =====
+
+  * Added etc/adminhtml.xml for compatibility with CE 1.4.1.1 in some cases
+  * Added configuration for saving attributes method (Plain/PDOStatement) - required for large values (>10KB)
+
+===== 2010-08-26 1.4.9 =====
+
+  * Added configuration to retain remote image subfolders during import
+
+===== 2010-08-24 1.4.8.1 =====
+
+  * Fixed importing large text attribute values (>10K)
+  * Fixed handling file names as case sensitive
+
+===== 2010-08-17 1.4.8 =====
+
+  * Fixed javascript for re-ordering columns and reindex tabs
+  * Added configuration to delete old category-product associations
+  * Added auto-incrementing new category-product associations positions
+  * Added auto-incrementing new category children positions
+
+===== 2010-08-08 1.4.7 =====
+
+  * Fixed not requiring stock qty for parent products (configurable, grouped, bundle)
+  * Fixed slashes in uploaded image names for Windows servers
+  * Added real time reindex for only affected records
+
+===== 2010-08-05 1.4.6.1 =====
+
+  * Fixed changing file encoding on export
+
+===== 2010-08-05 1.4.6 =====
+
+  * Improved handling of multiple profile invocations in the same PHP script
+
+===== 2010-07-06 1.4.5.1 =====
+
+  * Further improvements in performance and removing memory leaks (ioncube related)
+
+===== 2010-06-28 1.4.5 =====
+
+  * Added category autocreation during product import
+
+===== 2010-06-28 1.4.4 =====
+
+  * Added admin notifications for important updates
+
+===== 2010-06-23 1.4.3 =====
+
+  * Added import option for action to take when source image file is missing
+  * Improvements of memory consumption and performance related to ionCube loaders
+
+===== 2010-06-23 1.4.2 =====
+
+  * Fixed updating attribute set and product type for existing products
+  * Added compatibility fixes for EE 1.8.0.0 and CE 1.4.1.0
+
+===== 2010-06-23 1.4.1 =====
+
+  * Fixed filtering export by attributes with multi-store values
+  * Fixed opening categories chooser in export conditions
+  * Fixed multiple const.value columns during export
+
+===== 2010-06-23 1.4.0 =====
+
+  * Fixed ignoring empty files during product import
+  * Fixed intermittent error when associating categories with products
+  * Fixed filtering by category in export conditions
+  * Changed Excel report filename, removed "-report" part
+  * Added exported price processing (special price, catalog rules, tax, markup)
+
+===== 2010-06-23 1.3.9.2 =====
+
+  * Fixed importing duplicate category association within the same product row
+  * Added activating stock status when import option is enabled and qty>0
+  * Added flag to disable interface elements to update profiles for embedded usage
+
+===== 2010-06-23 1.3.9 =====
+
+  * Improved importing image files logic
+  * Fixed JS selecting correct default values in import/export columns interface
+  * Refactoring for easier customization
+
+===== 2010-06-23 1.3.8 =====
+
+  * Fixed not running reindexing on dry run
+  * Fixed using default values during export
+  * Added option to export image URLs as https
+
+===== 2010-06-23 1.3.7.1 =====
+
+  * Fixed showing dropdowns for hidden attributes in Import Columns tab
+
+===== 2010-06-23 1.3.7 =====
+
+  * Considerably improved performance and memory consumption when only creation of new products is requested
+  * Added workaround for mysql 5.0.x bug, improving performance and memory consumption
+
+===== 2010-06-23 1.3.6 =====
+
+  * Fixed product import error when attribute value records have null
+  * Fixed compatibility with extensions that override catalog/product incorrectly
+
+===== 2010-06-23 1.3.5 =====
+
+  * Improved logic of mapping dropdown attribute values to internal IDs
+
+===== 2010-06-23 1.3.2 =====
+
+  * Fixed importing compatibility with CE1.3.x
+  * Fixed importing empty numeric values bug, introduced in 1.3.1
+  * Fixed importing inventory stock flags in some specific cases
+
+===== 2010-06-23 1.3.1 =====
+
+  * Fixed importing categories by name
+  * Added importing non-US locale numbers
+
+===== 2010-06-23 1.3.0 =====
+
+  * Worked around ionCube memory leaks
+  * Improved performance for fixed row data types
+
+===== 2010-06-23 1.2.3 =====
+
+  * Added category.ids column for direct association of products to category IDs of any store
+
+===== 2010-06-23 1.2.2 =====
+
+  * Fixed overwriting existing attributes with default values
+  * Added using Magento default attribute values
+  * Added ability to update multiple attributes from the same column
+  * Added extension version in admin
+
+===== 2010-06-23 1.2.1 =====
+
+  * Added all reindex types for Magento 1.3.x
+  * Added all cache refresh types
+  * Added ability to set sort order for reindex and cache refresh
+
+===== 2010-06-23 1.2.0 =====
+
+  * Added full support for internationalization
+  * Fixed columns and status profile tabs for IE
+
+===== 2010-06-23 1.1.1 =====
+
+  * Fixed setting default values for multiselect columns
+
+===== 2010-06-23 1.1.0 =====
+
+  * Added choice of file encoding
+  * Added skipping empty rows in product/category import
+  * Added import/export of profile data
+  * Added all stock item fields
+  * Added option to enable downloading remote images
+  * Fixed populating product image gallery on import
+
+===== 2010-06-23 1.0.0 =====
+
+  * Initial release

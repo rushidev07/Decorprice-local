@@ -1,0 +1,13 @@
+diff --git a/Cron/CleanLogs.php b/Cron/CleanLogs.php
+
+--- a/Cron/CleanLogs.php	2022-04-20 06:59:09.938026125 +0000
++++ b/Cron/CleanLogs.php	2022-04-25 14:43:42.306066490 +0000
+@@ -138,7 +138,7 @@
+         $lifetime *= self::SECONDSINDAY;
+ 
+         $logs = $this->logCollectionFactory->create();
+-        $logs->addFieldToFilter('store_id', $store->getId());
++        // $logs->addFieldToFilter('store_id', $store->getId());
+         $logs->addFieldToFilter('created_at', ['to' => date("Y-m-d", time() - $lifetime)]);
+ 
+         return $logs;

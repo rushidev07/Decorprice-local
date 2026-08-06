@@ -1,0 +1,166 @@
+--- patches/SRIhash/etc/di.xml
++++ /dev/null
+@@ -1,11 +0,0 @@
+-<?xml version="1.0"?>
+-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+-    <type name="Magento\Framework\Console\CommandListInterface">
+-        <arguments>
+-            <argument name="commands" xsi:type="array">
+-                <item name="generateRequireJs" xsi:type="object">WeltPixel\SpeedOptimization\Console\Command\GenerateRequireJsCommand</item>
+-                <item name="regenerateCspHash" xsi:type="object">WeltPixel\SpeedOptimization\Console\Command\RegenerateSriHashCommand</item>
+-            </argument>
+-        </arguments>
+-    </type>
+-</config>
+
+--- patches/SRIhash/Console/Command/RegenerateSriHashCommand.php
++++ /dev/null
+@@ -1,147 +0,0 @@
+-<?php
+-namespace WeltPixel\SpeedOptimization\Console\Command;
+-
+-use Magento\Framework\App\Area;
+-use Magento\Framework\App\State;
+-use Magento\Framework\Filesystem;
+-use Magento\Framework\App\Filesystem\DirectoryList;
+-use Magento\Csp\Model\SubresourceIntegrity\HashGenerator;
+-use Magento\Csp\Model\SubresourceIntegrityFactory;
+-use Magento\Csp\Model\SubresourceIntegrityCollector;
+-use Magento\Csp\Model\SubresourceIntegrityRepositoryPool;
+-use Magento\Framework\Serialize\SerializerInterface;
+-use Symfony\Component\Console\Command\Command;
+-use Symfony\Component\Console\Input\InputInterface;
+-use Symfony\Component\Console\Output\OutputInterface;
+-
+-class RegenerateSriHashCommand extends Command
+-{
+-
+-    /**
+-     * @var State
+-     */
+-    protected $state;
+-
+-    /**
+-     * @var Filesystem
+-     */
+-    protected $filesystem;
+-
+-    /**
+-     * @var HashGenerator
+-     */
+-    protected $hashGenerator;
+-
+-    /**
+-     * @var SubresourceIntegrityFactory
+-     */
+-    protected $integrityFactory;
+-
+-    /**
+-     * @var SubresourceIntegrityCollector
+-     */
+-    protected $integrityCollector;
+-
+-    /**
+-     * @var SubresourceIntegrityRepositoryPool
+-     */
+-    protected $integrityRepositoryPool;
+-
+-    /**
+-     * @var SerializerInterface
+-     */
+-    protected $serializer;
+-
+-    public function __construct(
+-        State $state,
+-        Filesystem $filesystem,
+-        HashGenerator $hashGenerator,
+-        SubresourceIntegrityFactory $integrityFactory,
+-        SubresourceIntegrityCollector $integrityCollector,
+-        SubresourceIntegrityRepositoryPool $integrityRepositoryPool,
+-        SerializerInterface $serializer
+-    ) {
+-        parent::__construct();
+-        $this->state = $state;
+-        $this->filesystem = $filesystem;
+-        $this->hashGenerator = $hashGenerator;
+-        $this->integrityFactory = $integrityFactory;
+-        $this->integrityCollector = $integrityCollector;
+-        $this->integrityRepositoryPool = $integrityRepositoryPool;
+-        $this->serializer = $serializer;
+-    }
+-
+-
+-    /**
+-     * {@inheritdoc}
+-     */
+-    protected function configure()
+-    {
+-        $this->setName('weltpixel:regenerate:srihash')
+-            ->setDescription('Generate Sri Hash');
+-
+-        parent::configure();
+-    }
+-
+-    /**
+-     * {@inheritdoc}
+-     */
+-    protected function execute(InputInterface $input, OutputInterface $output)
+-    {
+-        try {
+-            $this->state->setAreaCode(Area::AREA_FRONTEND);
+-
+-            $staticDir = $this->filesystem->getDirectoryRead(DirectoryList::STATIC_VIEW);
+-            $pubDir = $this->filesystem->getDirectoryRead(DirectoryList::PUB);
+-
+-            if (!$pubDir->isFile('static/frontend/sri-hashes.json')) {
+-                $output->writeln('<error>No sri-hashes.json file found</error>');
+-                return Command::FAILURE;
+-            }
+-            $sriHashesContent = $pubDir->readFile('static/frontend/sri-hashes.json');
+-            $existingHashes = $this->serializer->unserialize($sriHashesContent);
+-
+-            $output->writeln('<info>Starting SRI hash regeneration for existing files...</info>');
+-
+-            foreach (array_keys($existingHashes) as $jsPath) {
+-                $filePath = $jsPath;
+-
+-                if ($staticDir->isFile($filePath)) {
+-                    $fileContent = $staticDir->readFile($filePath);
+-
+-                    $integrity = $this->integrityFactory->create([
+-                        'data' => [
+-                            'hash' => $this->hashGenerator->generate($fileContent),
+-                            'path' => $filePath
+-                        ]
+-                    ]);
+-
+-                    $this->integrityCollector->collect($integrity);
+-                    $output->writeln(sprintf('<comment>Generated hash for %s</comment>', $filePath));
+-                } else {
+-                    $output->writeln(sprintf('<error>File not found: %s</error>', $filePath));
+-                }
+-            }
+-
+-            // Store the collected hashes
+-            $bunches = [];
+-            foreach ($this->integrityCollector->release() as $integrity) {
+-                $area = explode('/', $integrity->getPath())[0];
+-                $bunches[$area][] = $integrity;
+-            }
+-
+-            foreach ($bunches as $area => $bunch) {
+-                $this->integrityRepositoryPool->get($area)->saveBunch($bunch);
+-                $output->writeln(sprintf('<info>Stored hashes for area: %s</info>', $area));
+-            }
+-
+-            $output->writeln('<info>SRI hashes have been regenerated successfully.</info>');
+-            return Command::SUCCESS;
+-
+-        } catch (\Exception $e) {
+-            $output->writeln(sprintf('<error>Error: %s</error>', $e->getMessage()));
+-            return Command::FAILURE;
+-        }
+-    }
+-
+-}
+

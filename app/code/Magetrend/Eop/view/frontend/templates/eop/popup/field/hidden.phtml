@@ -1,0 +1,15 @@
+<?php
+/**
+ * Copyright © 2016 MB Vienas bitas. All rights reserved.
+ * @website    www.magetrend.com
+ * @package    Newsletter Popup Pro from M2
+ * @author     Edvinas Stulpinas <edwin@magetrend.com>
+ */
+?>
+<input name="<?php echo $block->escapeHtml($block->getName());?>"
+    type="hidden"
+    value="<?php echo $block->escapeHtml($block->getDefaultValue())?>"
+    class="mteo-additional-field mteo-additional-field-<?php echo (int)$block->getId();?><?php
+        echo $block->getIsRequire()?' mt-validator-required':'';
+    ?>"
+    id="mteo_additional_<?php echo (int)$block->getId();?>"/>

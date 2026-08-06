@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.main">
+            <block
+                class="WeSupply\Toolbox\Block\DeliveryEstimate"
+                name="product.info.estimations.delivery"
+                template="WeSupply_Toolbox::estimations/delivery.phtml"
+                after="page.main.title"
+            />
+            <block
+                class="WeSupply\Toolbox\Block\NortonShoppingGuarantee\PackageProtection\NsgPpTemplate"
+                name="product.info.nsgpp"
+                template="WeSupply_Toolbox::norton_shopping_guarantee/package_protection/nsgpp_product.phtml"
+                before="product.info.extrahint"
+            />
+        </referenceContainer>
+        <move element="product.info.estimations.delivery" destination="product.info.main" after="page.main.title" />
+        <move element="product.info.nsgpp" destination="product.info.main" before="product.info.extrahint" />
+    </body>
+</page>

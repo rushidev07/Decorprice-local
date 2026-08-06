@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">aw_reward_points_insert_customer_summary_listing.aw_reward_points_insert_customer_summary_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>aw_reward_points_insert_customer_summary_columns</spinner>
+        <deps>
+            <dep>aw_reward_points_insert_customer_summary_listing.aw_reward_points_insert_customer_summary_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="aw_reward_points_insert_customer_summary_listing_data_source"
+                component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">customer_id</param>
+                <param name="cacheRequests" xsi:type="boolean">false</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+            <filterUrlParams>
+                <param name="customer_id">*</param>
+            </filterUrlParams>
+        </settings>
+        <aclResource>Aheadworks_RewardPoints::aw_reward_points_customers</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
+                      name="aw_reward_points_insert_customer_summary_listing_data_source">
+            <settings>
+                <requestFieldName>customer_id</requestFieldName>
+                <primaryFieldName>customer_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <paging name="listing_paging"/>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="templates" xsi:type="array">
+                        <item name="filters" xsi:type="array">
+                            <item name="select" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+            <filterSelect name="website_id">
+                <argument name="optionsProvider" xsi:type="configurableObject">
+                    <argument name="class" xsi:type="string">Aheadworks\RewardPoints\Model\Source\Transaction\Website</argument>
+                </argument>
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="provider" xsi:type="string">${ $.parentName }</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">ns = ${ $.ns }, componentType = column, index = ${ $.index }:visible</item>
+                        </item>
+                        <item name="caption" xsi:type="string" translate="true">Select...</item>
+                        <item name="dataScope" xsi:type="string">website_id</item>
+                        <item name="label" xsi:type="string" translate="true">Website</item>
+                    </item>
+                </argument>
+            </filterSelect>
+        </filters>
+    </listingToolbar>
+    <columns name="aw_reward_points_insert_customer_summary_columns"
+             component="Aheadworks_RewardPoints/js/ui/grid/listing">
+        <column name="website_id"
+                component="Magento_Ui/js/grid/columns/select"
+                class="Aheadworks\RewardPoints\Ui\Component\Listing\Columns\Website">
+            <settings>
+                <options class="Aheadworks\RewardPoints\Model\Source\Transaction\Website"/>
+                <dataType>select</dataType>
+                <label translate="true">Website</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="lifetime_sales"
+                class="Aheadworks\RewardPoints\Ui\Component\Listing\Columns\Price">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Lifetime sales</label>
+            </settings>
+        </column>
+        <column name="points">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Current customer balance</label>
+            </settings>
+        </column>
+        <column name="points_earn">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Total points earned</label>
+            </settings>
+        </column>
+        <column name="points_spend">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Total points spent</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

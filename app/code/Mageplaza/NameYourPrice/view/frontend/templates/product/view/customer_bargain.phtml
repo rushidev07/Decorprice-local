@@ -1,0 +1,53 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+/** @var \Mageplaza\NameYourPrice\Block\Product\View\Bargain $block */
+/** @var \Mageplaza\NameYourPrice\Helper\Data $helperData */
+$helperData = $this->helper(\Mageplaza\NameYourPrice\Helper\Data::class);
+
+$productId  = $block->getProduct() ? $block->getProduct()->getId() : $this->getProductId();
+$requestId  = $block->getRequest()->getParam('request_id');
+$status     = [\Mageplaza\NameYourPrice\Helper\Data::STATUS_APPROVED, \Mageplaza\NameYourPrice\Helper\Data::STATUS_PENDING];
+$collection = $block->getBargainCollection($status, $productId, $requestId)->getFirstItem();
+$requestId  = $requestId ?: $collection['request_id'];
+?>
+
+<div class="mpb-bargain-price">
+    <?= /** @noEscape */ __('Your Bargain Price: %1', $helperData->formatPrice($collection['bargain_price'])) ?>
+</div>
+<?php if ($helperData->isBargainQty()): ?>
+    <div class="mpb-bargain-qty">
+        <?= /** @noEscape */ __('Your Committed Min. Qty: %1', $collection['bargain_qty']) ?>
+    </div>
+<?php endif; ?>
+
+<?php if ($collection['status'] === 'pending'): ?>
+    <div class="mpb-bargain-note-pending">
+        <?= /** @noEscape */ __('This request is waiting for approval.') ?>
+    </div>
+<?php else: ?>
+    <div class="mpb-bargain-note-approve">
+        <?= /** @noEscape */ __('This request has been approved.') ?>
+    </div>
+<?php endif; ?>
+<a href="<?= /** @noEscape */ $block->getUrl('mppricebargain/index/cancel', ['request_id' => $requestId]) ?>" class="mpb-cancel-bargain">
+    <?= /** @noEscape */ __('Cancel Your Price Bargain') ?>
+</a>

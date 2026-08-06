@@ -1,0 +1,10 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/* @var $block \Aheadworks\RewardPoints\Block\Product\CategoryPromo */
+?>
+<?php if ($block->isDisplayBlock()) : ?>
+    <div class="product-reward-points-earning">
+        <?php /* @noEscape */ echo $block->getPromoText()?>
+    </div>
+<?php endif; ?>

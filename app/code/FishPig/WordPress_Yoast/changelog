@@ -1,0 +1,112 @@
+# Changelog
+Change log for FishPig_WordPress_Yoast.
+
+## [3.2.1] - 2023-01-03
+### [Changed]
+- Changed string rewriting to include support for %%primary_category%%
+
+## [3.2.0] - 2022-08-26
+### [Added]
+- Added support for Premium URL redirects.
+
+## [3.1.1] - 2022-08-05
+### [Fixed]
+- \FishPig\WordPress\Model\Post::isPublic now returns false if post is set to
+  noindex.
+
+## [3.1.0] - 2022-07-19
+### [Added]
+- Added a Factory class to prevent PSR-0 errors when optimizing the composer autoloader.
+
+## [3.0.9] - 2022-05-04
+- Fixed strict type error for str_replace
+
+## [3.0.8] - 2022-03-16
+### [Fixed]
+- Open Graph now uses meta description if specific description not set.
+
+## [3.0.7] - 2022-03-14
+### [Fixed]
+- Fixed missing YoastHelper class in StringRewriter.
+
+## [3.0.5] - 2022-02-08
+### [Changed]
+- Removed trailing commas to fix some PHP 7.2 compat issues. This is fine in PHP 7.3 and above.
+
+## [3.0.4] - 2022-01-06
+### Fixed
+- Various strict type errors
+- Incorrect variable name ($object, should have been $postType)
+
+## [3.0.2] - 2021-12-22
+### [Changed]
+- Code formatting clean up
+
+## [3.0.1] - 2021-12-16
+### Fixed
+- Updated some references to legacy classes to the new versions.
+
+## [3.0.0] - 2021-12-15
+A new major version to support the changes in fishpig/magento2-wordpress-integration (FishPig_WordPress)
+
+----- Legacy Change Log Below -------
+
+21/05/2021 - 2.0.11.6
+- Fixed issue when using custom post titles.
+
+18/12/2020 - 2.0.11.5
+- Fixed issue when rewriteString encounters an array from ACF.
+
+30/06/2020 - 2.0.11.4
+- Changed Data helper to Proxy in Breadcrumbs plugin.
+
+10/01/2020 - 2.0.0.25
+- Code formatting cleanup
+
+16/12/2019 - 2.0.0.24
+- Optimised meta data retrieval when using Shortcodes & Widgets
+
+23/11/2019 - 2.0.0.23
+- Fixed issue with og:url when using static page as posts page
+
+14/11/2019 - 2.0.0.22
+- Fixed several issues with author meta data
+
+28/10/2019 - 2.0.0.21
+- Fixed og:image tag so original image is used rather than the 150x150 thumbnail
+
+25/10/2019 - 2.0.0.19
+- Fixed issue when using %category% in permalink structure
+
+14/10/2019 - 2.0.0.17
+- Changed og:image to full size image rather than smallest image
+
+02/10/2019 - 2.0.0.16
+- Fixed issue with Factory
+
+31/05/2019 - 2.0.0.14
+- Added fix for Yoast variables displaying instead of rendered page title.
+
+28/05/2019 - 2.0.0.12
+- Added support for the Yoast breadcrumbs enable/disable flag
+
+08/04/2019 - 2.0.0.10
+- Added support for the Yoast Primary category feature. Calling $post->getParentTerm('category') returns the primary category set via Yoast.
+
+06/03/2019 - 2.0.0.8
+Fixed warning regarding invalid argument for foreach.
+
+22/01/2019 - 2.0.0.5
+- Fixed issue with posts page title and custom post type archive meta data.
+
+21/01/2019 - 2.0.0.4
+- Fixed issue where breadcrumb settings in Yoast were used even when the Yoast config had breadcrumbs disabled.
+
+21/01/2019 - 2.0.0.3
+Removed 'Page 1 of 1' from page titles.
+
+03/10/2018 - 2.0.0.1
+- Fixed issue with fatal error when calling getFactory() method.
+
+11/05/2018 - 1.0.0.20
+- Added support for custom fields. You can use custom fields like so: %%cf_custom_field%% where custom_field is the custom field name. If the custom field was 'meta_description' the token would be %%cf_meta_description%%.

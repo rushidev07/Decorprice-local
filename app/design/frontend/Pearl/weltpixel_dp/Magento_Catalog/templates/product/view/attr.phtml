@@ -1,0 +1,9 @@
+<?php
+
+$marketing_message = $this->helper('Magento\Catalog\Helper\Output')->productAttribute($block->getProduct(), $block->getProduct()->getMktgText(), 'mktg_text');
+
+if ($marketing_message !== 'NULL') {
+    $outputHtml = '<span class="product-marketing-message" style="color:#7ba540;font-size:18px;font-weight:bolder;text-transform: uppercase;border-bottom: dashed;">' . $marketing_message . '</span></br>';
+    echo $outputHtml;
+}
+?>

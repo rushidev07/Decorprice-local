@@ -1,0 +1,26 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="WeSupply\Toolbox\Block\Adminhtml\Order\View\WsExternalLinks"
+                   name="ws_external_links"
+                   template="WeSupply_Toolbox::order/view/ws_external_links.phtml" />
+        </referenceContainer>
+        <referenceBlock name="order_totals">
+            <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="nsgpp_fee"
+                   template="WeSupply_Toolbox::norton_shopping_guarantee/package_protection/order/totals/nsgpp_epsi_amount.phtml">
+                <action method="setSourceField">
+                    <argument name="value" xsi:type="string">epsi_amount</argument>
+                </action>
+                <action method="setLabel">
+                    <argument name="value" xsi:type="string">NSG Package Protection</argument>
+                </action>
+                <action method="setLabelProperties">
+                    <argument name="value" xsi:type="string">class="label"</argument>
+                </action>
+                <action method="setValueProperties">
+                    <argument name="value" xsi:type="string">class="amount"</argument>
+                </action>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

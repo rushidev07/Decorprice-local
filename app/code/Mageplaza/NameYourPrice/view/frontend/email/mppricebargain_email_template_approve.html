@@ -1,0 +1,62 @@
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+
+<!--@subject {{trans "Congratulations! Your bargain price has been approved." }} @-->
+<!--@styles
+    .mppricebargain-admin-message{
+        padding: 15px;
+        background: #eee;
+    }
+    .label{
+        font-style: italic;
+    }
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<div>
+    <span>{{trans "Hi %customer_name," customer_name=$customer_name}}</span><br/><br/>
+    <span>{{trans "Your bargain price for %product_name has been accepted. %limit_time_label" product_name=$product_name limit_time_label=$limit_time_label}}</span><br/>
+
+    <div class="mppricebargain-link-product">
+        <span>{{trans "Click "}}</span>
+        <a href="{{var bargain_product_url}}">{{trans "here"}}</a>
+        <span>{{trans "to buy this product at your bargain price."}}</span>
+    </div>
+    <br/>
+
+    {{if available_not_login}}
+    <div style="color: red"><strong>Kindly note that you must log in with your account to use the price bargain.</strong></div>
+    {{/if}}
+
+    {{if admin_message}}
+    <div class="mppricebargain-admin-message">
+        <span class="label">{{trans "The message from the store owner:"}}</span><br/>
+        <span class="admin-message">{{var admin_message}}</span>
+    </div>
+    <br/>
+    {{/if}}
+
+    <span>{{trans "Best regards,"}}</span>
+</div>
+
+{{template config_path="design/email/footer_template"}}

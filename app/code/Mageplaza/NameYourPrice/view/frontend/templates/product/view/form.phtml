@@ -1,0 +1,131 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+/** @var \Mageplaza\NameYourPrice\Block\Product\View\Bargain $block */
+use Mageplaza\NameYourPrice\Model\Config\Source\Fields;
+
+/** @var \Mageplaza\NameYourPrice\Helper\Data $helperData */
+$helperData = $this->helper(\Mageplaza\NameYourPrice\Helper\Data::class);
+$product    = $block->getProduct();
+?>
+
+<form class="mpb_bargain_form" method="post" action="<?= /** @noEscape */ $block->getRequestUrl() ?>" id="mpb_bargain_form" data-mage-init='{"validation":{}}'>
+    <?= $block->getBlockHtml('formkey') ?>
+    <fieldset class="fieldset" data-hasrequired="<?= /** @noEscape */ __('* Required Fields') ?>">
+        <div class="field note no-label"><span id="mp_quote_description"></span></div>
+        <div class="fields">
+            <div class="field bargain bargain_price required" id="mp_request_field_bargain_price">
+                <label class="label" for="mp_bargain_price">
+                    <span><?= $block->escapeHtml(__('Your Suggested Price Per Item')) ?></span>
+                </label>
+                <div class="control">
+                    <input name="bargain_price" id="mp_bargain_price" type="text"
+                           class="input-text number-range-<?= /** @noEscape */ $block->getMinPrice() ?>-"
+                           title="<?= /** @noEscape */ __('Your Suggested Price Per Item') ?>"
+                           data-validate="{required:true, 'validate-number':true}"/>
+                </div>
+            </div>
+            <?php if ($helperData->isBargainQty()): ?>
+                <div class="field bargain bargain_qty required" id="mp_request_field_qty">
+                    <label class="label" for="mp_bargain_qty">
+                        <span><?= $block->escapeHtml(__('Your Committed Min. Qty')) ?></span>
+                    </label>
+                    <div class="control">
+                        <input name="bargain_qty" id="mp_bargain_qty" type="number" class="input-text validate-digits validate-greater-than-zero"
+                               title="<?= /** @noEscape */ __('Your Committed Min. Qty') ?>"
+                               data-validate="{required:true}"/>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="field bargain customer_name" id="mp_request_field_name"
+                    <?php if (!$block->checkAdditionalInfo(Fields::NAME) || $block->isLogin()): ?>style="display:none" <?php endif; ?>>
+                <label class="label" for="mp_customer_name">
+                    <span><?= $block->escapeHtml(__('Your Name')) ?></span>
+                </label>
+                <div class="control">
+                    <input name="customer_name" id="mp_customer_name" class="input-text" type="text"
+                           title="<?= /** @noEscape */ __('Your Name') ?>"
+                           value="<?= /** @noEscape */ $block->getNameCustomer() ?>"/>
+                </div>
+            </div>
+            <div class="field bargain customer_email required" id="mp_request_field_email"
+                    <?php if ($block->isLogin()): ?>
+                        style="display:none"
+                    <?php endif; ?>>
+                <label class="label" for="mp_customer_email">
+                    <span><?= $block->escapeHtml(__('Your Email Address')) ?></span>
+                </label>
+                <div class="control">
+                    <input name="customer_email" id="mp_customer_email" type="text" class="input-text"
+                           title="<?= /** @noEscape */ __('Your Email Address') ?>"
+                           value="<?= /** @noEscape */ $block->getEmailCustomer() ?>"
+                           data-validate="{required:true, 'validate-email':true}"/>
+                </div>
+            </div>
+            <?php if ($block->checkAdditionalInfo(Fields::PHONE)): ?>
+                <div class="field bargain bargain_phone" id="mp_request_field_phone">
+                    <label class="label" for="mp_bargain_phone">
+                        <span><?= $block->escapeHtml(__('Your Phone Number')) ?></span>
+                    </label>
+                    <div class="control">
+                        <input name="phone" id="mp_bargain_phone" title="<?= /** @noEscape */ __('Your Phone Number') ?>"
+                               value="<?= /** @noEscape */ $block->getCustomerPhone() ?>"
+                               class="input-text validate-digits"
+                               type="text"/>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if ($block->checkAdditionalInfo(Fields::MESSAGE)): ?>
+                <div class="field bargain_message" id="mp_request_field_message">
+                    <label class="label" for="mp_bargain_message">
+                        <span><?= $block->escapeHtml(__('Your Message')) ?></span>
+                    </label>
+                    <div class="control">
+                        <textarea name="customer_message" id="mp_bargain_message" title="<?= /** @noEscape */ __('Your Message') ?>"
+                                  class="input-text" cols="5" rows="5"></textarea>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <input type="hidden" name="product_id" id="mp_product_id" value="<?= /** @noEscape */ $product->getId() ?>">
+            <input type="hidden" name="original_price" id="mp_original_price" value="">
+            <input type="hidden" name="store_id" id="mp_store_id" value="<?= /** @noEscape */ $block->getStoreId() ?>">
+            <input type="hidden" name="options_bundle" id="mp_selected_bundle" value="">
+            <input type="hidden" name="serialize_bundle" id="mp_serialize_bundle" value="">
+            <input type="hidden" name="options_configurable" id="mp_selected_configurable" value="">
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" title="<?= /** @noEscape */ __('Submit') ?>" class="action submit primary mpb-button-submit"
+                        id="mpb_button_submit">
+                    <span><?= $block->escapeHtml(__('Submit')) ?></span>
+                </button>
+            </div>
+        </div>
+        <div class="popup-loading-request">
+            <div data-role="loader" class="loading-mask" style="display:none">
+                <div class="loader">
+                    <img src="<?= /** @noEscape */ $block->getViewFileUrl('images/loader-1.gif') ?>" alt="<?= /** @noEscape */ __('Loading...') ?>">
+                </div>
+            </div>
+            <span id="mp_message"></span>
+        </div>
+    </fieldset>
+</form>

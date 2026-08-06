@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+        <!-- Remove popup trigger class from Luma login link if present -->
+        <referenceBlock name="authorization-link-login">
+            <arguments>
+                <argument name="class" xsi:type="string">sl-ajax-login ajax-login</argument>
+            </arguments>
+        </referenceBlock>
+
+        <!-- Remove popup trigger class from Luma register link if present -->
+        <referenceBlock name="register-link">
+            <arguments>
+                <argument name="class" xsi:type="string">sl-ajax-login ajax-register</argument>
+            </arguments>
+        </referenceBlock>
+
+        <!-- Remove the ajax login popup block -->
+        <referenceBlock name="ajaxlogin-popup" remove="true"/>
+    </body>
+</page>

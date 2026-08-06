@@ -1,0 +1,24 @@
+{
+    "name": "fishpig/magento2-wordpress-integration",
+    "description": "Securely integrate WordPress and Magento 2.",
+    "version": "3.27.2",
+    "require": {
+        "php": ">=7.0",
+        "magento/framework": "*",
+        "magento/module-config": "*",
+        "magento/module-store": "*",
+        "magento/module-sitemap": "^100.3"
+    },
+    "suggest": {
+        "fishpig/magento2-wordpress-integration-yoastseo": "^3.0"
+    },
+    "type": "magento2-module",
+    "autoload": {
+    	"files": [
+            "registration.php"
+    	],
+    	"psr-4": {
+            "FishPig\\WordPress\\": ""
+    	}
+    }
+}

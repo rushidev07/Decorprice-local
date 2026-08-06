@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <!-- Existing cleanup command -->
+                <item name="ahy_product_data_cleanup"
+                    xsi:type="object">Ahy\Automation\Console\Command\CleanupProductData</item>
+                
+                <!-- New visibility command -->
+                <item name="ahy_product_data_visibility"
+                    xsi:type="object">Ahy\Automation\Console\Command\VisibilityCommand</item>
+            </argument>
+        </arguments>
+    </type>
+
+
+    <!-- Custom logger -->
+    <type name="Ahy\Automation\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">product_data_cleanup</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="file" xsi:type="object">
+                    Ahy\Automation\Logger\Handler
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

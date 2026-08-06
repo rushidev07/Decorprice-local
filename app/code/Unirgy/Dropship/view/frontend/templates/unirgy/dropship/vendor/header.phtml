@@ -1,0 +1,60 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_Dropship
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+<?php
+/** @var \Unirgy\Dropship\Helper\Data $_hlp */
+$_hlp = \Magento\Framework\App\ObjectManager::getInstance()->get('Unirgy\Dropship\Helper\Data');
+$_session = $_hlp->session();
+$_active = $this->getActivePage();
+$vendorMenu = $this->getVendorMenu();
+?>
+    <div class="header">
+        <h1 id="header-logo"><a href="<?php echo $this->getUrl('') ?>"><?php echo $this->getLogoAlt() ?></a></h1>
+
+    <div class="utility-nav">
+        <?php if ($_session->isLoggedIn()) : ?>
+        <strong><?php echo $this->escapeHtml(__('Logged in as %1', $_session->getVendor()->getVendorName())) ?></strong><span class="pipe">|</span>
+        <a href="https://unirgy.com/products/udropship/help.php" onclick="this.target='_blank'"><?php echo __('Help')?></a><span class="pipe">|</span>
+        <a href="<?php echo $this->getUrl('udropship/vendor/logout')?>"><?php echo __('Log out')?></a>
+        <?php else : ?>
+        <?php echo __('Welcome to Dropship Vendor Interface') ?>
+        <?php endif ?>
+    </div>
+    <div class="clear"></div>
+    <?php if (count($vendorMenu)>0):?>
+    <ul class="main-nav">
+        <?php $isFirst=true; foreach ($vendorMenu as $item): ?>
+        <li class="<?php if ($isFirst):?>first<?php endif ?> <?php if ($_active==$item->getId()) :
+?>active<?php endif ?>"><a href="<?php echo $item->getUrl()?>" <?php if ($item->getTarget()):?>target="<?php echo $this->escapeJsQuote($item->getTarget())?>"<?php endif?>><?php echo $item->getTitle()?></a></li>
+        <?php $isFirst=false; endforeach?>
+    </ul>
+    <?php endif ?>
+</div>
+
+<?php
+$formKey = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Data\Form\FormKey');
+?>
+<script type="text/javascript">
+var BLANK_URL = '<?php echo $this->getJsUrl() ?>blank.html';
+var BLANK_IMG = '<?php echo $this->getJsUrl() ?>spacer.gif';
+var BASE_URL = '<?php echo $this->getUrl('*') ?>';
+var SKIN_URL = '<?php echo $this->getSkinUrl() ?>';
+var FORM_KEY = '<?php echo $formKey->getFormKey() ?>';
+window.setLocation = function (url){
+    window.location.href = url;
+}
+</script>

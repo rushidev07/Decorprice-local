@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="udropship">
+            <group id="purchase_order" translate="label" sortOrder="25" type="text" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Purchase Order Options</label>
+                <field id="autoinvoice_shipment" translate="label" sortOrder="5" type="select" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Autoinvoice shipment</label>
+                    <frontend_model>Unirgy\DropshipPo\Block\Adminhtml\SystemConfigFormField\Autoinvoice</frontend_model>
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+                <field id="autoinvoice_shipment_statuses" translate="label" sortOrder="6" type="multiselect"
+                       showInDefault="1" showInWebsite="1">
+                    <label>Auto-Invoice on these shipment statuses</label>
+                    <source_model>Unirgy\Dropship\Model\Source</source_model>
+                </field>
+                <field id="cancel_order" translate="label" sortOrder="9" type="select" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Cancel Order When All Vendors Canceled POs</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="default_po_status" translate="label" sortOrder="10" type="select" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Default PO Status</label>
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+                <field id="default_virtual_po_status" translate="label" sortOrder="10" type="select" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Default Virtual PO Status</label>
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+                <field id="po_increment_type" translate="label" sortOrder="20" type="select" showInDefault="1"
+                       showInWebsite="1">
+                    <label>PO Increment Type</label>
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+                <field id="shipment_increment_type" translate="label" sortOrder="30" type="select" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Shipment Increment Type</label>
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+                <field id="attach_po_pdf" translate="label" sortOrder="40" type="select" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Attach PO Pdf to Vendor Notification</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="ready_on_pdf" translate="label" sortOrder="45" type="select" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Make PO Ready to Ship on Printing PO PDF</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="new_po_vendor_email_template" translate="label" sortOrder="50" type="select"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New PO Vendor Notification Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="po_comment_vendor_email_template" translate="label" sortOrder="60" type="select"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>PO Comment Vendor Notification Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="create_po_allow_change_costs" translate="label" sortOrder="70" type="select"
+                       showInDefault="1">
+                    <label>Allow change costs when manualy create po</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="udpo_pdf_custom_text" translate="label" sortOrder="100" type="textarea" showInDefault="1">
+                    <label>Default custom text on the bottom of purchase order PDF</label>
+                </field>
+            </group>
+            <group id="statement">
+                <field id="statement_po_status" translate="label" sortOrder="59" type="multiselect" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Default Statement on following PO statuses</label>
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+            </group>
+            <group id="vendor">
+                <field id="default_shipment_status" translate="label">
+                    <label>Default Customer Shipment Status</label>
+                </field>
+                <field id="is_restrict_udpo_status" translate="label" sortOrder="390" type="select" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Restrict PO statuses in vendor interface</label>
+                    <frontend_model>Unirgy\Dropship\Block\Adminhtml\SystemConfigFormField\DependSelect</frontend_model>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="restrict_udpo_status" translate="label" sortOrder="400" type="multiselect" showInDefault="1"
+                       showInWebsite="1">
+                    <label>Available PO statuses in vendor interface</label>
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+                <field id="allow_forced_po_status_change" translate="label" sortOrder="410" type="select"
+                       showInDefault="1" showInWebsite="1">
+                    <label>Allowed forced PO status change</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="hide_udpo_pdf_shipping_amount" translate="label" sortOrder="364" type="select"
+                       showInDefault="1" showInWebsite="1">
+                    <label>Hide shipping amount in po pdf</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="batch">
+                <field id="export_on_po_status">
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+            </group>
+            <group id="admin">
+                <field id="vendor_comments_subject" translate="label">
+                    <label>Vendor Shipment Comments Email Subject</label>
+                </field>
+                <field id="vendor_comments_template" translate="label">
+                    <label>Vendor Shipment Comments Template</label>
+                </field>
+                <field id="vendor_po_comments_subject" translate="label" sortOrder="34" type="text" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Vendor PO Comments Email Subject</label>
+                </field>
+                <field id="vendor_po_comments_template" translate="label" sortOrder="37" type="textarea"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Vendor PO Comments Template</label>
+                </field>
+            </group>
+            <group id="pocombine">
+                <field id="notify_on_status">
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+                <field id="after_notify_status">
+                    <source_model>Unirgy\DropshipPo\Model\Source</source_model>
+                </field>
+            </group>
+            <group id="stock" translate="label">
+                <field id="manual_udpo_hide_failed_vendors" translate="label" sortOrder="30" type="select"
+                       showInDefault="1" showInWebsite="1">
+                    <label>Hide vendors that failed stock check on admin area Create PO page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

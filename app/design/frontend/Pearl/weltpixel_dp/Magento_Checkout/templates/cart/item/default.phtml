@@ -1,0 +1,465 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+// phpcs:disable Magento2.Files.LineLength.MaxExceeded
+
+/** @var $block \Magento\Checkout\Block\Cart\Item\Renderer */
+
+$_item = $block->getItem();
+$product = $_item->getProduct();
+$isVisibleProduct = $product->isVisibleInSiteVisibility();
+/** @var \Magento\Msrp\Helper\Data $helper */
+$helper = $this->helper(Magento\Msrp\Helper\Data::class);
+$canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
+$_product = $block->getProduct();
+$type = $_product->getTypeID();
+$weight = $_product->getWeight();
+$brand = $_product->getAttributeText('manufacturer');
+$mpn = $_product->getMpn();
+$sku = $_product->getSku();
+$collection = $_product->getCollection_name();
+//$packageid = $_product->getAttributeText('package_id');
+$lightingwarehouses = array("Circle Lighting", "LightingExpo");
+$kovidwarehouses = array("DesignerLightingandFan", "KSF_NJ", "Aladdin Light Lift", "Vaxcel Lighting");
+$afwarehouses = array("AF Supply", "AFSupplyBK", "AFSUPPLYXX");
+$dropshipvendor = $_product->getAttributeText('udropship_vendor');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$loadallproducts = $objectManager->get('Magento\Catalog\Model\Product')->load($_product['entity_id']);
+$timetoship = $loadallproducts->getAttributeText('time_toship');
+$eta = $loadallproducts->getEta();
+$udHelper = $objectManager->get('\Unirgy\Dropship\Helper\Data');
+$_vendor = $objectManager->get('\Unirgy\Dropship\Helper\Data')->getVendor($_product->getUdropshipVendor());
+$shipstate = $_vendor->getRegionCode();
+$material_group = $_product->getMaterialGroup();
+$stockItem = $objectManager->get('\Magento\CatalogInventory\Api\StockRegistryInterface')->getStockItem($_product->getId());
+$inventory_backorders = $stockItem->getBackorders();
+//var_dump($inventory_backorders);
+//echo "<pre>"; print_r($_product->debug());die("dead");
+?>
+<tbody class="cart item">
+<tr class="item-info">
+    <td data-th="<?= $block->escapeHtml(__('Item')) ?>" class="col item">
+        <?php if ($block->hasProductUrl()) : ?>
+        <a href="<?= $block->escapeUrl($block->getProductUrl()) ?>"
+           title="<?= $block->escapeHtml($block->getProductName()) ?>"
+           tabindex="-1"
+           class="product-item-photo">
+            <?php else : ?>
+            <span class="product-item-photo">
+                <?php endif; ?>
+                <?= $block->getImage($block->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml() ?>
+                <?php if ($block->hasProductUrl()) : ?>
+        </a>
+    <?php else : ?>
+        </span>
+    <?php endif; ?>
+        <div class="product-item-details">
+            <strong class="product-item-name">
+                <?php if ($block->hasProductUrl()) : ?>
+                    <a href="<?= $block->escapeUrl($block->getProductUrl()) ?>"><?= $block->escapeHtml($block->getProductName()) ?></a>
+                <?php else : ?>
+                    <?= $block->escapeHtml($block->getProductName()) ?>
+                <?php endif; ?>
+            </strong>
+            <?php if ($type == 'simple'): ?>
+                <?php // ****** SIMPLE PRODUCTS  **** // ?>
+                <?php $pricefinal = $_product->getFinalPrice(); ?>
+                <?php $stockvalue = (int)$stockItem->getQty(); ?>
+
+                <?php // ****** STOCK MESSAGING  **** // ?>
+                <?php if ($stockvalue > 0): ?>
+                    <?php $dayofweek = date("N");
+                    if ($dayofweek > 5): $weekend = true;
+                    else:$weekend = false;endif;
+                    ?>
+                    <p class="availability in-stock">
+                        <?php if (in_array($dropshipvendor, $afwarehouses)): ?>
+                            <?php if (!$weekend): ?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+2days")); ?> from <?php echo $shipstate; ?>.</span>
+                            <?php elseif ($dayofweek == "6"): ?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+4days")); ?> from <?php echo $shipstate; ?>.</span>
+                            <?php elseif ($dayofweek == "7"): ?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+3days")); ?> from <?php echo $shipstate; ?>.</span>
+                            <?php else: ?>
+                            <?php endif; ?>
+
+                        <?php elseif (in_array($dropshipvendor, $kovidwarehouses)): ?>
+                            <?php
+                            if ($timetoship == "same day"): ?>
+                                In Stock.<br/><span class="nobold">Ships Same Day from <?php echo $shipstate; ?>.</span>
+                            <?php else: ?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship within <?php echo $timetoship; ?> from <?php echo $shipstate; ?>.</span>
+                            <?php
+                            endif;
+                            ?>
+
+                        <?php elseif ($timetoship != ""): ?>
+
+                            <?php //1 to 2 Days ?>
+                            <?php if ($timetoship == "1-2 days"): ?>
+                                <?php if (!$weekend): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+2days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "6"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+4days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "7"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+3days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php else: ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php //1 to 3 Days ?>
+                            <?php if ($timetoship == "1-3 days"): ?>
+                                <?php if (!$weekend): ?>
+                                    In Stock.<br /><span class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+3days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "6"): ?>
+                                    In Stock.<br /><span class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+5days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "7"): ?>
+                                    In Stock.<br /><span class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+4days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php else: ?>
+                                <?php endif;?>
+                            <?php endif;?>
+
+                            <?php //2 to 3 Days ?>
+                            <?php if ($timetoship == "2-3 days"): ?>
+                                <?php if (!$weekend): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+3days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "6"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+5days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "7"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+4days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php else: ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php //2 to 4 Days ?>
+                            <?php if ($timetoship == "2-4 days"): ?>
+                                <?php if (!$weekend): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+4days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "6"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+6days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "7"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+5days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php else: ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php //3 to 4 Days ?>
+                            <?php if ($timetoship == "3-4 days"): ?>
+                                <?php if (!$weekend): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+4days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "6"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+6days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "7"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+5days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php else: ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php //3 to 5 Days ?>
+                            <?php if ($timetoship == "3-5 days"): ?>
+                                <?php if (!$weekend): ?>
+                                    In Stock.<br /><span class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+5days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "6"): ?>
+                                    In Stock.<br /><span class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+7days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "7"): ?>
+                                    In Stock.<br /><span class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+6days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php else: ?>
+                                <?php endif;?>
+                            <?php endif;?>
+
+                            <?php //4 to 5 Days ?>
+                            <?php if ($timetoship == "4-5 days"): ?>
+                                <?php if (!$weekend): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+5days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "6"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+7days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "7"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+6days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php else: ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php //4 to 7 Days ?>
+                            <?php if ($timetoship == "4-7 days"): ?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship within 4 to 7 days from <?php echo $shipstate; ?>.</span>
+                            <?php endif; ?>
+
+                            <?php //5 to 6 Days ?>
+                            <?php if ($timetoship == "5-6 days"): ?>
+                                <?php if (!$weekend): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+6days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "6"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+8days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php elseif ($dayofweek == "7"): ?>
+                                    In Stock.<br/><span
+                                            class="nobold">Item estimated to ship by <?php echo date("m/d/Y", strtotime("+7days")); ?> from <?php echo $shipstate; ?>.</span>
+                                <?php else: ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php //5 to 6 Biz Days ?>
+                            <?php if ($timetoship == "5-6 biz days"): ?>
+                                In Stock.<br/><span class="nobold">Item estimated to ship within 5 to 6 business days from <?php echo $shipstate; ?>.</span>
+                            <?php endif; ?>
+
+                            <?php if ($timetoship == "1-2 weeks"): //1 to 2 Weeks?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship within 1 to 2 weeks from <?php echo $shipstate; ?>.</span>
+                            <?php endif; ?>
+
+                            <?php if ($timetoship == "2-3 weeks"): //2 to 3 Weeks?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship within 2 to 3 weeks from <?php echo $shipstate; ?>.</span>
+                            <?php endif; ?>
+
+                            <?php if ($timetoship == "3-4 weeks"): //3 to 4 Weeks?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship within 3 to 4 weeks from <?php echo $shipstate; ?>.</span>
+                            <?php endif; ?>
+
+                            <?php if ($timetoship == "4-6 weeks"): //4 to 6 Weeks?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship within 4 to 6 weeks from <?php echo $shipstate; ?>.</span>
+                            <?php endif; ?>
+
+                            <?php //6 to 8 Weeks ?>
+                            <?php if ($timetoship == "6-8 weeks"): ?>
+                                In Stock.<br/><span
+                                        class="nobold">Item estimated to ship within 6 to 8 weeks from <?php echo $shipstate; ?>.</span>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <?php if (!$weekend): ?>
+                                In Stock.
+                                <br/>Item estimated to ship by <?php echo date("m/d/Y", strtotime("+3days")); ?> from <?php echo $shipstate; ?>
+                            <?php elseif ($dayofweek == "6"): ?>
+                                In Stock.
+                                <br/>Item estimated to ship by <?php echo date("m/d/Y", strtotime("+5days")); ?> from <?php echo $shipstate; ?>
+                            <?php elseif ($dayofweek == "7"): ?>
+                                In Stock.
+                                <br/>Item estimated to ship by <?php echo date("m/d/Y", strtotime("+4days")); ?> from <?php echo $shipstate; ?>
+                            <?php else: ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </p>
+                <?php else: ?>
+                    <?php if ($eta): ?>
+                        <p class="availability out-of-stock">
+                            Estimated to be available by <?php echo date("m/d/Y", strtotime($eta)); ?>
+                        </p>
+                    <?php else: ?>
+                        <?php $leadtimecode = $loadallproducts->getAttributeText('lead_time');
+                        $bestseller = $loadallproducts->getAttributeText('best_seller'); ?>
+                        <p class="availability out-of-stock">
+                            <?php if ($bestseller == "Yes"): ?>Call / Chat / Contact Us for Real Time Availability.<?php endif; ?>
+                            <?php if (($leadtimecode == "12") && ($bestseller != "Yes")): ?>Item estimated to ship by <?php echo date("m/d/Y", strtotime("+14days")); ?><!-- <br />Pre-order now. --><?php endif; ?>
+                            <?php if (($leadtimecode == "23") && ($bestseller != "Yes")): ?>Item estimated to ship by <?php echo date("m/d/Y", strtotime("+21days")); ?><!-- <br />Pre-order now. --><?php endif; ?>
+                            <?php if (($leadtimecode == "34") && ($bestseller != "Yes")): ?>Item estimated to ship by <?php echo date("m/d/Y", strtotime("+28days")); ?><!-- <br />Pre-order now. --><?php endif; ?>
+                            <?php if (($leadtimecode == "46") && ($bestseller != "Yes")): ?>Item estimated to ship by <?php echo date("m/d/Y", strtotime("+42days")); ?><!-- <br />Pre-order now. --><?php endif; ?>
+                            <?php if (($leadtimecode == "68") && ($bestseller != "Yes")): ?>Item estimated to ship by <?php echo date("m/d/Y", strtotime("+56days")); ?><!-- <br />Pre-order now. --><?php endif; ?>
+                            <?php
+                            if ($inventory_backorders == 0 && $stockvalue < 1 && strpos($material_group, 'DIS') !== false) {
+                            } else {
+                                if (($leadtimecode == "RT") && ($bestseller != "Yes")): ?>Chat/Email for Real Time Availability.<?php endif; ?>
+                                <?php if (($leadtimecode == "") && ($bestseller != "Yes")): ?>Chat/Email for Real Time Availability.
+                                <?php endif;
+                            }
+                            ?>
+                        </p>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+            <?php else: ?>
+                <?php // ****** CONFIGURABLE PRODUCTS , BUNDLE ETC **** // ?>
+                <?php if (($_product->getFinalPrice()) > 99.99): ?>
+                    <p class="shipping-text free">Free Shipping!</p>
+                <?php elseif (($_product->getFinalPrice()) <= 99.99): ?>
+                    <p class="shipping-text free">Orders Over $99.99 Ship Free!</p>
+                <?php else: ?>
+                <?php endif; ?>
+                <?php if ($_product->isAvailable()): ?>
+                    <p class="availability in-stock"><span></span></p>
+                <?php else: ?>
+                    <p class="availability out-of-stock"><span></span></p>
+                <?php endif; ?>
+            <?php endif; ?>
+            <?php if ($type == 'configurable'): ?>
+                <?php
+                // Get the child (simple product) associated with this configurable product in the cart
+                $childProductId = $_item->getOptionByCode('simple_product')->getValue();
+
+                if ($childProductId) {
+                    // Load the child product
+                    $childProduct = $objectManager->create('Magento\Catalog\Model\Product')->load($childProductId);
+                    $childStockItem = $objectManager->get('\Magento\CatalogInventory\Api\StockRegistryInterface')->getStockItem($childProductId);
+                    $childStockQty = (int)$childStockItem->getQty();
+                    $childTimetoship = $childProduct->getAttributeText('time_toship');
+                    $childEta = $childProduct->getEta();
+                    $childLeadtimecode = $childProduct->getAttributeText('lead_time');
+                    $childBestseller = $childProduct->getAttributeText('best_seller');
+                    $childDropshipvendor = $childProduct->getAttributeText('udropship_vendor');
+
+                    // Display stock and shipping information
+                    if ($childStockQty > 0) {
+                        echo '<p class="availability in-stock">In Stock.<br>Estimated to ship in ' . $childTimetoship . '.</p>';
+                    } else {
+                        echo '<p class="availability out-of-stock">';
+
+                        // Best seller check
+                        if ($childBestseller == "Yes") {
+                            echo 'Call / Chat / Contact Us for Real Time Availability.';
+                        }
+
+                        // Lead time logic
+                        if ($childLeadtimecode == "12" && $childBestseller != "Yes") {
+                            echo 'Item estimated to ship by ' . date("m/d/Y", strtotime("+14days")) . '.';
+                        } elseif ($childLeadtimecode == "23" && $childBestseller != "Yes") {
+                            echo 'Item estimated to ship by ' . date("m/d/Y", strtotime("+21days")) . '.';
+                        } elseif ($childLeadtimecode == "34" && $childBestseller != "Yes") {
+                            echo 'Item estimated to ship by ' . date("m/d/Y", strtotime("+28days")) . '.';
+                        } elseif ($childLeadtimecode == "46" && $childBestseller != "Yes") {
+                            echo 'Item estimated to ship by ' . date("m/d/Y", strtotime("+42days")) . '.';
+                        } elseif ($childLeadtimecode == "68" && $childBestseller != "Yes") {
+                            echo 'Item estimated to ship by ' . date("m/d/Y", strtotime("+56days")) . '.';
+                        }
+
+                        // Handle other conditions
+                        if ($inventory_backorders == 0 && $childStockQty < 1 && strpos($material_group, 'DIS') !== false) {
+                            // Product is discontinued
+                            echo 'This product is discontinued with no stock. Please contact us for alternatives.';
+                        } else {
+                            if ($childLeadtimecode == "RT" && $childBestseller != "Yes") {
+                                echo 'Chat/Email for Real Time Availability.';
+                            } elseif ($childLeadtimecode == "" && $childBestseller != "Yes") {
+                                echo 'Chat/Email for Real Time Availability.';
+                            }
+                        }
+
+                        echo '</p>';
+                    }
+                } else {
+                    echo '<p class="availability out-of-stock">No associated child product found.</p>';
+                }
+                ?>
+            <?php endif; ?>
+
+            <?php
+            if ($inventory_backorders == 0 && $stockvalue < 1 && strpos($material_group, 'DIS') !== false) {
+                echo '<ul class="messages"><li class="success-msg"><span>This product is discontinued with no stock. We might be able to suggest a similar product. Please contact us on&hellip;</span></li><li class="error-msg"><span><a title="mail us" href="mailto:sales@decorprice.com">sales@decorprice.com</a> / <a title="call now" href="tel:844-332-6784">844-332-6784</a></span></li></ul>';
+            }
+            ?>
+            <?php if ($_options = $block->getOptionList()) : ?>
+                <dl class="item-options">
+                    <?php foreach ($_options as $_option) : ?>
+                        <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                        <dt><?= $block->escapeHtml($_option['label']) ?></dt>
+                        <dd>
+                            <?php if (isset($_formatedOptionValue['full_view'])) : ?>
+                                <?= $block->escapeHtml($_formatedOptionValue['full_view']) ?>
+                            <?php else : ?>
+                                <?= $block->escapeHtml($_formatedOptionValue['value'], ['span', 'a']) ?>
+                            <?php endif; ?>
+                        </dd>
+                    <?php endforeach; ?>
+                </dl>
+            <?php endif; ?>
+            <?php if ($messages = $block->getMessages()) : ?>
+                <?php foreach ($messages as $message) : ?>
+                    <div class="cart item message <?= $block->escapeHtmlAttr($message['type']) ?>">
+                        <div><?= $block->escapeHtml($message['text']) ?></div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+            <?php if ($addInfoBlock) : ?>
+                <?= $addInfoBlock->setItem($_item)->toHtml() ?>
+            <?php endif; ?>
+        </div>
+    </td>
+
+    <?php if ($canApplyMsrp) : ?>
+        <td class="col msrp" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+                    <span class="pricing msrp">
+                        <span class="msrp notice"><?= $block->escapeHtml(__('See price before order confirmation.')) ?></span>
+                        <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
+                        <a href="#" class="action help map"
+                           id="<?= ($block->escapeHtmlAttr($helpLinkId)) ?>"
+                           data-mage-init='{"addToCart":{
+                                                "helpLinkId": "#<?= $block->escapeJs($block->escapeHtml($helpLinkId)) ?>",
+                                                "productName": "<?= $block->escapeJs($block->escapeHtml($product->getName())) ?>",
+                                                "showAddToCart": false
+                                                }
+                                            }'
+                        >
+                            <span><?= $block->escapeHtml(__("What's this?")) ?></span>
+                        </a>
+                    </span>
+        </td>
+    <?php else : ?>
+        <td class="col price" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+            <?= $block->getUnitPriceHtml($_item) ?>
+        </td>
+    <?php endif; ?>
+    <td class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
+        <div class="field qty">
+            <div class="control qty">
+                <label for="cart-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty">
+                    <span class="label"><?= $block->escapeHtml(__('Qty')) ?></span>
+                    <input id="cart-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty"
+                           name="cart[<?= $block->escapeHtmlAttr($_item->getId()) ?>][qty]"
+                           data-cart-item-id="<?= $block->escapeHtmlAttr($_item->getSku()) ?>"
+                           value="<?= $block->escapeHtmlAttr($block->getQty()) ?>"
+                           type="number"
+                           size="4"
+                           step="any"
+                           title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                           class="input-text qty"
+                           data-validate="{required:true,'validate-greater-than-zero':true}"
+                           data-role="cart-item-qty"/>
+                </label>
+            </div>
+        </div>
+    </td>
+
+    <td class="col subtotal" data-th="<?= $block->escapeHtml(__('Subtotal')) ?>">
+        <?php if ($canApplyMsrp) : ?>
+            <span class="cart msrp subtotal">--</span>
+        <?php else : ?>
+            <?= $block->getRowTotalHtml($_item) ?>
+        <?php endif; ?>
+    </td>
+</tr>
+<tr class="item-actions">
+    <td colspan="4">
+        <div class="actions-toolbar">
+            <?= /* @noEscape */
+            $block->getActions($_item) ?>
+        </div>
+    </td>
+</tr>
+</tbody>

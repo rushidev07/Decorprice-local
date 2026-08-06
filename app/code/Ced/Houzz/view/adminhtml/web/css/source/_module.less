@@ -1,0 +1,29 @@
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_Houzz
+ * @author 		CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license      http://cedcommerce.com/license-agreement.txt
+ */
+
+@cedhouzz-icons-admin__font-name-path: '@{baseDir}Ced_Houzz/fonts/cedhouzz';
+@cedhouzz-icons-admin__font-name : 'CedHouzz';
+.lib-font-face(
+  @family-name:@cedhouzz-icons-admin__font-name,
+  @font-path: @cedhouzz-icons-admin__font-name-path,
+  @font-weight: normal,
+  @font-style: normal
+);
+.admin__menu .item-houzz.parent.level-0 > a:before {
+  font-family: @cedhouzz-icons-admin__font-name;
+  content: "\e902";
+}

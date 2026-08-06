@@ -1,0 +1,20 @@
+<!--@subject {{var store_name}}: Low stock products notification @-->
+{{template config_path="design/email/header_template"}}
+<table>
+    <tr>
+        <td>
+            <p><strong>Dear {{var vendor.vendor_name}},</strong></p>
+
+            <p>The following products reached low stock level</p>
+
+            <p>Please <a href="{{var stock_url}}">logon to your control panel</a> and increase qtys if possible</p>
+
+            {{var notification_grid|raw}}
+
+            <p>Thanks again for being a Partner Producer!</p>
+
+            <p>All the best,<br/><a href="{{store url=''}}">{{var store_name}}</a></p>
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

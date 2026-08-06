@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Aheadworks_Pquestion::main" title="Product Questions by Aheadworks" module="Aheadworks_Pquestion" sortOrder="200" dependsOnModule="Aheadworks_Pquestion" parent="Magento_Backend::marketing" resource="Aheadworks_Pquestion::main"/>
+        <add id="Aheadworks_Pquestion::questions" title="Product Questions" module="Aheadworks_Pquestion" sortOrder="20" parent="Aheadworks_Pquestion::main" action="productquestion/question/" resource="Aheadworks_Pquestion::questions"/>
+    </menu>
+</config>

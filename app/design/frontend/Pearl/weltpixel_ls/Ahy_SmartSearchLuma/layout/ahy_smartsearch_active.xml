@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+    Pearl/weltpixel_ls theme override for Ahy_SmartSearchLuma active layout handle.
+
+    This layout handle is added dynamically by AddFrontendLayoutHandle observer
+    ONLY when smart_search/general/frontend_enabled = Yes.
+    When frontend is disabled, this file never loads — Pearl's native search is untouched.
+
+    Pearl-specific block/container names (confirmed from Phase 3 audit):
+      - top.search        : native search bar block (Pearl keeps this standard name)
+      - category.products : native product grid block (standard Magento name)
+      - div.sidebar.main  : layered nav sidebar container (standard 2columns-left name)
+      - search_result_list: native search results block (standard Magento name)
+      - search.result     : search result wrapper block (standard Magento name)
+      - sidebar.main      : search results sidebar container (standard Magento name)
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- Remove Pearl's native search bar — replaced by ahy_search_bar from default.xml -->
+        <referenceBlock name="top.search" remove="true"/>
+
+        <!-- Remove Pearl's native category product grid — replaced by FalcoSense category results -->
+        <referenceBlock name="category.products" remove="true"/>
+
+        <!-- Remove Pearl's layered navigation sidebar on category pages -->
+        <referenceContainer name="div.sidebar.main" remove="true"/>
+
+        <!-- Remove Magento's native search results blocks on catalogsearch/result -->
+        <referenceBlock name="search_result_list" remove="true"/>
+        <referenceBlock name="search.result" remove="true"/>
+
+        <!-- Remove the sidebar on search results pages -->
+        <referenceContainer name="sidebar.main" remove="true"/>
+    </body>
+</page>

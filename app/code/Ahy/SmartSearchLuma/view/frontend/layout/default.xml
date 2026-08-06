@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="before.body.end">
+            <block class="Ahy\SmartSearchLuma\Block\GeoConsent"
+                   name="ahy_geo_consent"
+                   template="Ahy_SmartSearchLuma::geo-consent.phtml"
+                   ifconfig="smart_search/general/frontend_enabled"/>
+        </referenceBlock>
+        <referenceContainer name="header-wrapper">
+            <block class="Ahy\SmartSearchLuma\Block\Search"
+                   name="ahy_search_bar"
+                   template="Ahy_SmartSearchLuma::search/mini.phtml"
+                   ifconfig="smart_search/general/frontend_enabled"
+                   after="minicart"/>
+        </referenceContainer>
+    </body>
+</page>

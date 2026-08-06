@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Indexer/etc/indexer.xsd">
+    <indexer id="aw_reward_points_earn_rule" view_id="aw_reward_points_earn_rule" class="Aheadworks\RewardPoints\Model\Indexer\EarnRule" shared_index="aw_reward_points">
+        <title translate="true">Aheadworks Reward Points</title>
+        <description translate="true">Indexed rule/product association</description>
+    </indexer>
+</config>

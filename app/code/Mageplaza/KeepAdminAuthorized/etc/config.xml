@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Mageplaza. All rights reserved.
+ * See MS-LICENSE.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mageplaza_keep_admin_authorized>
+            <general>
+                <enabled>0</enabled>
+                <module_name>Keep Admin Authorized</module_name>
+                <module_page_link>https://mageplaza.com/keep-admin-authorized.html</module_page_link>
+                <extensions_link>https://mageplaza.com</extensions_link>
+                <marketplace_link>https://marketplace.magento.com/keep-admin-authorized.html</marketplace_link>
+                <marketplace_extensions_link>https://marketplace.magento.com/partner/mageplaza</marketplace_extensions_link>
+                <!--Please, change it to 1 for the marketplace version-->
+                <is_marketplace>0</is_marketplace>
+            </general>
+        </mageplaza_keep_admin_authorized>
+    </default>
+</config>

@@ -1,0 +1,457 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_Houzz
+ * @author    CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license   http://cedcommerce.com/license-agreement.txt
+ */
+
+/*Ced\Houzz\Block\Adminhtml\Order\View\Tab\Shipbyhouzz $block*/
+
+$houzzhelper = $block->getHelper('\Houzz');
+$datahelper = $block->getHelper('\Data');
+$errorMsg = false;
+$showShipinfo = false;
+$numberItems = 0;
+$rowId= 0;
+$orderid = $block->getRequest ()->getParam ( 'order_id' );
+$orderObj = $block->getOrder ();
+$items = $orderObj->getAllVisibleItems();
+foreach ($items as $itemId => $item) {
+    $mag_sku=$item->getSku(); // temp code to bypass houzz- mag sku restrictons
+}
+$mageOrderStatus = $orderObj->getStatus ();
+$resultdata = $block->getModel();// filtered model for current opened order.
+foreach ( $resultdata as $data ) {
+    $houzzStatus = $data->getStatus();
+}
+if ($houzzStatus !='Cancelled') {
+    $prevShipinfo = '';
+    $orderInfo = '';
+}
+$resultdata = $resultdata->getData();
+$block->setOrderResult ( $resultdata ); // setting registry
+if (count ( $resultdata ) > 0 && $resultdata [0] ['status'] != "ready") {
+    $rowId = $resultdata [0] ['id'];
+    $orderObject = $data = unserialize ( $resultdata [0] ['order_data'] );
+    $shipmentdata = unserialize ( $resultdata [0] ['shipment_data'] );
+       $merchantorderid = $data['OrderId'];
+    if ($houzzStatus == "Rejected") {
+        $showShipinfo = false;
+        $errorMsg = 'This order is <b>Rejected</b> for houzz.com';
+    } elseif ($houzzStatus == "Cancelled") {
+        $showShipinfo = false;
+        $errorMsg = 'This order is <b>Cancelled</b> for houzz.com';
+    } else {
+
+        if ($houzzStatus == 'Complete') {
+            if (empty ( $shipmentdata ) && count ( $shipmentdata ) == 0) {
+                $showShipinfo = false;
+            } else {
+                $showShipinfo = true;
+            }
+        }elseif($houzzStatus == "Already Shipped") {
+           $errorMsg = 'This order is <b>Already shipped</b> by houzz seller panel';
+            $showShipinfo = false;
+        }else {
+            $showShipinfo = false;
+        }
+    }
+} else {
+    $errorMsg = 'This order is either not <b>Acknowledged</b> or it is not a houzz.com order';
+}
+?>
+<!-- ===== code start for all different conditions =================== -->
+<?php if($errorMsg!=false){ ?>
+    <p>
+    <h4><?php echo $errorMsg; ?></h4>
+    <p>
+        <?php
+        } else if ($showShipinfo) {
+        $infoData = [];
+        $infoData ["refer_order_id"] = $data['OrderId'];
+        $createdDate = explode(" ", $data['Created'] );
+        $year = substr( $createdDate[0],0,4 );
+        $month = substr( $createdDate[0],6,2 );
+        $date = substr( $createdDate[0],10,2 );
+        $date = $year . '-' . $month . '-' . $date . ' ' . $createdDate[1];
+        $order_date = date ( 'Y-m-d H:i:s', strtotime($date) );
+        $infoData ["order_place_date"] = $order_date;
+        $infoData ["order_transmission_date"] ='';
+        $infoData ["request_ship_by"] = '';
+        $infoData ["request_deliver_by"] = '';
+        $infoData ["shippment_id"] = $data['ShipmentId'];;
+        
+        $count = 0;
+        $k = 0;
+        if (true) {
+        }
+        ?>
+
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <div class="admin__page-section-item-title">
+                <span class="title">Shipment Information</span>
+            </div>
+            <div class="admin__page-section-item-content"
+                 id="_shipbyjetinfo_table">
+                <table class="admin__table-secondary">
+                    <tbody>
+                    <tr>
+                        <th>Reference Order Id on Houzz.com</th>
+                        <td><?php echo $block->escapeHtml($infoData["refer_order_id"]); ?></td>
+                    </tr>
+                    <tr>
+                        <th>Order Placed on Houzz.com</th>
+                        <td><?php echo $block->escapeHtml($infoData["order_place_date"]); ?></td>
+                    </tr>
+                    <tr>
+                        <th>Shippment Id</th>
+                        <td><?php echo $block->escapeHtml($infoData["shippment_id"]);?></td>
+                    </tr>
+                  <?php ?></td>
+                    </tr>
+                    <tr>
+                        <th>Tracking Number</th>
+                        <td><?php ?></td>
+                    </tr>
+                    <tr>
+                        <th>Tracking URL</th>
+                        <td><?php ?></td>
+                    </tr>
+                    <tr>
+                        <th>Ship To Date</th>
+                        <td><?php ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Expected delivery Date</th>
+                        <td>
+                            <?php
+                         ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Carrier Pick Up Date</th>
+                        <td><?php ?></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="admin__page-section-title">
+        <span class="title">Shipment Items</span>
+    </div>
+    <div class="admin__table-wrapper">
+        <table class="data-table admin__table-primary edit-order-table">
+            <thead>
+            <tr class="headings">
+                <th>Product sku</th>
+                <th>Quantity ordered</th>
+                <th>Quantity Shipped</th>
+                <th>Quantity cancelled</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <?php
+            if (true) {
+                foreach ( $data["OrderItems"] as $shdata ) {
+                    if( $shdata['SKU']) {
+                        ?>
+                        <tr>
+                            <td><?php echo $shdata['SKU']?></td>
+                            <td><?php echo $shdata['Quantity']; ?></td>
+                            <td><?php if($data['Status'] == 'Shipped') { echo $shdata['Quantity']; } else { echo 0; }?></td>
+                            <td><?php if($data['Status'] == 'Cancelled') { echo $shdata['Quantity']; } else { echo 0; }?></td>
+
+                        </tr>
+                    <?php  }
+                    ?>
+                    <?php $count++; } }//end of if?>
+
+            </tbody>
+        </table>
+    </div>
+    <h3>Order Shipped Successfully</h3>
+<?php } else { ?>
+    <p>
+        <input type="hidden" id="orderid" value="<?php echo $data['OrderId'] ?>" readonly>
+        <input type="hidden" id="incrementid" value="<?php echo $block->getOrder()->getIncrementId () ?>"> <input
+            type="hidden" id="form_key" value="<?php echo $block->getFormKey();?>">
+        <input type="hidden" id="magento_orderid"
+               value="<?php echo $orderid ?>">
+    </p>
+
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <div class="admin__page-section-item-title">
+                <span class="title">Shipment Information</span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary">
+                    <tbody>
+                    <tr>
+                        <th>Reference Order Id on Houzz.com</th>
+                        <td><?php echo $data['OrderId']; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Order Placed on Houzz.com</th>
+                        <td>
+                            <?php
+                            $createdDate = explode(" ", $data['Created'] );
+                            $year = substr( $createdDate[0],0,4 );
+                            $month = substr( $createdDate[0],6,2 );
+                            $date = substr( $createdDate[0],10,2 );
+                            $date = $year . '-' . $month . '-' . $date . ' ' . $createdDate[1];
+                            $order_date = date ( 'Y-m-d H:i:s', strtotime($date) );
+                            echo $block->escapeHtml($order_date);
+                            ?>
+                        </td>
+                    </tr>
+                        <?php ?>
+
+                    <tr>
+                        <th>Shipping method used</th>
+                        <td><select class="admin__control-text" id="shipping_method">
+                        <?php /*$flag=true; */
+                        $shippingMethods = [ 'USPS First Class', 'USPS Parcel Post', 'USPS Priority Mail',
+                            'USPS Express Mail', 'UPS Ground', 'UPS 3 Day Select', 'UPS 2nd Day Air',
+                            'UPS Next Day Air Saver', 'UPS Next Day Air', 'UPS Next Day Early A.M.', 'FedEx Ground',
+                            'FedEx Home Delivery', 'FedEx Express Saver', 'FedEx 2Day', 'FedEx Standard Overnight',
+                            'FedEx Priority Overnight', 'FedEx First Overnight', 'FedEx SameDay', 'FedEx SmartPost',
+                            'OnTrac Ground', 'OnTrac Sunrise', 'OnTrac Sunrise Gold', 'OnTrac Saturday Delivery',
+                            'DHL Express', 'Standard Shipping', 'Expedited Shipping', 'ABF Trucking', 'Yellow Freight',
+                            'Old Dominion', 'Plycon Van', 'Home Direct', 'Estes Express', 'Sun Delivery', 'R+L Carriers'];
+                        foreach($shippingMethods as $shippingMethod){
+                            echo '<option value="'.$shippingMethod.'">'.$shippingMethod.'</option>';
+                        }
+                        ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Tracking Number</th>
+                        <td><input class="admin__control-text" type="text" id="tracking" value=""></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="admin__page-section-title">
+        <span class="title">Shipment Items</span>
+    </div>
+    <div class="admin__table-wrapper">
+        <table class="data-table admin__table-primary edit-order-table" id="_prod_table">
+            <thead>
+            <tr class="headings">
+                <th>Product Sku</th>
+                <th>Quantity Ordered</th>
+                <th>Qty Available for Ship</th>
+            </tr>
+            </thead>
+            <tbody id="item">
+            <?php
+
+            foreach($data['OrderItems'] as $k=>$valdata) {
+                $cancel_qty = 0;
+                $real_cancel_qty = 0;
+                //by pass order sku multiple shipment restriction
+                if(isset($prevShipinfo[$valdata['SKU']]) && $prevShipinfo){
+                    $avail_qty = ($valdata['Quantity'] - ($prevShipinfo [$valdata['SKU']]
+                            ['response_shipment_sku_quantity'] + $real_cancel_qty));
+                }else{
+                    $avail_qty = $valdata['Quantity'];
+                }
+
+                $ship_qty = ( int ) ($valdata['Quantity']);
+                if ($avail_qty > 0) {
+                    ?>
+                    <tr>
+                    <td>
+                        <input type="hidden" id="sku_<?php echo $block->escapeHtml($numberItems);?>"
+                               value="<?php echo $block->escapeHtml($valdata['SKU'])?>">
+                        <strong><?php echo $block->escapeHtml($valdata['SKU']); ?></strong>
+                    </td>
+                    <td><input type="hidden" id="qty_<?php echo $block->escapeHtml($numberItems);?>"
+                               value="<?php echo $block->escapeHtml($valdata['Quantity']) ?>">
+                        <strong><?php echo $block->escapeHtml($valdata['Quantity']) ?></strong>
+                    </td>
+                    <?php if($avail_qty > 0): ?>
+
+                    <?php else : ?>
+                        <td><input type="hidden" id="ship_<?php echo $block->escapeHtml($numberItems);?>"
+                                   value="<?php echo $block->escapeHtml($avail_qty) ?>">
+                            <strong <?php if($avail_qty <= 0){echo ' style="color: #EE0000" ';} ?>>
+                                <?php echo $block->escapeHtml($avail_qty) ?>
+                            </strong>
+                        </td>
+                        <?php ?>
+                                   <?php ?>
+                            <strong <?php ?>>
+                                <?php ?>
+                            </strong>
+                    <?php endif;?>
+                    <td><input type="hidden" id="avail_<?php echo $block->escapeHtml($numberItems);?>"
+                               value="<?php echo $block->escapeHtml($avail_qty) ?>">
+                        <strong <?php if($avail_qty > 0){echo ' style="color: #008800" ';} else{echo ' style="color: #EE0000" ';} ?>>
+                            <?php echo $block->escapeHtml($avail_qty) ?>
+                        </strong>
+                    </td>
+
+                    </tr><?php }
+                $numberItems++;
+            } ?>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <button class="primary" id="submit_shippment" onclick="CallShipment(this.id)">Submit Shipment</button>
+    <button class="primary admin__control-text" id="cancel_order">Cancel Order</button>
+    <br/>
+    <script>
+
+
+        require([
+            "jquery",
+            /*"mage/calendar",*/
+            "Magento_Ui/js/modal/confirm",
+            "Magento_Ui/js/modal/alert"
+        ], function($, confirmation, alert){
+            $('#cancel_order').on('click', function(event) {
+                var content = "<table id='cancel_modal'><tr><td><b>Cancel Code * : </b></td><td><select name='cancel_code' id='cancel_code' class='admin__control-text'>" +
+                    "<option value='1'>Item out of stock</option>" +
+                    "<option value='2'>Customer found the same item at a lower price</option>" +
+                    "<option value='3'>Customer changed mind</option>" +
+                    "<option value='4'>Customer ordered by mistake</option>" +
+                    "</select></td></tr>" +
+                    "<tr><td><b>Cancel Comment * : </b></td><td><input class='admin__control-text' type='text' name='cancel_comment' id='cancel_comment'/></td></tr></table>";
+                confirmation({
+                    title: 'Confirm Cancel',
+                    content: content,
+                    actions: {
+                        confirm: function () {
+                            var cancel_code = $('#cancel_code').val();
+                            var cancel_comment = $('#cancel_comment').val();
+                            if(cancel_code != '' && cancel_comment != '') {
+                                CallShipment('cancel_order');
+                            } else {
+                                alert({
+                                    title: 'Missing Required Fields',
+                                    content: 'Cancel Code & comment are mandatory.'
+                                });
+                            }
+                        },
+                        cancel: function () {
+                        },
+                        always: function () {
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+
+        function CallShipment(buttonId){
+            //var buttonId = this.id;
+            var cancel_code = '';
+            var cancel_comment = '';
+            if(buttonId == "cancel_order") {
+                cancel_code = document.getElementById('cancel_code').value;
+                cancel_comment = document.getElementById('cancel_comment').value;
+            }
+            var key=document.getElementById('form_key').value;
+            var id=document.getElementById('incrementid').value;
+            var ids=document.getElementById('magento_orderid').value;
+            var orderid=document.getElementById('orderid').value;
+            /*var carrier=document.getElementById('carrier').value;
+            var methodCode = document.getElementById('methodCode').value;*/
+            var shipping_method =document.getElementById('shipping_method').value;
+            var tracking=document.getElementById('tracking').value;
+
+            if(buttonId == "submit_shippment" && tracking==""){
+                alert("Please Enter Tracking Number");
+                return;
+            } if(buttonId == "submit_shippment" && shipping_method == "") {
+                alert("Please Select Shipping Method");
+                return;
+            }
+
+            var jet_order_detail_row = <?php echo $block->escapeHtml($rowId); ?>;
+
+            var outterArray = [];
+            var lengthval = <?php echo $block->escapeHtml($numberItems); ?>;
+
+
+            for(var i=0; i<lengthval;  i++) {
+                if(document.getElementById('sku_'+i)){
+                    product_sku = document.getElementById('sku_'+i).value;
+                    requested_quantity = document.getElementById('qty_'+i).value;
+                    avail_check_quantity = document.getElementById('avail_'+i).value;
+
+                    var product_data = [
+
+                        product_sku,
+                        requested_quantity,
+                        document.getElementById('avail_'+i).value]
+
+                    //shipment id removed
+                    outterArray.push(product_data);
+                }
+            }
+            /*if(carrier == 'USPS First Class Mail' || carrier == 'UPS Ground'){carrier = 'UPS';}*/
+            new Ajax.Request("<?php echo $block->getUrl('houzz/order/ship') ?>", {
+                method: 'Post',
+                parameters: {"orderid":orderid,"items":JSON.stringify(outterArray),
+                    /*"carrier":carrier,'methodCode':methodCode,*/"key1":id,"order":ids,"tracking":tracking,/*"tracking_url":tracking_url,*/
+                    "shipping_method":shipping_method,
+                    /*"ship_todate":ship_todate,"exp_deliver":exp_deliver,"carre_pickdate":carre_pickdate,*/"order_table_row":jet_order_detail_row,
+                    "buttonId":buttonId, "cancel_code":cancel_code, "cancel_comment":cancel_comment },
+
+                onComplete: function(transport) {
+                    if(transport.responseText == "Success"){
+                        try {
+                            window.location.href=window.location.href;
+                        }
+                        catch(err) {
+                            alert(transport.responseText);
+                        }
+                    }else{
+                        alert(transport.responseText);
+                    }
+                }
+            });
+
+        }
+
+    </script>
+<?php } ?>
+<style>
+    #item >tr >td > input , select{
+        width:100% !important;
+    }
+    #cancel_modal td {
+        padding: 10px;
+    }
+</style>

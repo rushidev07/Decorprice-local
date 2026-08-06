@@ -1,0 +1,20 @@
+<!--@subject Statement for {{var date_from}} - {{var date_to}} @-->
+{{template config_path="design/email/header_template"}}
+<table>
+    <tr>
+        <td>
+            <p><strong>Dear {{var vendor.vendor_name}},</strong></p>
+
+            <p>Please find your statement for the previous period attached to this email.
+                If you have any questions don't hesitate to reach out.
+                You can also <a href="{{store url='udropship'}}">log in</a>
+                to view specific information about individual orders.
+            </p>
+
+            <p>Thanks again for being a Partner Producer!</p>
+
+            <p>All the best,<br/><a href="{{store url=''}}">{{var store.store_name}}</a></p>
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

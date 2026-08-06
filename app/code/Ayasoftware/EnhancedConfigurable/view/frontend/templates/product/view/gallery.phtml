@@ -1,0 +1,107 @@
+<?php
+/**
+ * Product media data template
+ * @var $block \Magento\Catalog\Block\Product\View\Gallery
+ */
+
+$images = $block->getGalleryImages()->getItems();
+$mainImage = current(array_filter($images, function ($img) use ($block) {
+    return $block->isMainImage($img);
+}));
+
+if (!$mainImage && !empty($images)) {
+    $mainImage = reset($images);
+}
+
+$helper = $block->getData('imageHelper');
+$product = $block->getProduct();
+
+$mainImageUrl = $mainImage ? $mainImage->getUrl() : $helper->getDefaultPlaceholderUrl('image');
+
+// Resized variants for srcset
+$img244 = $helper->init($product, 'product_page_image_small')->resize(244, 244)->getUrl();
+$img400 = $helper->init($product, 'product_page_image_medium')->resize(400, 400)->getUrl();
+$img658 = $helper->init($product, 'product_page_image_large')->resize(658, 658)->getUrl();
+
+$srcset = "$img244 244w, $img400 400w, $img658 658w";
+$sizes = "(max-width: 767px) 244px, (max-width: 1280px) 400px, 658px";
+
+// Dimensions to match desktop container — mobile doesn't need these big files
+$defaultWidth = 658;
+$defaultHeight = 658;
+?>
+
+<!-- Responsive preload using srcset + sizes -->
+<link rel="preload" as="image"
+      href="<?= $img658 ?>"
+      fetchpriority="high"
+      loading="eager"
+      imagesrcset="<?= $srcset ?>"
+      imagesizes="<?= $sizes ?>" />
+
+<!-- LCP image (used before fotorama loads) -->
+<div class="gallery-placeholder _block-content-loading" data-gallery-role="gallery-placeholder">
+    <img
+            alt="Main product photo"
+            class="gallery-placeholder__image"
+            src="<?= $img658 ?>"
+            srcset="<?= $srcset ?>"
+            sizes="<?= $sizes ?>"
+            width="<?= $defaultWidth ?>"
+            height="<?= $defaultHeight ?>"
+            loading="eager"
+            fetchpriority="high"
+    />
+</div>
+
+<script type="text/x-magento-init">
+{
+    "[data-gallery-role=gallery-placeholder]": {
+        "mage/gallery/gallery": {
+            "mixins": ["magnifier/magnify"],
+            "magnifierOpts": <?= /* @noEscape */ $block->getMagnifier() ?>,
+            "data": <?= /* @noEscape */ $block->getGalleryImagesJson() ?>,
+            "options": <?= /* @noEscape */ $block->getGalleryOptions()->getOptionsJson() ?>,
+            "fullscreen": <?= /* @noEscape */ $block->getGalleryOptions()->getFSOptionsJson() ?>,
+            "breakpoints": <?= /* @noEscape */ $block->getBreakpoints() ?>
+        }
+    }
+}
+</script>
+<style>
+    /* Desktop-only: reserve final gallery height so nothing below moves */
+    @media (min-width: 992px) {
+        /* Reserve the full gallery height BEFORE Fotorama boots */
+        .product.media [data-gallery-role="gallery-placeholder"] {
+            min-height: 820px !important; /* 658 (stage) + 134 (thumbs wrap) */
+        }
+
+        /* Keep internals from collapsing while loading */
+        .product.media .fotorama__stage,
+        .product.media .fotorama__stage__shaft,
+        .product.media .fotorama__stage__frame {
+            min-height: 658px !important;
+            line-height: 0;
+        }
+
+        .product.media .fotorama__nav-wrap { min-height: 134px !important; }
+        .product.media .fotorama__nav,
+        .product.media .fotorama__nav--thumbs,
+        .product.media .fotorama__nav__shaft { min-height: 84px !important; }
+
+        /* Images: keep square boxes without stretching */
+        .product.media .fotorama__stage img.fotorama__img {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .product.media .fotorama__nav__frame img.fotorama__img {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+</style>
+

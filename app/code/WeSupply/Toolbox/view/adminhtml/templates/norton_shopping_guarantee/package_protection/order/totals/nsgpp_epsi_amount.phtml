@@ -1,0 +1,23 @@
+<?php
+/**
+ * @var $block Magento\Sales\Block\Adminhtml\Order\Totals\Item
+ */
+?>
+<?php $source = $block->getSource() ?>
+<?php $isEpsi = $source->getData('is_epsi'); ?>
+<?php $epsiAmount = $source->getData('epsi_amount'); ?>
+
+<?php if ($isEpsi): ?>
+    <tr class="col-1">
+        <td <?= /* @noEscape */ $block->getLabelProperties() ?>>
+            <?= $block->escapeHtml($block->getLabel()) ?>
+        </td>
+        <td <?= /* @noEscape */ $block->getValueProperties() ?>>
+            <span>
+                <span>
+                    <?= /* @noEscape */ $source->formatPrice($epsiAmount) ?>
+                </span>
+            </span>
+        </td>
+    </tr>
+<?php endif; ?>

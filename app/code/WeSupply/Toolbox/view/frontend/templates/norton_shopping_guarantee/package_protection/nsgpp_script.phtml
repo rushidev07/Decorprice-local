@@ -1,0 +1,12 @@
+<?php
+    /** @var $helper WeSupply\Toolbox\Helper\NortonShoppingGuarantee\PackageProtection\NsgPpData */
+    $helper = $this->helper('WeSupply\Toolbox\Helper\NortonShoppingGuarantee\PackageProtection\NsgPpData');
+
+    /** @var $block WeSupply\Toolbox\Block\NortonShoppingGuarantee\PackageProtection\NsgPpTemplate */
+    $block = $this->getLayout()->createBlock('WeSupply\Toolbox\Block\NortonShoppingGuarantee\PackageProtection\NsgPpTemplate'
+    );
+?>
+
+<?php if ($helper->isNsgPpEnabled()): ?>
+    <script type="text/javascript" async="" src="<?= /* @noEscape */ $block->getNsgPpApiEndpoint() ?>"></script>
+<?php endif; ?>

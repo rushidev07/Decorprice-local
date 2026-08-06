@@ -1,0 +1,76 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+/** @var \Mageplaza\NameYourPrice\Helper\Data $helperData */
+$helperData = $this->helper(\Mageplaza\NameYourPrice\Helper\Data::class);
+/** @var \Mageplaza\NameYourPrice\Block\Customer\History $block */
+$requests = $block->getBargainRequests();
+$isEmpty = is_array($requests) ? count($requests) : $requests->getSize();
+?>
+
+<?php if ($requests && $isEmpty): ?>
+    <div class="table-wrapper mpb-requests-history"
+         data-mage-init='{"mpDetailRequest": ""}'>
+        <table class="data table table-requests-items history" id="my-requests-table">
+            <caption class="table-caption"><?= /** @noEscape */ __('Requests') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col created"><?= /** @noEscape */ __('Created') ?></th>
+                <th scope="col" class="col product_name"><?= /** @noEscape */ __('Product Name') ?></th>
+                <th scope="col" class="col qty"><?= /** @noEscape */ __('Your Committed Min. Qty') ?></th>
+                <th scope="col" class="col bargain_price"><?= /** @noEscape */ __('Bargain Price') ?></th>
+                <th scope="col" class="col status"><?= /** @noEscape */ __('Status') ?></th>
+                <th scope="col" class="col actions"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($requests as $request): ?>
+                <tr>
+                    <td data-th="<?= /** @noEscape */ __('Created #') ?>" class="col created"><?= /** @noEscape */ $request->getSubmittedDate() ?></td>
+                    <td data-th="<?= /** @noEscape */ __('Product Name') ?>" class="col date"><?= /** @noEscape */ $request->getProductName() ?></td>
+                    <td data-th="<?= /** @noEscape */ __('Your Committed Min. Qty') ?>" class="col date"><?= /** @noEscape */ $request->getBargainQty() ?></td>
+                    <td data-th="<?= /** @noEscape */ __('Bargain Price') ?>" class="col date"><?= /** @noEscape */ $helperData->formatPrice($request->getBargainPrice()) ?></td>
+                    <td data-th="<?= /** @noEscape */ __('Bargain Price') ?>" class="col date"><?= /** @noEscape */ $helperData->getLabelStatus($request->getStatus()) ?></td>
+                    <td data-th="<?= /** @noEscape */ __('Actions') ?>" class="col actions">
+                        <a href="#mbp-detail-popup" data-url="<?= /** @noEscape */ $block->getSeeDetailUrl($request->getId()) ?>" class="action mpb-see-detail">
+                            <span><?= /** @noEscape */ __('See Details') ?></span>
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div id="mbp-detail-popup">
+            <div class="mbp-detail-content"></div>
+        </div>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="mpb-requests-toolbar toolbar bottom"><?= $block->getPagerHtml() ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?= /** @noEscape */ __('You have no requests.') ?></span></div>
+<?php endif ?>
+
+<div id="mpb_overlay" class="mpb_overlay">
+    <div class="loader">
+        <img src="<?= /** @noEscape */ $block->getViewFileUrl('images/loader-1.gif') ?>" alt="Loading...">
+    </div>
+</div>

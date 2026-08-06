@@ -1,0 +1,11 @@
+<?php
+$product = $block->getProduct();
+if(($product->getData('video')!="") && ($product->getData('video')!="0"))
+    {
+        echo $product->getData('video');
+    }
+    else
+    {
+        echo "<span>No Videos</span>";
+    }
+?>

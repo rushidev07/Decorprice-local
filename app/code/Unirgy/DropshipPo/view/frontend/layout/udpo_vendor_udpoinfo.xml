@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="udpo_po_renderers"/>
+    <body>
+        <block class="Unirgy\DropshipPo\Block\Vendor\Po\Info"
+               template="Unirgy_DropshipPo::unirgy/udpo/vendor/po/info.phtml" name="info" cacheable="false">
+            <block class="Magento\Framework\View\Element\RendererList" name="udpo.po.renderers" as="renderer.list"/>
+        </block>
+
+    </body>
+</page>

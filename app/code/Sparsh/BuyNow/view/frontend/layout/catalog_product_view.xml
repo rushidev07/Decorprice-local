@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.addtocart">
+            <action method="setTemplate" ifconfig="buynow/advance/enable_product">
+                <argument name="template" xsi:type="string">Sparsh_BuyNow::catalog/product/view/addtocart.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="product.info.addtocart.additional">
+            <action method="setTemplate" ifconfig="buynow/advance/enable_product">
+                <argument name="template" xsi:type="string">Sparsh_BuyNow::catalog/product/view/addtocart.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="catalog.product.related">
+            <action method="setTemplate" ifconfig="buynow/advance/enable_related">
+                <argument name="template" xsi:type="string">Sparsh_BuyNow::catalog/product/list/items.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="product.info.upsell">
+            <action method="setTemplate" ifconfig="buynow/advance/enable_upsell">
+                <argument name="template" xsi:type="string">Sparsh_BuyNow::catalog/product/list/items.phtml</argument>
+            </action>
+        </referenceBlock>       
+    </body>
+</page>

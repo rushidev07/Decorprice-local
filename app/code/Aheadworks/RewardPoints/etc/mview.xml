@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Mview/etc/mview.xsd">
+    <view id="aw_reward_points_earn_rule" class="Aheadworks\RewardPoints\Model\Indexer\EarnRule" group="indexer">
+        <subscriptions>
+            <table name="aw_rp_earn_rule" entity_column="id" />
+        </subscriptions>
+    </view>
+</config>

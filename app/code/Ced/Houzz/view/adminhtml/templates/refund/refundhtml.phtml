@@ -1,0 +1,288 @@
+<?php
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category  Ced
+ * @package   Ced_Houzz
+ * @author    CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright Copyright CEDCOMMERCE (http://cedcommerce.com/)
+ * @license   http://cedcommerce.com/license-agreement.txt
+ */
+?>
+<?php $helper=""; ?>
+<?php $helper=$block->getData('helper');?>
+<?php $feedback_arr=[];?>
+<?php $reason_arr=[];?>
+<?php $feedback_arr=$helper->feedbackOptArray()?>
+<?php $reason_arr=$helper->refundreasonOptionArr();?>
+<?php $items_data=[];?>
+<?php $order="";  $stat=false;?>
+<?php if($this->getData('items_data')){?>
+    <?php $items_data=$this->getData('items_data');?>
+    <?php $order=$this->getData('order');
+    $mer_order_id=$block->getData('merchant_order_id');
+    $objectManager=$block->getData('objectManager');
+    $qty_return_exist = [];
+    $total_gty_ret_by_jet = 0;
+    foreach ($items_data as $key => $item){
+        if($item['orderLineStatuses']['orderLineStatus'][0]['status'] !== 'Shipped'){
+            unset($items_data[$key]);
+        }
+    }
+    $items_data = $block->parserArray(array_values($items_data));
+
+    //test end
+    $refundqty_array = $this->getData('refundtotalqty');
+    ?>
+<?php }?>
+<?php if(count($items_data)>0){?>
+    <?php $i=0;?>
+    <?php
+    foreach($items_data as $item) {
+        ?>
+        <?php $merchant_sku = "";
+        $merchant_sku = $item['item']['sku'];
+        $check = [];
+        $check = $helper->getRefundedQtyInfo($order, $merchant_sku);
+        if ($check['error'] == '1') {
+            continue;
+        }
+        $qty_already_refunded = 0;
+        $available_to_refund_qty = 0;
+        $qty_ordered = 0;
+        $qty_already_refunded = $check['qty_already_refunded'];
+        $available_to_refund_qty = $item['orderLineQuantity']['amount'];
+        $qty_ordered = $check['qty_ordered'];
+        $na = true;
+        ?>
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-edit-form fieldset-legend">sku :
+                <?php echo $item['item']['sku']; ?></h4>
+            <?php if($na){ ?>
+                <div class="form-buttons">
+                    <button id="refundadd_<?php echo $i; ?>"
+                            onclick="showreturndiv(<?php echo "'" . "sku_return_" . $i . "'"; ?>,<?php echo "'" . "refundremove_" . $i . "'"; ?>,<?php echo "'" . "refundadd_" . $i . "'"; ?>);"
+                            type="button">Add
+                    </button>
+                    <button style='display:none;' id="refundremove_<?php echo $i; ?>"
+                            onclick="hidereturndiv(<?php echo "'" . "sku_return_" . $i . "'"; ?>,<?php echo "'" . "refundadd_" . $i . "'"; ?>,<?php echo "'" . "refundremove_" . $i . "'"; ?>);"
+                            type="button">Remove
+                    </button>
+                </div>
+            <?php } ?>
+        </div>
+
+        <?php
+        if (!$na) {
+            echo "Credit memo either already generated or under progress ";
+            continue;
+        } else {
+            $stat = true;
+        }
+        ?>
+
+        <div id="sku_return_<?php echo $i; ?>" style="display:none;" class="fieldset">
+            <div class="hor-scroll">
+                <table class="form-list" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td class="label" style="width:86%"><label for="order_item_id<?php echo $i; ?>"> Order
+                                Item Id <span style="color:red">*</span>
+                            </label>
+                        </td>
+                        <td class="value"><input   id="order_item_id<?php echo $i; ?>"
+                                                   class=" input-text required-entry" type="text"
+                                                   readonly="1"
+                                                   value="<?php echo $item['lineNumber']; ?>"
+                                                   name="sku_details[sku<?php echo $i; ?>][lineNumber]">
+
+                            <p id="note_order_item_id<?php echo $i; ?>" class="note">
+                                <span>Please fill Order Item Id for current order.</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="width:86%"><label for="available_to_refund_qty<?php echo $i; ?>"> Qty Available for
+                                Refund
+                            </label></td>
+
+                        <td class="value" style="width:80%"><input   id="available_to_refund_qty<?php echo $i; ?>"  readonly="1"
+                                                                     class=" input-text validate-number" type="text"
+                                                                     value="<?php echo isset($available_to_refund_qty)?$available_to_refund_qty:0;
+                                                                     ?>"
+                                                                     name="sku_details[sku<?php echo $i; ?>][available_to_refund_qty]">
+
+                            <p id="note_available_to_refund_qty<?php echo $i; ?>" class="note">
+                                <span>Qty available for Refund for this item.</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="hidden" colspan="2"><input   id="merchant_sku<?php echo $i; ?>"
+                                                                type="hidden"
+                                                                value="<?php echo $item['item']['sku']; ?>"
+                                                                name="sku_details[sku<?php echo $i; ?>][merchant_sku]">
+                        </td>
+                    </tr>
+
+                    <tr  class= "required _required">
+                        <td class="label" style="width:86%"><label for="qty_returned<?php echo $i; ?>">Qty already
+                                Cancelled/Return <span style="color:red">*</span></label></td>
+                        <td class="value"><input     id="qty_returned<?php echo $i; ?>"
+                                                     class="required-entry validate-number input-text" type="text"
+                                                     value="<?php
+                                                     echo isset($qty_already_refunded)?$qty_already_refunded:0;
+                                                     ?>" name="sku_details[sku<?php echo $i; ?>][return_quantity]">
+
+                            <p id="note_qty_returned<?php echo $i; ?>" class="note">
+                                <span>Please fill Quanitity of the given item that was cancelled.</span>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label"  style="width:86%"><label for="qty_refunded<?php echo $i; ?>"> Qty to be
+                                Refunded<span style="color:red">*</span>
+                            </label></td>
+                        <td class="value"><input   id="qty_refunded<?php echo $i; ?>"
+                                                   class="required-entry validate-number input-text required-entry"
+                                                   type="text"  value="<?php
+                            echo isset($available_to_refund_qty)?$available_to_refund_qty:0; ?>"
+                                                   name="sku_details[sku<?php echo $i; ?>][refund_quantity]">
+
+                            <p id="note_qty_refunded<?php echo $i; ?>" class="note">
+                                <span>Please fill Quanitity of the given item that the merchant wants to refund to the customer.</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="width:86%"><label for="return_refundfeedback<?php echo $i; ?>">
+                                Refund Feedback <span style="color:red">*</span>
+                            </label></td>
+                        <td class="value"><select   id="return_refundfeedback<?php echo $i; ?>"
+                                                    class="required-entry validate-select required-entry select"
+                                                    name="sku_details[sku<?php echo $i; ?>][return_refundfeedback]">
+                                <?php foreach ($feedback_arr as $value) { ?>
+                                    <option
+                                        value="<?php echo $value['value']; ?>"><?php echo $value["label"]; ?></option>
+                                <?php } ?>
+
+                            </select>
+
+                            <p id="note_return_refundfeedback<?php echo $i; ?>" class="note">
+                                <span>Please fill the reason this refund is less than the full amount.</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="width:86%"><label for="refund_note<?php echo $i; ?>">
+                                Refund Note
+                            </label></td>
+                        <td class="value">
+                           <textarea rows="4" cols="50" id="refund_note<?php echo $i; ?>"
+                                     value=""
+                                     name="sku_details[sku<?php echo $i; ?>][refund_note]">
+                                                 </textarea>
+
+                            <p id="refund_note<?php echo $i; ?>" class="note">
+                                <span>Please fill the note for amount refunded lower than the full amount..</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="width:86%"><label for="return_refundreason<?php echo $i; ?>">
+                                Refund Reason <span style="color:red">*</span>
+                            </label></td>
+                        <td class="value">
+                            <select   id="return_refundreason<?php echo $i; ?>"
+                                      class="required-entry validate-select required-entry select"
+                                      name="sku_details[sku<?php echo $i; ?>][return_refundreason]">
+                                <?php foreach ($reason_arr as $value) { ?>
+                                    <option
+                                        value="<?php echo $value['value']; ?>"><?php echo $value["label"]; ?></option>
+                                <?php } ?>
+                            </select>
+
+                            <p id="note_return_refundreason<?php echo $i; ?>" class="note">
+                                <span>Please fill the reason the customer initiated the return.</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="width:86%"><label for="amount<?php echo $i; ?>">Refund Amount<span style="color:red">*</span></label></td>
+                        <td class="value"><input   id="amount<?php echo $i; ?>"
+                                                   class="required-entry validate-number input-text" type="text"
+                                                   value="<?php if(isset($item['charges']['charge'][0]['chargeAmount']['amount']))echo $item['charges']['charge'][0]['chargeAmount']['amount']; ?>"
+                                                   name="sku_details[sku<?php echo $i; ?>][return_principal]">
+
+                            <p id="note_amount<?php echo $i; ?>" class="note">
+                                <span>Please fill the Amount to be refunded for the given item in USD associated with the item itself.
+                                    This should be the total cost for this item not the unit cost.</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="hidden" colspan="2"><input   id="actual_amount<?php echo $i; ?>"
+                                                                type="hidden"
+                                                                value="<?php if(isset($item['charges']['charge'][0]['chargeAmount']['amount']))echo $item['charges']['charge'][0]['chargeAmount']['amount']; ?>"
+                                                                name="sku_details[sku<?php echo $i; ?>][return_actual_principal]">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="width:86%"><label for="shipping_cost<?php echo $i; ?>">Refund Shipping cost <span style="color:red">*</span></label></td>
+                        <td class="value"><input   id="shipping_cost<?php echo $i; ?>"
+                                                   class="validate-number input-text" type="text"
+                                                   value="<?php echo isset($item['charges']['charge']['shippingAmount']['amount']) ? $item['charges']['charge']['shippingAmount']['amount']:0 ?>"
+                                                   name="sku_details[sku<?php echo $i; ?>][return_shipping_cost]">
+
+                            <p id="note_shipping_cost<?php echo $i; ?>" class="note">
+                                <span>Please fill the amount to be refunded for the given item in USD associated with the shipping cost that was allocated to this item.</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="width:86%"><label for="shipping_tax<?php echo $i; ?>">Refund Shipping tax<span style="color:red">*</span></label></td>
+                        <td class="value"><input   id="shipping_tax<?php echo $i; ?>"
+                                                   class=" input-text validate-number" type="text" value="0"
+                                                   name="sku_details[sku<?php echo $i; ?>][return_shipping_tax]">
+
+                            <p id="note_shipping_tax<?php echo $i; ?>" class="note">
+                                <span>Please fill the amount to be refunded for the given item in USD associated with the tax that was charged on shipping.</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label" style="width:86%"><label for="tax<?php echo $i; ?>">Refund Tax<span style="color:red">*</span></label></td>
+                        <td class="value"><input   id="tax<?php echo $i; ?>"
+                                                   class=" input-text validate-number"
+                                                   type="text"
+                                                   value="<?php if(isset($item['charges']['charge'][0]['tax']['taxAmount']['amount']))echo $item['charges']['charge'][0]['tax']['taxAmount']['amount'];
+                                                   else
+                                                       echo '0';
+                                                   ?>"
+                                                   name="sku_details[sku<?php echo $i; ?>][return_tax]">
+
+                            <p id="note_tax<?php echo $i; ?>" class="note">
+                                <span>Please fill the amount to be refunded for the given item in USD associated with tax that was charged for the item.</span>
+                            </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br/>
+        <?php $i++; ?>
+    <?php }
+    ?>
+<?php  }else{?>
+    <?php echo "Items Data not found for selected Order.";return false;?>
+<?php }?>
+

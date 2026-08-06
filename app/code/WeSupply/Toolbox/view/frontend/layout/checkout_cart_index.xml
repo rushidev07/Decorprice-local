@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="cart.summary">
+            <referenceBlock name="checkout.cart.shipping">
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="block-summary" xsi:type="array">
+                                <item name="children" xsi:type="array">
+                                    <item name="block-rates" xsi:type="array">
+                                        <item name="config" xsi:type="array">
+                                            <item name="template" xsi:type="string">WeSupply_Toolbox/cart/shipping-rates</item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
+            <referenceBlock name="checkout.cart.totals">
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="block-totals" xsi:type="array">
+                                <item name="children" xsi:type="array">
+                                    <item name="nsgpp-checkout" xsi:type="array">
+                                        <item name="component" xsi:type="string">WeSupply_Toolbox/js/view/norton_shopping_guarantee/package_protection/checkout/nsgpp_checkout</item>
+                                        <item name="sortOrder" xsi:type="string">95</item>
+                                        <item name="displayArea" xsi:type="string">totals</item>
+                                    </item>
+                                    <item name="nsgpp_fee" xsi:type="array">
+                                        <item name="component" xsi:type="string">WeSupply_Toolbox/js/view/norton_shopping_guarantee/package_protection/cart/totals/nsgpp_fee</item>
+                                        <item name="sortOrder" xsi:type="string">25</item>
+                                        <item name="config" xsi:type="array">
+                                            <item name="template" xsi:type="string">WeSupply_Toolbox/norton_shopping_guarantee/package_protection/cart/totals/nsgpp_fee</item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template" name="nsgpp_reload_handler">
+                <arguments>
+                    <argument name="template" xsi:type="string">WeSupply_Toolbox::norton_shopping_guarantee/package_protection/nsgpp_reload_initializer.phtml</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

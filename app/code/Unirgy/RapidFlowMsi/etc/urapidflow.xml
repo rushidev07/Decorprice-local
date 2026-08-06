@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<config>
+    <urapidflow>
+        <data_types>
+            <msi>
+                <title>Multi Source Inventory</title>
+                <row_format>fixed</row_format>
+                <model>Unirgy\RapidFlowMsi\Model\ResourceModel\Msi</model>
+                <alt_model>Unirgy\RapidFlowMsi\Model\ResourceModel\MsiAlt</alt_model>
+                <profile>
+                    <import>
+                        <tabs>
+                            <file>
+                                <title>File Options</title>
+                                <block>Unirgy\RapidFlow\Block\Adminhtml\Profile\Edit\Tab\File</block>
+                            </file>
+                            <csv>
+                                <title>Format Options</title>
+                                <block>Unirgy\RapidFlow\Block\Adminhtml\Profile\Edit\Tab\Csv</block>
+                            </csv>
+                            <options>
+                                <title>Import Options</title>
+                                <block>Unirgy\RapidFlowMsi\Block\Adminhtml\Profile\ImportOptions</block>
+                            </options>
+                            <upload>
+                                <title>Upload Files</title>
+                                <block>Unirgy\RapidFlow\Block\Adminhtml\Profile\Edit\Tab\Upload</block>
+                            </upload>
+                            <reindex>
+                                <title>Reindex</title>
+                                <block>Unirgy\RapidFlow\Block\Adminhtml\Profile\Edit\Tab\Reindex</block>
+                            </reindex>
+                        </tabs>
+                    </import>
+                    <export>
+                        <tabs>
+                            <file>
+                                <title>File Options</title>
+                                <block>Unirgy\RapidFlow\Block\Adminhtml\Profile\Edit\Tab\File</block>
+                            </file>
+                            <csv>
+                                <title>Format Options</title>
+                                <block>Unirgy\RapidFlow\Block\Adminhtml\Profile\Edit\Tab\Csv</block>
+                            </csv>
+                            <options>
+                                <title>Export Options</title>
+                                <block>Unirgy\RapidFlowPro\Block\Adminhtml\Profile\ProductExtra\ExportOptions</block>
+                            </options>
+                            <conditions>
+                                <title>Export Conditions</title>
+                                <block>Unirgy\RapidFlow\Block\Adminhtml\Profile\Edit\Tab\Export\Condition</block>
+                            </conditions>
+                        </tabs>
+                    </export>
+                </profile>
+            </msi>
+
+        </data_types>
+
+        <row_types>
+            <MSIS>
+                <title>MSI Source</title>
+                <data_type>msi</data_type>
+                <columns>
+                    <source_code><col>1</col><key>1</key></source_code>
+                    <name><col>2</col><key>1</key></name>
+                    <enabled><col>3</col></enabled>
+                    <description><col>4</col></description>
+                    <latitude><col>5</col></latitude>
+                    <longitude><col>6</col></longitude>
+                    <country_id><col>7</col></country_id>
+                    <region_id><col>8</col></region_id>
+                    <region><col>9</col></region>
+                    <city><col>10</col></city>
+                    <street><col>11</col></street>
+                    <postcode><col>12</col></postcode>
+                    <contact_name><col>13</col></contact_name>
+                    <email><col>14</col></email>
+                    <phone><col>15</col></phone>
+                    <fax><col>16</col></fax>
+                    <use_default_carrier_config><col>17</col></use_default_carrier_config>
+                    <udropship_vendor>18</udropship_vendor>
+                </columns>
+            </MSIS>
+
+            <MSIST>
+                <title>MSI Stock</title>
+                <data_type>msi</data_type>
+                <columns>
+                    <name><col>1</col><key>1</key></name>
+                </columns>
+            </MSIST>
+
+            <MSISL>
+                <title>MSI Stock Source Link</title>
+                <data_type>msi</data_type>
+                <columns>
+                    <source_code><col>1</col><key>1</key></source_code>
+                    <stock_name><col>2</col><key>1</key></stock_name>
+                    <priority><col>3</col></priority>
+                </columns>
+            </MSISL>
+
+            <MSISI>
+                <title>MSI Source Item</title>
+                <data_type>msi</data_type>
+                <columns>
+                    <source_code><col>1</col><key>1</key></source_code>
+                    <sku><col>2</col><key>1</key></sku>
+                    <quantity><col>3</col></quantity>
+                    <status><col>4</col></status>
+                </columns>
+            </MSISI>
+
+            <MSIC>
+                <title>MSI Stock Sales Channel</title>
+                <data_type>msi</data_type>
+                <columns>
+                    <website_code><col>1</col><key>1</key></website_code>
+                    <stock_name><col>2</col><key>1</key></stock_name>
+                </columns>
+            </MSIC>
+        </row_types>
+    </urapidflow>
+</config>

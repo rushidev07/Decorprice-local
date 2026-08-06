@@ -1,0 +1,69 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+/** @var \Mageplaza\NameYourPrice\Block\Product\View\Bargain $block */
+/** @var \Mageplaza\NameYourPrice\Helper\Data $helperData */
+$helperData = $this->helper(\Mageplaza\NameYourPrice\Helper\Data::class);
+$requestId  = $block->getRequest()->getParam('request_id');
+$email      = $block->getEmailCustomer();
+$block->autoCloseBargain();
+$status     = [\Mageplaza\NameYourPrice\Helper\Data::STATUS_APPROVED, \Mageplaza\NameYourPrice\Helper\Data::STATUS_PENDING];
+$collection = $block->getBargainCollection($status, $block->getProduct()->getId(), $requestId);
+?>
+
+<?php if ($block->isBargainProduct()): ?>
+    <div id="mpb_bargain_content" class="mpb_bargain_content"
+         data-mage-init='{"mpBargain": <?= /** @noEscape */ $block->getDataForm() ?>}'>
+         
+        <?php if ($block->isLogin()): ?>
+            <div class="mpb-bargain-info" style="display: none;">
+                <div class="mpb-bargain-price"></div>
+                <?php if ($helperData->isBargainQty()): ?>
+                    <div class="mpb-bargain-qty"></div>
+                <?php endif; ?>
+                <div class="mpb-bargain-note-pending">
+                    <?= /** @noEscape */ __('This request is waiting for approval.') ?>
+                </div>
+                <div class="mpb-bargain-note-approve">
+                    <?= /** @noEscape */ __('This request has been approved.') ?>
+                </div>
+                <a href="<?= /** @noEscape */ $block->getUrl('mppricebargain/index/cancel', ['request_id' => $requestId]) ?>"
+                   class="mpb-cancel-bargain">
+                    <?= /** @noEscape */ __('Cancel Your Price Bargain') ?>
+                </a>
+            </div>
+            <?= $block->getChildHtml('bargain_button') ?>
+        <?php else: ?>
+            <?php if ($collection && $collection->getSize()): ?>
+                <?= $block->getChildHtml('your_bargain') ?>
+            <?php else: ?>
+                <?= $block->getChildHtml('bargain_button') ?>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+<div id="mpb_your_bargain"></div>
+
+<style>
+    #mpb_bargain_button {
+        display: none;
+    }
+</style>

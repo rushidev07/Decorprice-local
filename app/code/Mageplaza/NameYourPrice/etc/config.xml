@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *mageplaza
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mppricebargain>
+            <general>
+                <enabled>0</enabled>
+                <customer_groups>0,1,2,3</customer_groups>
+                <price_type>percentage</price_type>
+                <price_value>1</price_value>
+                <is_tax>0</is_tax>
+                <allow_discount>0</allow_discount>
+                <limit_time>7</limit_time>
+                <bargain_qty>1</bargain_qty>
+            </general>
+            <display>
+                <is_popup>1</is_popup>
+                <fields>customer_name,phone,customer_message</fields>
+            </display>
+            <email>
+                <enabled>1</enabled>
+                <sender>general</sender>
+                <template_confirm>mppricebargain_email_template_confirm</template_confirm>
+                <template_approve>mppricebargain_email_template_approve</template_approve>
+                <template_reject>mppricebargain_email_template_reject</template_reject>
+            </email>
+        </mppricebargain>
+    </default>
+</config>

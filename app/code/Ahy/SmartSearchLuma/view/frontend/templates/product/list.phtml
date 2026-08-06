@@ -1,0 +1,68 @@
+<?php
+/**
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+use Magento\Framework\App\Action\Action;
+use Magento\Store\Model\ScopeInterface;
+
+$_om = \Magento\Framework\App\ObjectManager::getInstance();
+if (!$_om->get(\Magento\Framework\App\Config\ScopeConfigInterface::class)
+        ->isSetFlag('smart_search/general/frontend_enabled', ScopeInterface::SCOPE_STORE)) {
+    return;
+}
+
+$_productCollection = $block->getLoadedProductCollection();
+$_helper            = $block->getData('outputHelper');
+?>
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty">
+        <div><?= $escaper->escapeHtml(__('We can\'t find products matching the selection.')) ?></div>
+    </div>
+<?php else: ?>
+    <?= $block->getToolbarHtml() ?>
+    <?= $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() === 'grid') {
+        $viewMode         = 'grid';
+        $imageDisplayArea = 'category_page_grid';
+        $showDescription  = false;
+        $templateType     = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode         = 'list';
+        $imageDisplayArea = 'category_page_list';
+        $showDescription  = true;
+        $templateType     = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    $pos = $block->getPositioned();
+    $_itemTemplate = $block->getTemplateFile('Ahy_SmartSearchLuma::product/list/item.phtml');
+    ?>
+    <div class="products wrapper <?= /* @noEscape */ $viewMode ?> products-<?= /* @noEscape */ $viewMode ?>">
+        <ol class="products list items product-items">
+            <?php foreach ($_productCollection as $_product): ?>
+            <?php
+            $productImage = $block->getImage($_product, $imageDisplayArea);
+            $position     = null;
+            if ($pos !== null) {
+                $position = 'left:' . $productImage->getWidth() . 'px;top:' . $productImage->getHeight() . 'px;';
+            }
+            ?>
+            <?php include $_itemTemplate; ?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <?= $block->getChildBlock('toolbar')->setIsBottom(true)->toHtml() ?>
+    <script type="text/x-magento-init">
+    {
+        "[data-role=tocart-form], .form.map.checkout": {
+            "catalogAddToCart": {
+                "product_sku": "<?= $escaper->escapeJs($_product->getSku()) ?>"
+            }
+        },
+        ".products-grid": {
+            "Ahy_SmartSearchLuma/js/wishlist-top": {}
+        }
+    }
+    </script>
+<?php endif; ?>

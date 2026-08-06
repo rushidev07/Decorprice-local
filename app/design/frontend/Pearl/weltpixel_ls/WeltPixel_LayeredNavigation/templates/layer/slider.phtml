@@ -1,0 +1,485 @@
+<?php
+    $priceData          = $this->getPriceConfigData();
+    $priceIsInputType   = $this->priceIsInputType();
+    $isPrice            = isset($priceData['isPrice']) && $priceData['isPrice'] ? $priceData['isPrice'] : '';
+    $isWidth            = isset($priceData['isWidth']) && $priceData['isWidth'] ? $priceData['isWidth'] : '';
+    $isHeight           = isset($priceData['isHeight']) && $priceData['isHeight'] ? $priceData['isHeight'] : '';
+    $widthValue         = $isWidth ? $priceData['widthValue'][0] : '';
+    $heightValue        = $isHeight ? $priceData['heightValue'][0] : '';
+?>
+
+<?php if($isPrice):?>
+<div id="slider-range"></div>
+<?php elseif($isWidth): ?>
+<div id="slider-range-width"></div>
+<?php elseif($isHeight): ?>
+<div id="slider-range-height"></div>
+<?php endif; ?>
+<div class="wp-slider-inp">
+    <div class="wp-slider-inp-range">
+        <?php if($isPrice):?>
+            <?php if($priceIsInputType): ?>
+                <input type="text" id="amount_from" class="wp-price-slider-inp inp-type" />
+            <?php else : ?>
+                <label for="amount"><?=__('Price:')?></label>
+                <div class="price-value-wrapper">
+                    <span class="wp-slider-currency"><?=$priceData['currency']?></span>
+                    <span id="amount_from" class="wp-price-slider-inp"></span>
+                </div>
+            <?php endif;?>
+
+            <span class="wp-slider-range-separator">-</span>
+
+            <?php if($priceIsInputType): ?>
+                <input type="text" id="amount_to" class="wp-price-slider-inp inp-type" />
+            <?php else : ?>
+                <div class="price-value-wrapper">
+                    <span class="wp-slider-currency"><?=$priceData['currency']?></span>
+                    <span id="amount_to" class="wp-price-slider-inp"></span>
+                </div>
+            <?php endif;?>
+            <a href="<?=$this->getSliderApplyUrl()?>" class="wp-price-slider-a" id="wp_ln_price_slider"><?= __('Apply')?></a>
+        <?php elseif($isWidth): ?>
+            <?php if($priceIsInputType): ?>
+                <input type="text" id="width_from" class="wp-width-slider-inp inp-type" />
+            <?php else : ?>
+                <label for="width"><?=__('Width:')?></label>
+                <div class="price-value-wrapper">
+                    <span class="wp-slider-currency"><?=$priceData['currency']?></span>
+                    <span id="width_from" class="wp-width-slider-inp"></span>
+                </div>
+            <?php endif;?>
+
+            <span class="wp-slider-range-separator">-</span>
+
+            <?php if($priceIsInputType): ?>
+                <input type="text" id="width_to" class="wp-width-slider-inp inp-type" style="margin-right: auto;" />
+            <?php else : ?>
+                <div class="price-value-wrapper">
+                    <span class="wp-slider-currency"><?=$priceData['currency']?></span>
+                    <span id="width_to" class="wp-width-slider-inp" style="margin-right: auto;"></span>
+                </div>
+            <?php endif;?>
+            <a href="<?=$this->getSliderApplyUrl()?>" class="wp-price-slider-a" id="wp_ln_width_slider"><?= __('Apply')?></a>
+        <?php elseif($isHeight): ?>
+            <?php if($priceIsInputType): ?>
+                <input type="text" id="height_from" class="wp-height-slider-inp inp-type" />
+            <?php else : ?>
+                <label for="height"><?=__('Height:')?></label>
+                <div class="price-value-wrapper">
+                    <span class="wp-slider-currency"><?=$priceData['currency']?></span>
+                    <span id="height_from" class="wp-height-slider-inp"></span>
+                </div>
+            <?php endif;?>
+
+            <span class="wp-slider-range-separator">-</span>
+
+            <?php if($priceIsInputType): ?>
+                <input type="text" id="height_to" class="wp-height-slider-inp inp-type" style="margin-right: auto;" />
+            <?php else : ?>
+                <div class="price-value-wrapper">
+                    <span class="wp-slider-currency"><?=$priceData['currency']?></span>
+                    <span id="height_to" class="wp-height-slider-inp" style="margin-right: auto;"></span>
+                </div>
+            <?php endif;?>
+            <a href="<?=$this->getSliderApplyUrl()?>" class="wp-price-slider-a" id="wp_ln_height_slider"><?= __('Apply')?></a>
+        <?php endif;?>
+    </div>
+</div>
+
+<script>
+    require(['jquery', 'jquery-ui-modules/effect-slide', 'jquery-ui-modules/mouse', 'jquery-ui-modules/widget', '<?= $block->getSliderJsWidget() ?>', 'jqueryTouch'], function($){
+        $( function() {
+            var priceIsInputType    = <?= $priceIsInputType ?  'true': 'false'?>;
+            var isPrice             = <?= $isPrice ? 'true' : 'false' ?>;
+            var isWidth             = <?= $isWidth ? 'true' : 'false' ?>;
+            var isHeight            = <?= $isHeight ? 'true' : 'false' ?>;
+            var widthValue          = <?= json_encode($widthValue) ?>;
+            var heightValue         = <?= json_encode($heightValue) ?>;
+            var priceSearchArr      = getPriceParam();
+            var priceSearchMinInp   = (priceSearchArr && isPrice)  ? priceSearchArr[0] : <?=$priceData['min']?>;
+            var priceSearchMaxInp   = (priceSearchArr && isPrice)  ? priceSearchArr[1] : <?=$priceData['max']?>;
+            var widthSearchMinInp   = (priceSearchArr?.[0] && isWidth) ? priceSearchArr[0] : <?=$priceData['min']?>;
+            var widthSearchMaxInp   = (priceSearchArr?.[1] && isWidth) ? priceSearchArr[1] : <?=$priceData['max']?>;
+            var heightSearchMinInp  = (priceSearchArr?.[0] && isHeight) ? priceSearchArr[0] : <?=$priceData['min']?>;
+            var heightSearchMaxInp  = (priceSearchArr?.[1] && isHeight) ? priceSearchArr[1] : <?=$priceData['max']?>;
+            var lastMinWidthSelected = localStorage.getItem('lastMinWidthSelected') || '';
+            var lastMaxWidthSelected = localStorage.getItem('lastMaxWidthSelected') || '';
+            var lastMinHeightSelected = localStorage.getItem('lastMinHeightSelected') || '';
+            var lastMaxHeightSelected = localStorage.getItem('lastMaxHeightSelected') || '';
+
+            // Function to refresh max values in localStorage
+            function refreshMaxValues() {
+                var currentMaxWidth = localStorage.getItem('lastMaxWidthSelected') || '';
+                var currentMinWidth = localStorage.getItem('lastMinWidthSelected') || '';
+                
+                // Check if the current maximum width in localStorage is less than the current width search max input value
+                if (currentMaxWidth !== '' && currentMaxWidth > widthSearchMaxInp) {
+                    lastMaxWidthSelected = widthSearchMaxInp;
+                }
+
+                // Check if the current minimum width in localStorage is less than the current width search min input value
+                // if (currentMinWidth !== '' && currentMinWidth < widthSearchMinInp) {
+                //     lastMinWidthSelected = widthSearchMinInp;
+                // }
+            }
+            
+            // Call the function to refresh max values in localStorage on page load
+            refreshMaxValues();
+            
+            <?php if($isPrice):?>
+                $("#slider-range").slider({
+                    range: true,
+                    min: <?=$priceData['minX']?>,
+                    max: <?=$priceData['maxX']?>,
+                    step: <?=$priceData['step']?>,
+                    values: [ priceSearchMinInp , priceSearchMaxInp ],
+                    slide: function( event, ui ) {
+                        updateInputValues(ui.values[0], ui.values[1], 'price');
+                    }
+                });
+
+                // Initial update of input fields for price slider
+                updateInputValues(priceSearchMinInp, priceSearchMaxInp, 'price');
+            
+            <?php elseif($isWidth): ?>
+                $("#slider-range-width").slider({
+                    range: true,
+                    min: <?=$priceData['minX']?>,
+                    max: <?=$priceData['maxX']?>,
+                    step: <?=$priceData['step']?>,
+                    values: [ widthSearchMinInp , widthSearchMaxInp ],
+                    slide: function( event, ui ) {
+                        updateInputValues(ui.values[0], ui.values[1], 'width');
+                    }
+                });
+                if (lastMinWidthSelected !== '' && lastMaxWidthSelected !== '') {
+                    $("#slider-range-width").slider("values", [lastMinWidthSelected, lastMaxWidthSelected]);
+                    updateInputValues(lastMinWidthSelected, lastMaxWidthSelected, 'width');
+                } else {
+                    // Initial update of input fields for width slider
+                    updateInputValues(widthSearchMinInp, widthSearchMaxInp, 'width');
+                }
+            <?php elseif($isHeight): ?>
+                $("#slider-range-height").slider({
+                    range: true,
+                    min: <?=$priceData['minX']?>,
+                    max: <?=$priceData['maxX']?>,
+                    step: <?=$priceData['step']?>,
+                    values: [ heightSearchMinInp , heightSearchMaxInp ],
+                    slide: function( event, ui ) {
+                        updateInputValues(ui.values[0], ui.values[1], 'height');
+                    }
+                });
+                if (lastMinHeightSelected !== '' && lastMaxHeightSelected !== '') {
+                    $("#slider-range-height").slider("values", [lastMinHeightSelected, lastMaxHeightSelected]);
+                    updateInputValues(lastMinHeightSelected, lastMaxHeightSelected, 'height');
+                } else {
+                    // Initial update of input fields for height slider
+                    updateInputValues(heightSearchMinInp, heightSearchMaxInp, 'height');
+                }
+            <?php endif;?>
+
+            function updateInputValues(minValue, maxValue, type) {
+                var minInputId = '#' + (type === 'price' ? 'amount_from' : type + '_from');
+                var maxInputId = '#' + (type === 'price' ? 'amount_to' : type + '_to');
+
+                if(priceIsInputType) {
+                    $(minInputId).val(minValue);
+                    $(maxInputId).val(maxValue);
+                } else {
+                    $(minInputId).text(minValue);
+                    $(maxInputId).text(maxValue);
+                }
+                if(type == 'price'){
+                    var param = type + '=' + minValue + '-' + maxValue;
+                } else if(type == 'width'){
+                    // Check if widthValue[minValue] is undefined and get the nearest lowest value
+                    var minValueWidth = widthValue[minValue] !== undefined ? widthValue[minValue] : getNearestLowest(widthValue, 'width');
+
+                    // Check if widthValue[maxValue] is undefined and get the nearest highest value
+                    var maxValueWidth = widthValue[maxValue] !== undefined ? widthValue[maxValue] : getNearestHighest(widthValue);
+                    
+                    // Update localStorage with the last width slide value
+                    localStorage.setItem('lastMinWidthSelected', minValue);
+                    localStorage.setItem('lastMaxWidthSelected', maxValue);
+
+                    // Update localStorage with the last slide values, including type in the key names
+                    console.log('last' + type.charAt(0).toUpperCase() + type.slice(1) + 'MinSelected', minValue);
+                    console.log('last' + type.charAt(0).toUpperCase() + type.slice(1) + 'MaxSelected', maxValue);
+                    console.log(widthValue, minValueWidth, maxValueWidth);
+                    
+                    var minValueNum = parseInt(minValue);
+                    var maxValueNum = parseInt(maxValue);
+
+                    var selectedWidths = [];
+                    for (var key in widthValue) {
+                        var keyNum = parseInt(key);
+                        if (keyNum >= minValueNum && keyNum <= maxValueNum) {
+                            selectedWidths.push(widthValue[key]);
+                        }
+                    }
+
+                    // If selectedWidths is empty, add minValueWidth and maxValueWidth
+                    if (selectedWidths.length === 0) {
+                        selectedWidths.push(minValue, maxValue);
+                    }
+
+                    // Sort the selected widths
+                    selectedWidths.sort(function(a, b) {
+                        return a - b;
+                    });
+                    // Sort the values
+                    var sortedValues = [minValueWidth, maxValueWidth].sort((a, b) => a - b);
+                    
+                    // Construct the param variable using a ternary operator
+                    var param = type + '=' + (minValueWidth === maxValueWidth ? minValueWidth : selectedWidths.join(','));
+
+
+                    console.log("🚀 ~ selectedWidths.sort ~ selectedWidths:", selectedWidths);
+                    
+                    console.log("param:", param);
+
+                    console.log('---------------------------- log here ------------------as----------');
+                } else if(type == 'height'){
+                    // Check if widthValue[minValue] is undefined and get the nearest lowest value
+                    var minValueHeight = heightValue[minValue] !== undefined ? heightValue[minValue] : getNearestLowest(heightValue);
+
+                    // Check if widthValue[maxValue] is undefined and get the nearest highest value
+                    var maxValueHeight = heightValue[maxValue] !== undefined ? heightValue[maxValue] : getNearestHighest(heightValue);
+                    
+                    // Update localStorage with the last width slide value
+                    localStorage.setItem('lastMinHeightSelected', minValue);
+                    localStorage.setItem('lastMaxHeightSelected', maxValue);
+
+                    // Update localStorage with the last slide values, including type in the key names
+                    console.log('last' + type.charAt(0).toUpperCase() + type.slice(1) + 'MinSelected', minValue);
+                    console.log('last' + type.charAt(0).toUpperCase() + type.slice(1) + 'MaxSelected', maxValue);
+                    console.log(heightValue, minValueHeight, maxValueHeight);
+                    
+                    var minValueNum = parseInt(minValue);
+                    var maxValueNum = parseInt(maxValue);
+
+                    var selectedHeight = [];
+                    for (var key in heightValue) {
+                        var keyNum = parseInt(key);
+                        if (keyNum >= minValueNum && keyNum <= maxValueNum) {
+                            selectedHeight.push(heightValue[key]);
+                        }
+                    }
+
+                    // If selectedHeight is empty, add minValueWidth and maxValueWidth
+                    if (selectedHeight.length === 0) {
+                        selectedHeight.push(minValue, maxValue);
+                    }
+
+                    // Sort the selected Height
+                    selectedHeight.sort(function(a, b) {
+                        return a - b;
+                    });
+                    // Sort the values
+                    var sortedValues = [minValueHeight, maxValueHeight].sort((a, b) => a - b);
+                    
+                    // Construct the param variable using a ternary operator
+                    var param = type + '=' + (minValueHeight === maxValueHeight ? minValueHeight : selectedHeight.join(','));
+
+
+                    console.log("🚀 ~ selectedHeight.sort ~ selectedHeight:", selectedHeight);
+                    
+                    console.log("param:", param);
+
+                    console.log('---------------------------- log here ------------------as----------');
+                }
+                var cleanLink = removeParam(type, removeParam('p', window.location.href));
+                var sliderLink = cleanLink + getSeparator(cleanLink) + param;
+                $('#wp_ln_' + type + '_slider').attr('href', sliderLink);
+            }
+            
+            function getNearestLowest(widthValue) {
+                // Iterate over the keys of widthValue object and find the nearest lowest value
+                var keys = Object.keys(widthValue);
+                var nearestLowest = keys.reduce((prev, curr) => {
+                    return curr < prev ? curr : prev;
+                });
+                return widthValue[nearestLowest];
+            }
+
+            function getNearestHighest(widthValue) {
+                // Iterate over the keys of widthValue object and find the nearest highest value
+                var keys = Object.keys(widthValue);
+                var nearestHighest = keys.reduce((prev, curr) => {
+                    return curr > prev ? curr : prev;
+                });
+                return widthValue[nearestHighest];
+            }
+
+            var updateTimeout; // Variable to store the timeout ID
+            <?php if($isPrice):?>
+                $('.wp-price-slider-inp').on('keyup', function() {
+                    var minInputId  = '#amount_from';
+                    var maxInputId  = '#amount_to';
+                    var minValue    = $(minInputId).val();
+                    var maxValue    = $(maxInputId).val();
+                    
+                    // Clear any previous timeout
+                    clearTimeout(updateTimeout);
+
+                    // Set a new timeout to update the input values after 2 seconds
+                    updateTimeout   = setTimeout(function() {
+                        // Check if the entered values are numeric
+                        if ($.isNumeric(minValue) && $.isNumeric(maxValue)) {
+                            // Update only the corresponding input field without clearing the other one
+                            if ($(this).attr('id') === 'amount_from') {
+                                lastMinSelected = minValue;
+                            } else {
+                                lastMaxSelected = maxValue;
+                            }
+                        } else {
+                            // If one of the values is not numeric, set it to the last selected value
+                            if ($(this).attr('id') === 'amount_from') {
+                                minValue = lastMinSelected;
+                            } else {
+                                maxValue = lastMaxSelected;
+                            }
+                        }
+
+                        // Update input values
+                        updateInputValues(minValue, maxValue, 'price' );
+                    }, 1000); // 2000 milliseconds = 2 seconds
+                });
+            <?php elseif($isWidth): ?>
+                $('.wp-width-slider-inp').on('keyup', function() {
+                    var minInputId  = '#width_from';
+                    var maxInputId  = '#width_to';
+                    var minValue    = $(minInputId).val();
+                    var maxValue    = $(maxInputId).val();
+                    
+                    // Clear any previous timeout
+                    clearTimeout(updateTimeout);
+
+                    // Set a new timeout to update the input values after 2 seconds
+                    updateTimeout   = setTimeout(function() {
+                        // Check if the entered values are numeric
+                        if ($.isNumeric(minValue) && $.isNumeric(maxValue)) {
+                            // Update only the corresponding input field without clearing the other one
+                            if ($(this).attr('id') === 'width_from') {
+                                lastMinWidthSelected = minValue;
+                            } else {
+                                lastMaxWidthSelected = maxValue;
+                            }
+                        } else {
+                            // If one of the values is not numeric, set it to the last selected value
+                            if ($(this).attr('id') === 'width_from') {
+                                minValue = lastMinWidthSelected;
+                            } else {
+                                maxValue = lastMaxWidthSelected;
+                            }
+                        }
+                        // Update input values
+                        updateInputValues(minValue, maxValue, 'width');
+                    }, 1000); // 2000 milliseconds = 2 seconds
+                });
+            <?php elseif($isHeight): ?>
+                $('.wp-height-slider-inp').on('keyup', function() {
+                    var minInputId  = '#height_from';
+                    var maxInputId  = '#height_to';
+                    var minValue    = $(minInputId).val();
+                    var maxValue    = $(maxInputId).val();
+                    
+                    // Clear any previous timeout
+                    clearTimeout(updateTimeout);
+
+                    // Set a new timeout to update the input values after 2 seconds
+                    updateTimeout   = setTimeout(function() {
+                        // Check if the entered values are numeric
+                        if ($.isNumeric(minValue) && $.isNumeric(maxValue)) {
+                            // Update only the corresponding input field without clearing the other one
+                            if ($(this).attr('id') === 'height_from') {
+                                lastMinHeightSelected = minValue;
+                            } else {
+                                lastMaxHeightSelected = maxValue;
+                            }
+                        } else {
+                            // If one of the values is not numeric, set it to the last selected value
+                            if ($(this).attr('id') === 'height_from') {
+                                minValue = lastMinHeightSelected;
+                            } else {
+                                maxValue = lastMaxHeightSelected;
+                            }
+                        }
+                        // Update input values
+                        updateInputValues(minValue, maxValue, 'height');
+                    }, 1000); // 2000 milliseconds = 2 seconds
+                });
+            <?php endif;?>
+            /** Helper functions **/
+            function getSeparator(link) {
+                return (link.indexOf('?') !== -1) ? '&' : '?';
+            }
+
+            function removeParam(key, url) {
+                if (!url) url = window.location.href;
+                var hashParts = url.split('#');
+                var regex = new RegExp("([?&])" + key + "=.*?(&|#|$)", "i");
+
+                if (hashParts[0].match(regex)) {
+                    url = hashParts[0].replace(regex, '$1');
+                    url = url.replace(/([?&])$/, '');
+                    if (typeof hashParts[1] !== 'undefined' && hashParts[1] !== null)
+                        url += '#' + hashParts[1];
+                }
+
+                return url;
+            }
+
+            function getPriceParam() {
+                var params = parseQueryString();
+                if(isPrice){
+                    return (params['price'] ? params['price'].split("-") : false);
+                } else if(isWidth){
+                    widthParam = params['width'] ? params['width'].split(",") : false;
+                    var widthKeys = [];
+                    if (widthParam) {
+                        for (var key in widthValue) {
+                            if (widthValue.hasOwnProperty(key)) {
+                                if (widthParam.includes(widthValue[key])) {
+                                    widthKeys.push(key);
+                                    console.log("Matching key for value " + widthValue[key] + ":", key);
+                                }
+                            }
+                        }
+                        return widthKeys;
+                    }
+                    return widthParam;
+                } else if(isHeight){
+                    heightParam = params['height'] ? params['height'].split(",") : false;
+                    var heightKeys = [];
+                    if (heightParam) {
+                        for (var key in heightValue) {
+                            if (heightValue.hasOwnProperty(key)) {
+                                if (heightParam.includes(heightValue[key])) {
+                                    heightKeys.push(key);
+                                    console.log("Matching key for value " + heightValue[key] + ":", key);
+                                }
+                            }
+                        }
+                        return heightKeys;
+                    }
+                    return heightParam;
+                }
+            }
+
+            function parseQueryString(){
+                var str = window.location.search;
+                var objURL = {};
+                str.replace(
+                    new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+                    function( $0, $1, $2, $3 ){
+                        objURL[ $1 ] = $3;
+                    }
+                );
+                return objURL;
+            }
+        });
+    });
+</script>

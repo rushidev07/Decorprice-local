@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Config/etc/system_file.xsd">
+    <system>
+        <tab id="aheadworks" translate="label" sortOrder="200">
+            <label>Aheadworks Extensions</label>
+        </tab>
+        <section id="aw_pquestion" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Product Questions</label>
+            <tab>aheadworks</tab>
+            <resource>Aheadworks_Pquestion::settings</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="allow_guest_to_ask_question" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Who Can Ask Questions from Product Page</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\WhoCanAskQuestion</source_model>
+                </field>
+                <field id="allow_customer_to_add_answer_from_product_page" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Who Can Answer Questions from Product Page</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\ProductPageCustomerAllowOptions</source_model>
+                </field>
+                <field id="require_moderate_customer_answer" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Approve Answers Automatically</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allow_guest_rate_helpfulness" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Guests can rate</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allow_subscribe_to_notification_automatically" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Subscribe customers to Product Questions emails automatically</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allow_customer_defined_question_visibility" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer-defined question visibility (Private or Public)</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="interface" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Interface Settings</label>
+                <field id="number_questions_to_display" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of questions to display</label>
+                    <validate>validate-number validate-greater-than-zero</validate>
+                </field>
+                <field id="number_answers_to_display" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of answers to display</label>
+                    <validate>validate-number validate-greater-than-zero</validate>
+                </field>
+                <field id="allow_display_url_as_link" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display URLs as links</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="default_questions_sort_by" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default questions sort by</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\Question\Sorting</source_model>
+                </field>
+                <field id="default_sort_order" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default sort order</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\Question\Sorting\Dir</source_model>
+                </field>
+            </group>
+            <group id="notification" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Notification Settings</label>
+                <field id="send_notification_new_question_to" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Send admin notifications to this email address</label>
+                    <validate>validate-email</validate>
+                </field>
+                <field id="email_sender" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="new_question_to_admin_template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Admin notifications about new question</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\Email\Template</source_model>
+                </field>
+                <field id="new_answer_to_admin_template" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Admin notifications about new answers</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\Email\Template</source_model>
+                </field>
+                <field id="new_reply_on_question_to_customer_template" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer notifications about new replies to their questions</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\Email\Template</source_model>
+                </field>
+                <field id="question_status_change_to_customer_template" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer notifications about the questions status change</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\Email\Template</source_model>
+                </field>
+                <field id="answer_status_change_to_customer_template" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer notifications about the answer status change</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\Email\Template</source_model>
+                </field>
+                <field id="auto_responder_question_template" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto-Responder to customer about his new question</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\Email\Template</source_model>
+                </field>
+                <field id="auto_responder_answer_template" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auto-Responder to customer about his new answer</label>
+                    <source_model>Aheadworks\Pquestion\Model\Source\Email\Template</source_model>
+                </field>
+                <field id="stored_emails_lifetime" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Remove the web copies of the emails older than X days</label>
+                    <comment>Leave 0 to disable this option</comment>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

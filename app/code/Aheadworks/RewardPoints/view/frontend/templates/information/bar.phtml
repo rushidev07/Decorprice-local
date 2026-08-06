@@ -1,0 +1,16 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var $block \Aheadworks\RewardPoints\Block\Information\Bar */
+
+$messages = $block->getMessages();
+?>
+<?php if (count($messages)) : ?>
+    <div class="aw_reward_points__information-bar">
+        <?php foreach ($messages as $message): ?>
+            <div class="message-success success message">
+                <div><?php /* @noEscape */ echo $message ?></div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Onestepcheckout_Userinterface::css/onestepcheckout_userinterface.css" />
+		<css src="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" src_type="url"/>
+    </head>
+    <body>
+		<referenceContainer name="content">
+			<block class="Onestepcheckout\Userinterface\Block\Display" name="userinterface_display" template="Onestepcheckout_Userinterface::onestepcheckout.phtml" before="checkout.root"/>
+		</referenceContainer>
+		<referenceBlock name="checkout.root">
+		</referenceBlock>
+    </body>
+</page>

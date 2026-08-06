@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!--
+/**
+  * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     Ced_Houzz
+  * @author      CedCommerce Core Team <connect@cedcommerce.com>
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license     http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Store/etc/config.xsd">
+    <default>
+        <houzzconfiguration>
+            <houzzsetting>
+                <enable>1</enable>
+                <debug>0</debug>
+                <api_url>https://marketplace.houzzapis.com/</api_url>
+            </houzzsetting>
+
+            <product_edit>
+                <auto_sync>1</auto_sync>
+                <update_price>1</update_price>
+                <update_inventory>1</update_inventory>
+                <update_detail>0</update_detail>
+            </product_edit>
+
+            <productinfo_map>
+                <houzz_fullfillment_lagtime>1</houzz_fullfillment_lagtime>
+                <houzz_productid_type>UPC</houzz_productid_type>
+                <houzz_taxcode_animal>2038710</houzz_taxcode_animal>
+                <houzz_taxcode_artandcraft>2038710</houzz_taxcode_artandcraft>
+                <houzz_taxcode_baby>2038710</houzz_taxcode_baby>
+                <houzz_taxcode_carriersandaccessories>2038710</houzz_taxcode_carriersandaccessories>
+                <houzz_taxcode_clothing>2038710</houzz_taxcode_clothing>
+                <houzz_taxcode_electronics>2038710</houzz_taxcode_electronics>
+                <houzz_taxcode_foodandbeverage>2038710</houzz_taxcode_foodandbeverage>
+                <houzz_taxcode_footwear>2038710</houzz_taxcode_footwear>
+                <houzz_taxcode_furniture>2038710</houzz_taxcode_furniture>
+                <houzz_taxcode_gardenandpatio>2038710</houzz_taxcode_gardenandpatio>
+                <houzz_taxcode_healthandbeauty>2038710</houzz_taxcode_healthandbeauty>
+                <houzz_taxcode_home>2038710</houzz_taxcode_home>
+                <houzz_taxcode_jewelry>2038710</houzz_taxcode_jewelry>
+                <houzz_taxcode_media>2038710</houzz_taxcode_media>
+                <houzz_taxcode_musicalinstrument>2038710</houzz_taxcode_musicalinstrument>
+                <houzz_taxcode_occasionandseasonal>2038710</houzz_taxcode_occasionandseasonal>
+                <houzz_taxcode_office>2038710</houzz_taxcode_office>
+                <houzz_taxcode_other>2038710</houzz_taxcode_other>
+                <houzz_taxcode_photography>2038710</houzz_taxcode_photography>
+                <houzz_taxcode_sportandrecreation>2038710</houzz_taxcode_sportandrecreation>
+                <houzz_taxcode_toolsandhardware>2038710</houzz_taxcode_toolsandhardware>
+                <houzz_taxcode_toy>2038710</houzz_taxcode_toy>
+                <houzz_taxcode_vehicle>2038710</houzz_taxcode_vehicle>
+                <houzz_taxcode_watches>2038710</houzz_taxcode_watches>
+            </productinfo_map>
+
+        </houzzconfiguration>
+        <carriers>
+            <shiphouzzcom>
+                <active>0</active>
+                <sallowspecific>0</sallowspecific>
+                <name>Houzz.com Shipping</name>
+                <title>Houzz.com Shipping</title>
+                <model>Ced\Houzz\Model\Carrier\Shiphouzzcom</model>
+            </shiphouzzcom>
+        </carriers>
+        <payment>
+            <payhouzzcom>
+                <active>0</active>
+                <model>Ced\Houzz\Model\Payment\Payhouzzcom</model>
+                <order_status>Processing</order_status>
+                <title>Houzz.com</title>
+                <payment_action>sale</payment_action>
+                <allowspecific>0</allowspecific>
+            </payhouzzcom>
+        </payment>
+    </default>
+</config>

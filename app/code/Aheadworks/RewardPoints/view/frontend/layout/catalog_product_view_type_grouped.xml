@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.form.content">
+            <block class="Aheadworks\RewardPoints\Block\ProductList\Grouped\ProductInfo"
+                   name="aw_reward_points.product.info.grouped"
+                   before="product.info.addtocart"
+                   template="Aheadworks_RewardPoints::product/grouped/earning.phtml" />
+        </referenceContainer>
+        <move element="product.info.grouped" destination="aw_reward_points.product.info.grouped" />
+    </body>
+</page>

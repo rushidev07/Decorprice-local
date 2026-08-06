@@ -1,0 +1,115 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipPo
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+<?php  $_po = $this->getPo() ?>
+<?php  $_order = $this->getPo()->getOrder() ?>
+<?php echo $this->getChildHtml('order_info') ?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Payment &amp; Shipping Method') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <?php if (!$_order->getIsVirtual()): ?>
+        <div class="admin__page-section-item order-payment-method">
+        <?php else: ?>
+        <div class="admin__page-section-item order-payment-method order-payment-method-virtual">
+            <?php endif; ?>
+
+            <?php /* Billing Address */ ?>
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Payment Information') ?></span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <div class="order-payment-method-title"><?php echo $block->getChildHtml('order_payment') ?></div>
+                <div class="order-payment-currency">
+                    <?php /* @escapeNotVerified */ echo __('The order was placed using %1.', $_order->getOrderCurrencyCode()) ?>
+                </div>
+                <div class="order-payment-additional">
+                    <?php echo $block->getChildHtml('order_payment_additional'); ?>
+                </div>
+            </div>
+        </div>
+
+        <?php if (!$_order->getIsVirtual()): ?>
+            <div class="admin__page-section-item order-shipping-address">
+                <?php /* Shipping Address */ ?>
+                <div class="admin__page-section-item-title">
+                    <span class="title"><?php /* @escapeNotVerified */ echo __('Shipping Information') ?></span>
+                </div>
+                <div class="admin__page-section-item-content shipping-description-wrapper">
+                    <div class="shipping-description-title"><?php echo $block->escapeHtml($_order->getShippingDescription()) ?></div>
+                    <div class="shipping-description-content">
+                        <?php /* @escapeNotVerified */ echo __('Total Shipping Charges'); ?>:
+
+                        <?php if ($this->helper('Magento\Tax\Helper\Data')->displaySalesPriceInclTax($block->getOrder()->getStoreId())): ?>
+                            <?php $_excl = $block->displayShippingPriceInclTax($_order); ?>
+                        <?php else: ?>
+                            <?php $_excl = $block->displayPriceAttribute('shipping_amount', false, ' '); ?>
+                        <?php endif; ?>
+                        <?php $_incl = $block->displayShippingPriceInclTax($_order); ?>
+
+                        <?php /* @escapeNotVerified */ echo $_excl; ?>
+                        <?php if ($this->helper('Magento\Tax\Helper\Data')->displaySalesBothPrices($block->getOrder()->getStoreId()) && $_incl != $_excl): ?>
+                            (<?php /* @escapeNotVerified */ echo __('Incl. Tax'); ?> <?php /* @escapeNotVerified */ echo $_incl; ?>)
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Purchase Order Items') ?></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        <?php echo $this->getChildHtml('udpo_items') ?>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Purchase Order') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-comments-history">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Purchase Order History') ?></span>
+            </div>
+            <?php echo $block->getChildHtml('order_comments') ?>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+require(["jquery", "prototype"], function(jQuery) {
+
+window.udpoStatusChanged = function (sel)
+{
+    var id=sel.id.replace(/[^0-9]/g, '');
+    if (sel.value=='<?php echo \Unirgy\DropshipPo\Model\Source::UDPO_STATUS_CANCELED ?>') {
+        $$('comment-full-cancel input').invoke('enable');
+        $('comment-full-cancel').show();
+    } else {
+        $$('comment-full-cancel input').invoke('disable');
+        $('comment-full-cancel').hide();
+    }
+}
+    
+});
+</script>

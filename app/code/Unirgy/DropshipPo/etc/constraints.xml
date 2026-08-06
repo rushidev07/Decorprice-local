@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-foreign-key:etc/constraints.xsd">
+    <entity name="udropship_po" resource="sales">
+        <constraint name="udropship_po_to_store" onDelete="CASCADE" referenceEntity="store">
+            <field name="store_id" reference="store_id" />
+        </constraint>
+    </entity>
+    <entity name="udropship_po_grid" resource="sales">
+        <constraint name="udropship_po_grid_to_store" onDelete="CASCADE" referenceEntity="store">
+            <field name="store_id" reference="store_id" />
+        </constraint>
+    </entity>
+</config>

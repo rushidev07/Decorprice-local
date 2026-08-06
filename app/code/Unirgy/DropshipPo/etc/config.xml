@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <Unirgy_DropshipPo>
+            <usimpleup>
+                <remote>https://download.unirgy.com/simple/client_api/version/</remote>
+                <changelog>https://unirgy.com/support/portal/announcements</changelog>
+            </usimpleup>
+        </Unirgy_DropshipPo>
+        <udropship>
+            <vendor>
+                <is_restrict_udpo_status>0</is_restrict_udpo_status>
+                <allow_forced_po_status_change>0</allow_forced_po_status_change>
+                <hide_udpo_pdf_shipping_amount>0</hide_udpo_pdf_shipping_amount>
+            </vendor>
+            <statement>
+                <statement_po_status>1</statement_po_status>
+            </statement>
+            <purchase_order>
+                <admin_show_vendorsku>0</admin_show_vendorsku>
+                <allow_delete_po>0</allow_delete_po>
+                <autoinvoice_shipment>0</autoinvoice_shipment>
+                <autoinvoice_shipment_statuses>1</autoinvoice_shipment_statuses>
+                <attach_po_pdf>0</attach_po_pdf>
+                <ready_on_pdf>1</ready_on_pdf>
+                <po_increment_type>order_based</po_increment_type>
+                <shipment_increment_type>po_based</shipment_increment_type>
+                <delete_po_vendor_email_template>udropship_purchase_order_delete_po_vendor_email_template</delete_po_vendor_email_template>
+                <new_po_vendor_email_template>udropship_purchase_order_new_po_vendor_email_template</new_po_vendor_email_template>
+                <po_comment_vendor_email_template>udropship_purchase_order_po_comment_vendor_email_template</po_comment_vendor_email_template>
+            </purchase_order>
+            <admin>
+                <vendor_comments_template>Dear Administrator,
+
+                    A dropship vendor has just submitted a comment regarding an order shipment.
+
+                    Vendor Name: {{vendor_name}}
+                    Order ID: {{order_id}}
+                    {{isPoAvailable}}Purchase Order ID: {{po_id}}
+                    {{/isPoAvailable}}Shipment ID: {{shipment_id}}
+
+                    Vendor URL: {{vendor_url}}
+                    Order URL: {{order_url}}
+                    {{isPoAvailable}}Purchase Order URL: {{po_url}}
+                    {{/isPoAvailable}}Shipment URL: {{shipment_url}}
+
+                    Comment: {{comment}}
+                </vendor_comments_template>
+                <vendor_po_comments_subject>A comment from {{vendor_name}} regarding Purchase Order # {{po_id}}
+                </vendor_po_comments_subject>
+                <vendor_po_comments_template>Dear Administrator,
+
+                    A dropship vendor has just submitted a comment regarding purchase order.
+
+                    Vendor Name: {{vendor_name}}
+                    Order ID: {{order_id}}
+                    Purchase Order ID: {{po_id}}
+
+                    Vendor URL: {{vendor_url}}
+                    Order URL: {{order_url}}
+                    Purchase Order URL: {{po_url}}
+
+                    Comment: {{comment}}
+                </vendor_po_comments_template>
+                <interface_theme></interface_theme>
+                <notifications>1</notifications>
+            </admin>
+            <batch>
+                <export_on_po_status>3</export_on_po_status>
+            </batch>
+            <pocombine>
+                <notify_on_status>0</notify_on_status>
+                <after_notify_status>9</after_notify_status>
+            </pocombine>
+        </udropship>
+    </default>
+</config>

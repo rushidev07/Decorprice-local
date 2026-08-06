@@ -1,0 +1,163 @@
+# ============================================================
+# Magento 2 — .gitignore for decorprice.local dev
+# ============================================================
+
+# ------------------------------------------------------------
+# Magento core — generated / runtime / dependencies
+# ------------------------------------------------------------
+/generated/
+/var/
+/vendor/
+/vendor_old/
+/pub/static/
+/update/
+
+# ------------------------------------------------------------
+# Media uploads
+# Keep .htaccess files; ignore everything else
+# Note: pub/media/.htaccess is tracked (contains prod fallback rewrite)
+# ------------------------------------------------------------
+/pub/media/*
+!/pub/media/.htaccess
+
+# ------------------------------------------------------------
+# App config — credentials and secrets (NEVER commit)
+# ------------------------------------------------------------
+/app/etc/env.php
+/app/etc/env.php.*
+/app/etc/env.php_*
+/app/etc/config.php.*
+/app/etc/config.php_*
+/auth.json
+
+# ------------------------------------------------------------
+# Database dumps (can be multi-GB)
+# ------------------------------------------------------------
+*.sql
+*.sql.gz
+*.sql.zip
+/db_dumps/
+
+# ------------------------------------------------------------
+# Research, planning and documentation (not source code)
+# CLAUDE.md is project setup — intentionally tracked
+# ------------------------------------------------------------
+CHANGELOG.md
+SECURITY.md
+FALCOSENSE_*.md
+DECORPRICE_PROJECT_GUIDE.md
+*.pdf
+*.docx
+*.doc
+*.xlsx
+*.xls
+*.pptx
+*.ppt
+*.pages
+*.numbers
+*.key
+
+# ------------------------------------------------------------
+# Backup and temp files
+# ------------------------------------------------------------
+*.bkp
+*_bkp
+*_bkp-*
+*.bkp-*
+*.backup
+*.orig
+*.tmp
+*.swp
+*~
+/module_backups/
+/composer.json_bkp*
+/composer.lock_bkp*
+nohup.out
+*.diff
+*.diff.*
+test.html
+x.diff
+
+# ------------------------------------------------------------
+# One-off / orphan scripts and patch files at root
+# ------------------------------------------------------------
+/generateReviewFeedForLightingSelection.php
+/magento2_fixenv.php
+/*.patch
+/magento_root.code-workspace
+
+# ------------------------------------------------------------
+# Sample / boilerplate files (not needed in repo)
+# ------------------------------------------------------------
+.htaccess.sample
+Gruntfile.js.sample
+grunt-config.json.sample
+nginx.conf.sample
+package.json.sample
+auth.json.sample
+
+# ------------------------------------------------------------
+# Claude Code internal directory
+# ------------------------------------------------------------
+/.claude/
+
+# ------------------------------------------------------------
+# Sitemap / robots
+# ------------------------------------------------------------
+/robots.txt
+/pub/robots.txt
+/sitemap
+/sitemap.xml
+/pub/sitemap
+/pub/sitemap.xml
+
+# ------------------------------------------------------------
+# IDE and OS
+# ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+/.buildpath
+/.cache
+/.metadata
+/.project
+/.settings
+/nbproject
+atlassian*
+
+# ------------------------------------------------------------
+# Node / Grunt
+# ------------------------------------------------------------
+/node_modules/
+/.grunt/
+/Gruntfile.js
+/package.json
+/grunt-config.json
+
+# ------------------------------------------------------------
+# PHP tooling
+# ------------------------------------------------------------
+/.php_cs
+/.php_cs.cache
+/.gitattributes
+
+# ------------------------------------------------------------
+# Magento test modules and misc
+# ------------------------------------------------------------
+/app/code/Magento/TestModule*
+/app/config_sandbox
+/phpserver/
+/srv/
+
+# ------------------------------------------------------------
+# Flex / legacy IDE
+# ------------------------------------------------------------
+/lib/internal/flex/uploader/.actionScriptProperties
+/lib/internal/flex/uploader/.flexProperties
+/lib/internal/flex/uploader/.project
+/lib/internal/flex/uploader/.settings
+/lib/internal/flex/varien/.actionScriptProperties
+/lib/internal/flex/varien/.flexLibProperties
+/lib/internal/flex/varien/.project
+/lib/internal/flex/varien/.settings

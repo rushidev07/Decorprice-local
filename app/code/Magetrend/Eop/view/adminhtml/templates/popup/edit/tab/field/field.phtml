@@ -1,0 +1,158 @@
+<?php
+/**
+ * MB "Vienas bitas" (Magetrend.com)
+ *
+ * PHP version 5.3 or later
+ *
+ * @category MageTrend
+ * @package  Magetend/Eop
+ * @author   Edvinas Stulpinas <edwin@magetrend.com>
+ * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link     https://www.magetrend.com/magento-2-exit-intent-popup-extension
+ */
+//@codingStandardsIgnoreFile
+?>
+<?php /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Option */ ?>
+<?php echo $block->getTemplatesHtml() ?>
+<script id="custom-option-base-template" type="text/x-magento-template">
+    <div class="fieldset-wrapper admin__collapsible-block-wrapper opened" id="option_<%- data.id %>">
+        <div class="fieldset-wrapper-title">
+            <strong
+                class="admin__collapsible-title"
+                data-toggle="collapse"
+                data-target="#<%- data.id %>-content">
+                <span id="option_<%- data.id %>_header_title"><%- data.title %></span>
+            </strong>
+            <div class="actions">
+                <button type="button" title="<?php echo __('Delete Custom Option'); ?>" class="action-delete" id="<?php echo $block->getFieldId() ?>_<%- data.id %>_delete">
+                    <span><?php echo __('Delete Custom Option'); ?></span>
+                </button>
+            </div>
+            <div id="<?php echo $block->getFieldId() ?>_<%- data.id %>_move" data-role="draggable-handle" class="draggable-handle"
+                 title="<?php echo __('Sort Custom Options'); ?>"></div>
+        </div>
+        <div class="fieldset-wrapper-content in collapse" id="<%- data.id %>-content">
+            <fieldset class="fieldset">
+                <fieldset class="fieldset-alt" id="<?php echo $block->getFieldId() ?>_<%- data.id %>">
+                    <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_is_delete" name="<?php echo $block->getFieldName() ?>[<%- data.id %>][is_delete]" type="hidden" value=""/>
+                    <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_previous_type" name="<?php echo $block->getFieldName() ?>[<%- data.id %>][previous_type]" type="hidden" value="<%- data.type %>"/>
+                    <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_previous_group" name="<?php echo $block->getFieldName() ?>[<%- data.id %>][previous_group]" type="hidden" value=""/>
+                    <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_id" name="<?php echo $block->getFieldName() ?>[<%- data.id %>][id]" type="hidden" value="<%- data.id %>"/>
+                    <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_option_id" name="<?php echo $block->getFieldName() ?>[<%- data.id %>][option_id]" type="hidden" value="<%- data.option_id %>"/>
+                    <input name="<?php echo $block->getFieldName() ?>[<%- data.id %>][sort_order]" type="hidden" value="<%- data.sort_order %>"/>
+
+                    <div class="field field-option-name required">
+                        <label class="label" for="<?php echo $block->getFieldId() ?>_<%- data.id %>_name">
+                            <?php echo __('Field Name') ?>
+                        </label>
+                        <div class="control">
+                            <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_name"
+                                   name="<?php echo $block->getFieldName() ?>[<%- data.id %>][name]"
+                                   class="required-entry input-text"
+                                   type="text"
+                                   value="<%- data.name %>"
+                                   data-store-label="<%- data.name %>"
+                                   <% if (typeof data.scopeTitleDisabled != 'undefined' && data.scopeTitleDisabled != null) { %> disabled="disabled" <% } %>
+                                   >
+                            <%- data.checkboxScopeTitle %>
+                        </div>
+                    </div>
+
+                    <div class="field field-option-label required">
+                        <label class="label" for="<?php echo $block->getFieldId() ?>_<%- data.id %>_label">
+                            <?php echo __('Field Label') ?>
+                        </label>
+                        <div class="control">
+                            <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_label"
+                                   name="<?php echo $block->getFieldName() ?>[<%- data.id %>][label]"
+                                   class="required-entry input-text"
+                                   type="text"
+                                   value="<%- data.label %>"
+                                   data-store-label="<%- data.label %>"
+                            <% if (typeof data.scopeTitleDisabled != 'undefined' && data.scopeTitleDisabled != null) { %> disabled="disabled" <% } %>
+                            >
+                            <%- data.checkboxScopeTitle %>
+                        </div>
+                    </div>
+
+                    <div class="field field-option-default" style="display: none">
+                        <label class="label" for="<?php echo $block->getFieldId() ?>_<%- data.id %>_default_value">
+                            <?php echo __('Default Value') ?>
+                        </label>
+                        <div class="control">
+                            <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_default_value"
+                                   name="<?php echo $block->getFieldName() ?>[<%- data.id %>][default_value]"
+                                   class="input-text"
+                                   type="text"
+                                   value="<%- data.default_value %>"
+                                   data-store-label="<%- data.default_value %>"
+                            <% if (typeof data.scopeTitleDisabled != 'undefined' && data.scopeTitleDisabled != null) { %> disabled="disabled" <% } %>
+                            >
+                            <%- data.checkboxScopeTitle %>
+                        </div>
+                    </div>
+
+                    <div class="field field-option-input-type required">
+                        <label class="label" for="<?php echo $block->getFieldId() ?>_<%- data.id %>_title">
+                            <?php echo __('Input Type') ?>
+                        </label>
+                        <div class="control opt-type">
+                            <?php echo $block->getTypeSelectHtml() ?>
+                        </div>
+                    </div>
+
+                    <div class="field field-option-req">
+                        <div class="control">
+                            <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_required" class="is-required" type="checkbox" checked="checked"/>
+                            <label for="field-option-req">
+                                <?php echo __('Required')?>
+                            </label>
+                            <span style="display:none"><?php echo $block->getRequireSelectHtml() ?></span>
+                        </div>
+                    </div>
+
+                    <div class="field field-option-req">
+                        <div class="control">
+                            <input id="<?php echo $block->getFieldId() ?>_<%- data.id %>_after_email" class="is-required" type="checkbox"/>
+                            <label for="field-option_after_email">
+                                <?php echo __('After Email Field')?>
+                            </label>
+                            <span style="display:none"><?php echo $block->getAfterSelectHtml() ?></span>
+                        </div>
+                    </div>
+                </fieldset>
+            </fieldset>
+        </div>
+    </div>
+</script>
+
+<div id="import-container" style="display: none;"></div>
+
+<script>
+
+require([
+    "jquery",
+    "Magetrend_Eop/js/field"
+], function(jQuery){
+
+jQuery(function ($) {
+    var fieldSet = $('#field-custom-options-wrapper');
+    fieldSet.customOptions(<?php echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode(
+        [
+            'fieldId' => $block->getFieldId(),
+            'fieldGridUrl' => $block->getProductGridUrl(),
+            'formKey' => $block->getFormKey(),
+            'customOptionsUrl' => $block->getCustomOptionsUrl(),
+            'isReadonly' => $block->isReadonly(),
+            'itemCount' => $block->getItemCount(),
+        ]
+    )?>);
+    //adding data to templates
+    <?php /** @var $_value \Magento\Framework\Object */ ?>
+    <?php foreach ($block->getOptionValues() as $_value): ?>
+        fieldSet.customOptions('addOption', <?php echo $_value->toJson() ?>);
+    <?php endforeach; ?>
+});
+
+});
+</script>

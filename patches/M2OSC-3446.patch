@@ -1,0 +1,462 @@
+diff --git a/vendor/aheadworks/module-onestepcheckout/etc/frontend/di.xml b/vendor/aheadworks/module-onestepcheckout/etc/frontend/di.xml
+index 3ee2rd..1247152 121644
+--- a/vendor/aheadworks/module-onestepcheckout/etc/frontend/di.xml
++++ b/vendor/aheadworks/module-onestepcheckout/etc/frontend/di.xml
+@@ -121,6 +121,13 @@
+             </argument>
+         </arguments>
+     </type>
++    <type name="Aheadworks\OneStepCheckout\Model\Layout\Processor\RemoveUnusedPaymentRenders">
++        <arguments>
++            <argument name="paymentGroupsToCheck" xsi:type="array">
++                <item name="0" xsi:type="string">payment_services</item>
++            </argument>
++        </arguments>
++    </type>
+     <type name="Magento\Checkout\Controller\Index\Index">
+         <plugin name="aw_onestepcheckout_checkout_index_action_plugin" type="Aheadworks\OneStepCheckout\Plugin\Checkout\Controller\Index\Index"/>
+     </type>
+diff --git a/vendor/aheadworks/module-onestepcheckout/Model/Layout/Processor/RemoveUnusedPaymentRenders.php b/vendor/aheadworks/module-onestepcheckout/Model/Layout/Processor/RemoveUnusedPaymentRenders.php
+index 3ee2rd..1347152 131644
+--- a/vendor/aheadworks/module-onestepcheckout/Model/Layout/Processor/RemoveUnusedPaymentRenders.php
++++ b/vendor/aheadworks/module-onestepcheckout/Model/Layout/Processor/RemoveUnusedPaymentRenders.php
+@@ -21,6 +21,11 @@
+      * @var PaymentConfig
+      */
+     private $paymentConfig;
++    
++    /**
++     * @var array
++     */
++    private $paymentGroupsToCheck = [];
+ 
+     /**
+      * @param ArrayManager $arrayManager
+@@ -32,6 +37,7 @@
+     ) {
+         $this->arrayManager = $arrayManager;
+         $this->paymentConfig = $paymentConfig;
++        $this->paymentGroupsToCheck = $paymentGroupsToCheck;
+     }
+ 
+     /**
+@@ -46,18 +52,36 @@
+         $paymentRenders = $this->arrayManager->get($paymentRendersPath, $jsLayout);
+ 
+         foreach ($paymentRenders as $groupKey => $groupParams) {
+-            $disabledPaymentMethodsCount = 0;
+-            foreach ($groupParams['methods'] as $paymentCode => $paymentParams) {
+-                if (!$this->paymentConfig->isMethodActive($paymentCode)) {
+-                    $disabledPaymentMethodsCount++;
++            $isNeedRemove = false;
++            if ($this->isOnlyGroupNeedCheck($groupKey)) {
++                $isNeedRemove = !$this->paymentConfig->isMethodActive($groupKey);
++            } else if (count($groupParams['methods'])) {
++                $disabledPaymentMethodsCount = 0;
++                foreach ($groupParams['methods'] as $paymentCode => $paymentParams) {
++                    if (!$this->paymentConfig->isMethodActive($paymentCode)) {
++                        $disabledPaymentMethodsCount++;
++                    }
+                 }
++
++                $isNeedRemove = count($groupParams['methods']) === $disabledPaymentMethodsCount;
+             }
+ 
+-            if (count($groupParams['methods']) == $disabledPaymentMethodsCount) {
++            if ($isNeedRemove) {
+                 $jsLayout = $this->arrayManager->remove($paymentRendersPath . '/' . $groupKey, $jsLayout);
+             }
+         }
+ 
+         return $jsLayout;
+     }
++    
++    /**
++     * Check if only payment group status should be checked
++     *
++     * @param string $groupKey
++     * @return bool
++     */
++    private function isOnlyGroupNeedCheck(string $groupKey): bool
++    {
++        return in_array($groupKey, $this->paymentGroupsToCheck);
++    }
+ }
+diff --git a/vendor/aheadworks/module-onestepcheckout/Model/Config/Backend/TrustSeals/Badges/Validator.php b/vendor/aheadworks/module-onestepcheckout/Model/Config/Backend/TrustSeals/Badges/Validator.php
+index 3ee2rd..1347152 115644
+--- a/vendor/aheadworks/module-onestepcheckout/Model/Config/Backend/TrustSeals/Badges/Validator.php
++++ b/vendor/aheadworks/module-onestepcheckout/Model/Config/Backend/TrustSeals/Badges/Validator.php
+@@ -31,7 +31,7 @@
+                 }
+             }
+         }
+-        if (!$itemsCount < 4) {
++        if ($itemsCount > 3) {
+             $this->_addMessages(['Maximum number of badge items 3 exceeded.']);
+         }
+
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/requirejs-config.js b/vendor/aheadworks/module-onestepcheckout/view/frontend/requirejs-config.js
+index 3ee2rd..1447152 141644
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/requirejs-config.js
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/requirejs-config.js
+@@ -102,7 +102,13 @@
+             },
+             'Adyen_Payment/js/view/payment/method-renderer/adyen-pos-cloud-method': {
+                 'Aheadworks_OneStepCheckout/js/view/payment-method/renderer/adyen/adyen-pos-cloud-method-mixin': true
+-            }
++            },
++            'Magento_PaymentServicesPaypal/js/view/payment/method-renderer/hosted-fields': {
++                'Aheadworks_OneStepCheckout/js/view/payment-method/renderer/payment-services-paypal/hosted-fields-mixin': true
++            },
++            'Magento_PaymentServicesPaypal/js/view/payment/method-renderer/vault': {
++                'Aheadworks_OneStepCheckout/js/view/payment-method/renderer/payment-services-paypal/vault-mixin': true
++            },
+         }
+     }
+ };
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/layout/onestepcheckout_index_index.xml b/vendor/aheadworks/module-onestepcheckout/view/frontend/layout/onestepcheckout_index_index.xml
+index 3ee2rd..1547152 151644
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/layout/onestepcheckout_index_index.xml
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/layout/onestepcheckout_index_index.xml
+@@ -856,12 +856,15 @@
+                                             <item name="klarna_pay_now" xsi:type="string">Aheadworks_OneStepCheckout/js/view/actions-toolbar/renderer/klarna</item>
+                                             <item name="klarna_pay_over_time" xsi:type="string">Aheadworks_OneStepCheckout/js/view/actions-toolbar/renderer/klarna</item>
+                                             <item name="razorpay" xsi:type="string">Aheadworks_OneStepCheckout/js/view/actions-toolbar/renderer/razorpay/razorpay-method</item>
++                                            <item name="payment_services_paypal_hosted_fields" xsi:type="string">Aheadworks_OneStepCheckout/js/view/actions-toolbar/renderer/payment-services-paypal/hosted-fields</item>
++                                            <item name="payment_services_paypal_vault" xsi:type="string">Aheadworks_OneStepCheckout/js/view/actions-toolbar/renderer/payment-services-paypal/vault</item>
+                                         </item>
+                                         <item name="rendererButton" xsi:type="array">
+                                             <item name="braintree_googlepay" xsi:type="boolean">false</item>
+                                             <item name="braintree_venmo" xsi:type="boolean">false</item>
+                                             <item name="braintree_applepay" xsi:type="boolean">false</item>
+                                             <item name="splitit_payment" xsi:type="boolean">false</item>
++                                            <item name="payment_services_paypal_smart_buttons" xsi:type="boolean">false</item>
+                                         </item>
+                                         <item name="provider" xsi:type="string">checkoutProvider</item>
+                                         <item name="sortOrder" xsi:type="string">13</item>
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/css/source/_module.less b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/css/source/_module.less
+index 3ee2rd..1647152 161644
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/css/source/_module.less
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/css/source/_module.less
+@@ -1156,6 +1156,33 @@
+                             white-space: nowrap;
+                             overflow: hidden;
+                         }
++                        #payment_form_payment_services_paypal_hosted_fields {
++                            .label {
++                                position: relative;
++                                bottom: 0px;
++                                padding-left: 0px;
++                            }
++                            .field {
++                                margin-bottom: 10px;
++                            }
++                            .field[data-field-name="expirationDate"]{
++                                float: left;
++                                width: 50%;
++                                display: block;
++                            }
++                            .field[data-field-name="cvv"]{
++                                float: right;
++                                width: 50%;
++                                display: block;
++                                .field-tooltip {
++                                    right: 0px;
++                                }
++                            }
++                        }
++                        .payment_services_paypal_vault_choice .field-tooltip.toggle {
++                            margin-left: 10px;
++                            margin-top: -2px;
++                        }
+                     }
+ 
+                     &:first-of-type {
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/shipping-address.js b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/shipping-address.js
+index 3ee2rd..1747152 171644
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/shipping-address.js
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/shipping-address.js
+@@ -414,6 +414,13 @@
+             amazonPayIsDefined: function() {
+                 return uiRegistry.get('amazonPay');
+             },
++            
++            /**
++             * @return {Boolean}
++             */
++            validateShippingInformation: function () {
++                return true;
++            },
+ 
+             /**
+              * Open new address form
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/actions-toolbar/renderer/payment-services-paypal/hosted-fields.js b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/actions-toolbar/renderer/payment-services-paypal/hosted-fields.js
+index 3ee2rd..8448152 117754
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/actions-toolbar/renderer/payment-services-paypal/hosted-fields.js
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/actions-toolbar/renderer/payment-services-paypal/hosted-fields.js
+@@ -0,0 +1,29 @@
++define([
++    'Aheadworks_OneStepCheckout/js/view/actions-toolbar/renderer/default'
++], function (Component) {
++    'use strict';
++
++    return Component.extend({
++        defaults: {
++            template: 'Aheadworks_OneStepCheckout/actions-toolbar/renderer/default'
++        },
++
++        /**
++         * Place order
++         *
++         * @param {Object} data
++         * @param {Object} event
++         */
++        placeOrder: function (data, event) {
++            var self = this;
++
++            if (event) {
++                event.preventDefault();
++            }
++
++            this._beforeAction().done(function () {
++                self._getMethodRenderComponent().placeOrderClick();
++            });
++        },
++    });
++});
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/actions-toolbar/renderer/payment-services-paypal/vault.js b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/actions-toolbar/renderer/payment-services-paypal/vault.js
+index 3ee2rd..8449152 117754
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/actions-toolbar/renderer/payment-services-paypal/vault.js
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/actions-toolbar/renderer/payment-services-paypal/vault.js
+@@ -0,0 +1,29 @@
++define([
++    'Aheadworks_OneStepCheckout/js/view/actions-toolbar/renderer/default'
++], function (Component) {
++    'use strict';
++
++    return Component.extend({
++        defaults: {
++            template: 'Aheadworks_OneStepCheckout/actions-toolbar/renderer/default'
++        },
++
++        /**
++         * Place order
++         *
++         * @param {Object} data
++         * @param {Object} event
++         */
++        placeOrder: function (data, event) {
++            var self = this;
++
++            if (event) {
++                event.preventDefault();
++            }
++
++            this._beforeAction().done(function () {
++                self._getMethodRenderComponent().onPlaceOrder();
++            });
++        },
++    });
++});
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/payment-method/renderer/payment-services-paypal/hosted-fields-mixin.js b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/payment-method/renderer/payment-services-paypal/hosted-fields-mixin.js
+index 3ee2rd..8449162 117764
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/payment-method/renderer/payment-services-paypal/hosted-fields-mixin.js
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/payment-method/renderer/payment-services-paypal/hosted-fields-mixin.js
+@@ -0,0 +1,21 @@
++define([
++    'Aheadworks_OneStepCheckout/js/model/render-postprocessor',
++],
++function (postprocessor) {
++    'use strict';
++
++    return function (renderer) {
++        return renderer.extend({
++            defaults: {
++                template: 'Aheadworks_OneStepCheckout/payment-method/renderer/payment-services-paypal/hosted-fields'
++            },
++
++            /**
++             * Place Order Button Visible
++             */
++            isPlaceOrderButtonVisible: function () {
++                return postprocessor.isRenderButtonDefault();
++            }
++        });
++    }
++});
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/payment-method/renderer/payment-services-paypal/vault-mixin.js b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/payment-method/renderer/payment-services-paypal/vault-mixin.js
+index 3ee2rd..8449172 117774
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/payment-method/renderer/payment-services-paypal/vault-mixin.js
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/js/view/payment-method/renderer/payment-services-paypal/vault-mixin.js
+@@ -0,0 +1,11 @@
++define([], function () {
++    'use strict';
++
++    return function (renderer) {
++        return renderer.extend({
++            defaults: {
++                template: 'Aheadworks_OneStepCheckout/payment-method/renderer/payment-services-paypal/vault'
++            },
++        });
++    }
++});
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/template/payment-method/renderer/payment-services-paypal/hosted-fields.html b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/template/payment-method/renderer/payment-services-paypal/hosted-fields.html
+index 3ee2rd..8449182 117774
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/template/payment-method/renderer/payment-services-paypal/hosted-fields.html
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/template/payment-method/renderer/payment-services-paypal/hosted-fields.html
+@@ -0,0 +1,107 @@
++<div class="payment-method" css="'_active': (getCode() == isChecked())">
++    <div class="payment-method-title field choice">
++        <input type="radio"
++               name="payment[method]"
++               class="radio"
++               attr="'id': getCode()"
++               ko-value="getCode()"
++               ko-checked="isChecked"
++               click="selectPaymentMethod"
++               visible="isRadioButtonVisible()">
++        <label attr="'for': getCode()" class="label"><span translate="getTitle()"></span></label>
++    </div>
++    <div class="payment-method-content" data-bind="blockLoader: !isFormRendered()">
++        <each args="getRegion('messages')" render=""></each>
++        <div class="payment-method-billing-address" if="isFormRendered() && isAvailable()">
++            <each args="$parent.getRegion(getBillingAddressFormName())" render=""></each>
++        </div>
++        <div class="checkout-agreements-block" if="isFormRendered() && isAvailable()">
++            <each args="$parent.getRegion('before-place-order')" render=""></each>
++        </div>
++
++        <div class="card-container">
++            <form attr="id: formId" afterRender="afterRender">
++                <fieldset if="isAvailable" attr="class: 'fieldset payment items ccard ' + getCode(), id: 'payment_form_' + getCode()">
++                    <div class="field type">
++                        <div class="control">
++                            <ul class="credit-card-types">
++                                <each args="data: availableCards, as: 'ccCode'">
++                                    <with args="$parent">
++                                        <li class="item"
++                                            css="_active: ccType() === ccCode, _inactive: !ccType() || ccType() !== ccCode"
++                                            if="ccIcons[ccCode]">
++                                            <img attr="src: ccIcons[ccCode].url, alt: cards[ccCode].eligibilityCode, width: ccIcons[ccCode].width, height: ccIcons[ccCode].height" />
++                                        </li>
++                                    </with>
++                                </each>
++                            </ul>
++                        </div>
++                    </div>
++                    <each args="data: Object.keys(fields), as: 'fieldName'">
++                        <div class="field required" with="$parent" attr="'data-field-name': fieldName">
++                            <label class="label" translate="fields[fieldName].label" attr="for: 'card-' + fieldName"></label>
++                            <div css="'field-wrapper': fields[fieldName].tooltip">
++                                <div class="card-field" attr="id: 'card-' + fieldName" css="error: !isFieldValid(fieldName), [fields[fieldName].class]: true"></div>
++                                <div class="field-tooltip toggle" if="fields[fieldName].tooltip">
++                                    <span class="field-tooltip-action"
++                                          tabindex="0"
++                                          data-toggle="dropdown"
++                                          css="['action-' + fieldName]"
++                                          attr="title: fields[fieldName].tooltip.title"
++                                          data-bind="mageInit: {'dropdown':{'activeClass': '_active'}}">
++                                        <span translate="fields[fieldName].tooltip.title"></span>
++                                    </span>
++                                    <div class="field-tooltip-content"
++                                         data-target="dropdown"
++                                         data-bind="html: fields[fieldName].tooltip.contentUnsanitizedHtml"></div>
++                                </div>
++                            </div>
++                            <div class="field-error" if="!isFieldValid(fieldName)">
++                                <span translate="getFieldErrorMessage(fieldName)"></span>
++                            </div>
++                        </div>
++                    </each>
++                </fieldset>
++            </form>
++        </div>
++        <div aria-atomic="true" role="alert" class="message message-error error" if="isFormRendered() && !isAvailable()">
++            <div data-ui-id="checkout-cart-validationmessages-message-error" translate="notEligibleErrorMessage"></div>
++        </div>
++        <div class="field choice payment_services_paypal_vault_choice" if="isFormRendered() && isAvailable() && isCommerceVaultEnabled">
++            <input
++                    enable="isFormRendered() && isAvailable()"
++                    type="checkbox"
++                    name="vault[is_enabled]"
++                    class="checkbox"
++                    data-bind="attr: {'id': getCode() + '_enable_vault'}, checked: vaultEnabler.isActivePaymentTokenEnabler">
++            <label class="label" data-bind="attr: {'for': getCode() + '_enable_vault'}">
++                <span><!-- ko i18n: 'Save for later use.'--><!-- /ko --></span>
++            </label>
++            <div class="field-tooltip toggle">
++                <span class="field-tooltip-action"
++                      tabindex="0"
++                      data-toggle="dropdown"
++                      attr="title: $t('What is this?')"
++                      data-bind="mageInit: {'dropdown':{'activeClass': '_active'}}">
++                    <span translate="'What is this?'"></span>
++                </span>
++                <div class="field-tooltip-content"
++                     data-target="dropdown"
++                     translate="'Securely store your credit card information for future use.'">
++                </div>
++            </div>
++        </div>
++        <div class="actions-toolbar" if="isFormRendered() && isAvailable() && isPlaceOrderButtonVisible()">
++            <div class="primary">
++                <button class="action primary checkout"
++                        type="submit"
++                        click="placeOrderClick"
++                        attr="title: placeOrderTitle"
++                        css="disabled: !isPlaceOrderActionAllowed()"
++                        ko-disabled="getCode() !== isChecked() || !isFormValid()">
++                    <span translate="placeOrderTitle"></span>
++                </button>
++            </div>
++        </div>
++    </div>
++</div>
+diff --git a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/template/payment-method/renderer/payment-services-paypal/vault.html b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/template/payment-method/renderer/payment-services-paypal/vault.html
+index 3ee2rd..8449192 127774
+--- a/vendor/aheadworks/module-onestepcheckout/view/frontend/web/template/payment-method/renderer/payment-services-paypal/vault.html
++++ b/vendor/aheadworks/module-onestepcheckout/view/frontend/web/template/payment-method/renderer/payment-services-paypal/vault.html
+@@ -0,0 +1,43 @@
++<div class="payment-method" css="'_active': (getId() == isChecked())" id="payment-method-payment_services_paypal_vault">
++    <div class="payment-method-title field choice">
++        <input type="radio"
++               name="payment[method]"
++               class="radio"
++               data-bind="attr: {'id': getId()}, value: getId(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()">
++        <label class="label" attr="'for': getId()">
++            <img attr="{
++                'src': getIcons(getCardBrand()).url,
++                'width': getIcons(getCardBrand()).width,
++                'height': getIcons(getCardBrand()).height
++            }" class="payment-icon">
++            <span translate="'ending'"></span>
++            <span text="getMaskedCard()"></span>
++        </label>
++    </div>
++
++    <div class="payment-method-content">
++        <!-- ko foreach: getRegion('messages') -->
++        <!-- ko template: getTemplate() --><!-- /ko -->
++        <!--/ko-->
++        <div class="payment-method-billing-address">
++            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
++            <!-- ko template: getTemplate() --><!-- /ko -->
++            <!--/ko-->
++        </div>
++
++        <div class="checkout-agreements-block">
++            <!-- ko foreach: $parent.getRegion('before-place-order') -->
++            <!-- ko template: getTemplate() --><!-- /ko -->
++            <!--/ko-->
++        </div>
++        <div class="actions-toolbar">
++            <div class="primary">
++                <button class="action primary checkout"
++                        type="submit"
++                        click="onPlaceOrder">
++                    <span translate="'Place Order'"></span>
++                </button>
++            </div>
++        </div>
++    </div>
++</div>

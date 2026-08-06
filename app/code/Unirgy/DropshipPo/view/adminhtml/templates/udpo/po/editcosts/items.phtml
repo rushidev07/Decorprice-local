@@ -1,0 +1,134 @@
+<?php
+/**
+ * Unirgy LLC
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.unirgy.com/LICENSE-M1.txt
+ *
+ * @category   Unirgy
+ * @package    Unirgy_DropshipPo
+ * @copyright  Copyright (c) 2008-2009 Unirgy LLC (http://www.unirgy.com)
+ * @license    http:///www.unirgy.com/LICENSE-M1.txt
+ */
+?>
+<?php $hlp = \Magento\Framework\App\ObjectManager::getInstance()->get('Unirgy\Dropship\Helper\Data') ?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Items to Po') ?></span>
+    </div>
+    <div class="admin__page-section-content grid">
+        <div class="admin__table-wrapper">
+            <table class="data-table admin__table-primary order-invoice-tables">
+                <thead>
+                    <tr class="headings">
+                        <th><?php echo __('Product') ?></th>
+                        <th><?php echo __('Vendor') ?></th>
+                        <th class="a-right"><?php echo __('Cost') ?></th>
+                        <th class="a-center"><?php echo __('Qty') ?></th>
+                        <th class="last a-right"><?php echo __('Row Cost') ?></th>
+                    </tr>
+                </thead>
+                <?php $_items = $this->getPo()->getAllItems() ?>
+                <?php $_i=0;foreach ($_items as $_item): if ($_item->getOrderItem()->getParentItem()): continue; endif; $_i++ ?>
+                <tbody class="<?php echo $_i%2?'odd':'even' ?>">
+                    <?php echo $this->getItemHtml($_item) ?>
+                </tbody>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Order Total') ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-comments-history">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php echo __('Purchase Order Comments') ?></span>
+            </div>
+            <div id="order-history_form" class="admin__page-section-item-content order-history-form">
+                <div class="admin__field">
+                    <label for="udpo_comment_text" class="admin__field-label">
+                        <span><?php echo __('Purchase Order Comments') ?></span>
+                    </label>
+                    <div class="admin__field-control">
+                        <textarea id="udpo_comment_text" name="udpo[comment_text]" rows="3" cols="5" style="height:6em; width:99%;"><?php echo $this->getCommentText(); ?></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="udpo_totals" class="admin__page-section-item order-totals">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Purchase Orders Totals') ?></span>
+            </div>
+            <div class="admin__page-section-item-content order-totals-actions">
+                <table class="data-table admin__table-secondary order-subtotal-table">
+                    <tfoot>
+                        <tr>
+                        <td class="label">
+                            <strong><?php echo __('Shipping Amount') ?></strong>
+                        </td>
+                        <td class="emph">
+                            <strong><input id="udpo_shipping_amount" name="udpo[shipping_amount]" value="<?php echo $this->getPo()->getShippingAmount() ?>" />
+                        </td>
+                        </tr>
+                        <tr>
+                        <td class="label">
+                            <strong><?php echo __('Total Cost') ?></strong>
+                        </td>
+                        <td class="emph">
+                            <strong id="udpo_total_cost"><?php echo $hlp->displayPrices($this->getOrder(), $this->getPo()->getTotalCost()) ?></strong>
+                        </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="admin__field admin__field-option">
+                    <input id="notify_vendor" name="udpo[comment_vendor_notify]" value="1" type="checkbox" class="admin__control-checkbox" />
+                    <label class="admin__field-label" for="notify_vendor">Send Comments To Vendor by Email</label>
+                </div>
+                <div class="admin__field admin__field-option">
+                    <input id="is_visible_to_vendor" name="udpo[comment_visible_to_vendor]" value="1" type="checkbox" class="admin__control-checkbox" />
+                    <label class="admin__field-label" for="is_visible_to_vendor">Is Comments Visible To Vendor</label>
+                </div>
+                <div class="actions">
+                    <?php echo $this->getChildHtml('submit_button') ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="clear"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+
+
+require(["jquery", "prototype"], function(jQuery) {
+var udpoPriceTpl = new Template("<?php echo str_replace('%s', '#{price}', $this->getOrder()->getBaseCurrency()->getOutputFormat()) ?>")
+
+window.udpoRecalcCosts = function(item) {
+    var trEl = item.up('tr')
+    if (trEl && trEl.id && trEl.id.startsWith('udpo_item_')) {
+        trEl.select('.udpo_item_rowcost')[0].update(udpoPriceTpl.evaluate({price: (item.value*trEl.select('.udpo_item_qty')[0].innerHTML).toFixed(2)}))
+        trEl.select('.udpo_item_rowcost')[0].writeAttribute('alt', item.value*trEl.select('.udpo_item_qty')[0].innerHTML)
+    }
+    var udpoTotalCost = new Number(0)
+    trEl.up('table').select('tr').each(function(tr){
+        if (tr.id && tr.id.startsWith('udpo_item_')) {
+            udpoTotalCost += tr.select('.udpo_item_rowcost')[0].readAttribute('alt')*1
+        }
+    })
+    $('udpo_total_cost').update(udpoPriceTpl.evaluate({price: udpoTotalCost.toFixed(2)}))
+}
+});
+
+
+//]]>
+</script>

@@ -1,0 +1,31 @@
+<?php
+/**
+ * @FishPig_WordPress
+ */
+// phpcs:ignoreFile -- long lines (todo)
+?>
+<form class="form"
+        action="<?= $block->escapeUrl($block->getPasswordFormAction()) ?>"
+        method="post"
+        data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+        id="wp-password-form">
+    <input type="hidden" name="post" value="<?= (int)$block->getPost()->getId() ?>" />
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?= $block->escapeHtml(__('Password Protected Content')) ?></span></legend><br>
+        <div class="field note no-label"><?= $block->escapeHtml(__('This %1 is password protected. To view it please enter your password below:', $block->getEntityType())) ?></div>
+        <div class="field password required">
+            <label class="label" for="post_password"><span><?= $block->escapeHtml(__('Password')) ?></span></label>
+            <div class="control">
+                <input name="post_password" id="post_password" title="<?= $block->escapeHtml(__('Post Password')) ?>" value="" class="input-text" type="password" data-validate="{required:true}"/>
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <input type="hidden" name="hideit" id="hideit" value="">
+            <button type="submit" title="<?= $block->escapeHtml(__('Submit')) ?>" class="action submit primary">
+                <span><?= $block->escapeHtml(__('Submit')) ?></span>
+            </button>
+        </div>
+    </div>
+</form>

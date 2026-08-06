@@ -1,0 +1,79 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Adminhtml\Question\Edit\Tab\General\Answers\ElementRenderer $this */
+?>
+<div id="answer-form-container-<?php echo (int)$this->getId();?>">
+    <input type="hidden" name="data[answer][<?php echo (int)$this->getId();?>][question_id]" value="<?php echo (int)$this->getQuestionId();?>"/>
+    <textarea name="data[answer][<?php echo (int)$this->getId();?>][content]" rows="2" cols="15" class="textarea"><?php echo $this->escapeHtml($this->getContent());?></textarea>
+    <div>
+        <div style="display: inline-block; width: 40%;">
+            <?php echo $this->escapeHtml(__('Author'));?>:
+            <?php if ($this->checkCustomerExist()):?><a href="<?php echo $this->escapeUrl($this->getCustomerUrl());?>" target="_blank"><?php endif;?>
+            <?php if ($this->isAdmin()):?><b><?php endif;?>
+                <?php echo $this->escapeHtml($this->getAuthorName());?> (<?php echo $this->escapeHtml($this->getAuthorEmail());?>)
+            <?php if ($this->isAdmin()):?></b><?php endif;?>
+            <?php if ($this->checkCustomerExist()):?></a><?php endif;?>
+        </div>
+        <div style="display: inline-block; width: 15%;">
+            <?php echo $this->escapeHtml(__('Rating'));?>
+            <input type="text" name="data[answer][<?php echo (int)$this->getId();?>][helpfulness]" value="<?php echo $this->escapeHtml($this->getRating());?>"/>
+        </div>
+        <div style="display: inline-block; width: 15%;">
+            <?php echo $this->escapeHtml(__('Status'));?>:
+            <?php echo $this->escapeHtml($this->getStatus());?>
+        </div>
+        <div style="display: inline-block; float: right; width: 29%; text-align: right">
+            <button class="scalable delete" type="button" onclick="setLocation('<?php echo $this->escapeUrl($this->getDeleteUrl());?>')">
+                <span><?php echo $this->escapeHtml(__('Delete'));?></span>
+            </button>
+            <?php if ($this->isCanReject()):?>
+                <button class="scalable reject" type="button" onclick="setLocation('<?php echo $this->escapeUrl($this->getRejectUrl());?>')">
+                    <span><?php echo $this->escapeHtml(__('Reject'));?></span>
+                </button>
+            <?php endif;?>
+            <?php if ($this->isCanPublish()):?>
+                <button class="scalable save primary" type="button" id="answer-publish-btn-<?php echo (int)$this->getId();?>">
+                    <span><?php echo $this->escapeHtml(__('Publish'));?></span>
+                </button>
+            <?php endif;?>
+        </div>
+    </div>
+</div>
+<form action="<?php echo $this->escapeUrl($this->getPublishUrl());?>" method="POST" id="answer-form-<?php echo (int)$this->getId();?>">
+    <input name="form_key" type="hidden" value="<?php /* @noEscape */ echo $this->getFormKey() ?>" />
+</form>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'mage/backend/form',
+        'mage/backend/validation'
+    ], function(){
+        var form = $$('#answer-form-<?php echo (int)$this->getId();?>').first();
+        var container = $$('#answer-form-container-<?php echo (int)$this->getId();?>').first();
+        var btn = $$('#answer-publish-btn-<?php echo (int)$this->getId();?>').first();
+        btn && btn.observe('click', function(e){
+            form.appendChild(container);
+            form.submit();
+        });
+        jQuery(form).form().validation({});
+    });
+    require(["prototype"], function(){
+        var textarea = $$('#answer-form-container-<?php echo (int)$this->getId();?> textarea').first();
+        var fn = function () {
+            textarea.setStyle({height: textarea.scrollHeight + 2 + 'px'});
+        };
+        textarea.observe('keyup', function(){
+            fn();
+        });
+        fn();
+        Event.observe(window, 'load', function(){
+            fn();
+        });
+    });
+</script>

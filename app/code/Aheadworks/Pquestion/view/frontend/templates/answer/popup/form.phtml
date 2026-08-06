@@ -1,0 +1,55 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Answer\Popup\Form $this */
+?>
+<form id="aw-pq-answer-popup-form" class="aw-pq-form" action="<?php echo $this->escapeUrl($this->getAddAnswerUrl()); ?>" method="post" data-mage-init='{"validation":{}}'>
+    <div class="aw-pq-form__field-wrapper">
+        <div class="aw-pq-form__field aw-pq-form__field_size_wide">
+            <div class="aw-pq-form__label-box aw-pq-form__label-box_type_popup ">
+                <label for="author_name" class="aw-pq-form__label"><?php echo $this->escapeHtml(__('Name')); ?><em class="aw-pq-form__label__asterisk">*</em></label>
+            </div>
+            <div class="aw-pq-form__input-box aw-pq-form__input-box_type_popup">
+                <input class="aw-pq-form__input input-text required-entry" type="text" id="author_name" name="author_name" value="<?php echo $this->escapeHtml(trim($this->getCustomerName())); ?>" title="<?php echo $this->escapeHtml(__('Name')); ?>" maxlength="255">
+            </div>
+        </div>
+        <div class="aw-pq-form__field-clear"></div>
+    </div>
+    <div>
+        <div class="aw-pq-form__label-box aw-pq-form__label-box_type_popup ">
+            <label for="content" class="aw-pq-form__label"><?php echo $this->escapeHtml(__('Answer')); ?><em class="aw-pq-form__label__asterisk">*</em></label>
+        </div>
+        <textarea class="aw-pq-form__textarea input-text required-entry" name="content" id="content" title="<?php echo $this->escapeHtml(__('Answer Content')); ?>"></textarea>
+    </div>
+    <div class="aw-pq-form__button-set">
+        <button type="submit" class="button aw-pq-form__button aw-pq-form__button_position_left" title="<?php echo $this->escapeHtml(__('Send Answer')); ?>"><span><span><?php echo $this->escapeHtml(__('Send Answer')); ?></span></span></button>
+        <div class="aw-pq-form__note-wrapper">
+            <?php foreach ($this->getAllInfoMessages() as $message):?>
+                <p class="aw-pq-form__button-note aw-pq-form__button-note_size_small"><?php echo $this->escapeHtml($message); ?></p>
+            <?php endforeach;?>
+        </div>
+        <div class="aw-pq-form__field-clear"></div>
+    </div>
+    <input type="hidden" name="author_email" value="<?php echo $this->escapeHtml($this->getCustomerEmail()); ?>" />
+    <input type="hidden" name="question_id" value="<?php echo (int)$this->getQuestionId(); ?>" />
+    <input type="hidden" name="product_id" value="<?php echo (int)$this->getProductId(); ?>" />
+    <?php if ($this->getPointsForAnswer() > 0) :?>
+        <div class="aw-pq-form__points">
+            <?php echo $this->escapeHtml(__('You will be rewarded with %1 point(s) for your answer.', $this->getPointsForAnswer()));?>
+        </div>
+    <?php endif;?>
+</form>
+<script type="text/javascript">
+    require(['prototype'], function() {
+        var formKeyElement = new Element('input');
+        formKeyElement.setAttribute('type', 'hidden');
+        formKeyElement.setAttribute('name', 'form_key');
+        formKeyElement.setAttribute('value', '<?php /* @noEscape */ echo $this->getSessionFormKey(); ?>');
+        $('aw-pq-answer-popup-form').appendChild(formKeyElement);
+    });
+</script>

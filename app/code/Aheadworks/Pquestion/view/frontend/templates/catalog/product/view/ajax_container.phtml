@@ -1,0 +1,32 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Question\AjaxContainer $this */
+?>
+<div id="aw-pq-catalog-product-view-ajax-container"></div>
+<script type="text/javascript">
+    require(['prototype'], function(){
+        var url = <?php /* @noEscape */ echo \Zend_Json::encode($this->getAjaxUrl());?>;
+        new Ajax.Request(url, {
+            method: 'get',
+            loaderArea: false,
+            parameters: {
+                form_key: <?php /* @noEscape */ echo \Zend_Json::encode($this->getFormKey());?>,
+                request_id: new Date().getTime()
+            },
+            onComplete: function(response) {
+                try {
+                    eval("var json = " + response.responseText + " || {}");
+                } catch (e) {
+                    return;
+                }
+                $('aw-pq-catalog-product-view-ajax-container').update(json.block);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!-- Managing mine Cart Reward Points -->
+    <route url="/V1/awRp/carts/mine/get-cart-metadata" method="GET">
+        <service class="Aheadworks\RewardPoints\Api\RewardPointsCartManagementInterface" method="getCustomerCartMetadata"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/awRp/carts/mine/apply/:pointsQty" method="PUT">
+        <service class="Aheadworks\RewardPoints\Api\RewardPointsCartManagementInterface" method="set"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/awRp/carts/mine/remove" method="DELETE">
+        <service class="Aheadworks\RewardPoints\Api\RewardPointsCartManagementInterface" method="remove"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+</routes>
+        

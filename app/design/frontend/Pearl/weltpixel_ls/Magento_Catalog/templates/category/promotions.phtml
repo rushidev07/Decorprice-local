@@ -1,0 +1,122 @@
+<!-- <div class="prebf-promo">
+    <div class="promo-title">
+        ⭐ <span>Independence Day Sale</span> ⭐
+    </div>
+
+    <div class="promo-offers">
+        <div class="offer">
+            Extra 10% Off on Orders over $10K. Use Coupon Code <span class="code" data-code="FREEDOM10">FREEDOM10</span>
+        </div>
+        <div class="offer">
+            Extra 5% Off on Orders over $5K. Use Coupon Code <span class="code" data-code="FREEDOM5">FREEDOM5</span>
+        </div>
+        <div class="offer">
+            Extra 2% Off on Orders over $2K. Use Coupon Code <span class="code" data-code="FREEDOM2">FREEDOM2</span>
+        </div>
+    </div>
+</div> -->
+
+<style>
+    .prebf-promo {
+        background: linear-gradient(90deg, #fdfdfd, #fafafa);
+        border: 1.5px solid #333;
+        border-radius: 10px;
+        padding: 14px 20px;
+        margin: 14px 2px 8px;
+        text-align: center;
+        box-shadow: 0 1px 12px rgba(0,0,0,0.12);
+        animation: fadeInUp 0.8s ease-out;
+        font-family: 'Open Sans', sans-serif;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .prebf-promo::before,
+    .prebf-promo::after {
+        content: "★";
+        position: absolute;
+        font-size: 18px;
+        animation: sparkle 3s infinite ease-in-out;
+        color: #d4a017;
+        opacity: 0.7;
+    }
+    .prebf-promo::before {
+        top: 10px;
+        left: 14px;
+    }
+    .prebf-promo::after {
+        bottom: 10px;
+        right: 14px;
+        animation-delay: 1.5s;
+    }
+
+    .promo-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #111;
+        margin-bottom: 8px;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        animation: glowPulse 2.5s ease-in-out infinite;
+    }
+
+    .promo-title span {
+        background: linear-gradient(90deg, #000, #444, #d4a017, #444, #000);
+        background-size: 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shineSweep 4s linear infinite;
+    }
+
+    .promo-offers {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px 20px;
+    }
+
+    .offer {
+        font-size: 15px;
+        font-weight: 600;
+        color: #333;
+        line-height: 1.5;
+    }
+
+    .code {
+        font-weight: 700;
+        color: #000;
+        border-bottom: 1px dashed #000;
+        cursor: text;
+        user-select: text;
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+    }
+
+    .promo-dates {
+        margin-top: 10px;
+        font-size: 13px;
+        color: #444;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes sparkle {
+        0%,100% { opacity: 0.4; transform: scale(1); }
+        50%     { opacity: 1; transform: scale(1.2); }
+    }
+
+    @keyframes glowPulse {
+        0%, 100% { text-shadow: 0 0 6px rgba(0,0,0,0.15); }
+        50%      { text-shadow: 0 0 14px rgba(0,0,0,0.35); }
+    }
+
+    @keyframes shineSweep {
+        0%   { background-position: 0% center; }
+        100% { background-position: 300% center; }
+    }
+</style>

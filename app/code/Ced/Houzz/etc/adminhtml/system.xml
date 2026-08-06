@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+
+<!--
+/**
+ * CedCommerce
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the End User License Agreement (EULA)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://cedcommerce.com/license-agreement.txt
+ *
+ * @category    Ced
+ * @package     Ced_Houzz
+ * @author 		CedCommerce Core Team <connect@cedcommerce.com>
+ * @copyright   Copyright CedCommerce (http://cedcommerce.com/)
+ * @license      http://cedcommerce.com/license-agreement.txt
+ */
+
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
+    <system>
+        <tab id="cedcommerce" translate="label" sortOrder="1">
+            <label>Cedcommerce</label>
+        </tab>
+        <!-- section start for General Tab in Cedcommerce section -->
+        <section id="ced_general" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label> General Setting</label>
+            <tab>cedcommerce</tab>
+            <resource>Ced_Houzz::system_config</resource>
+            <group id="feed_group" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Notifications</label>
+                <field id="feeds" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>I'd like to be informed by CedCommerce about:</label>
+                    <source_model>Ced\Houzz\Model\Source\Update\Type</source_model>
+                </field>
+            </group>
+            <group id="extensions_groups" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>CedCommerce Extensions Store</label>
+                <field id="extensions" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Ced\Houzz\Block\Cedcommerce\Store</frontend_model>
+                </field>
+            </group>
+        </section>
+        <!-- section start for General Tab in Cedcommerce section -->
+
+        <!-- section start for Houzz Configuration Tab in Cedcommerce section -->
+        <section id="houzzconfiguration" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label> Houzz Configuration</label>
+            <tab>cedcommerce</tab>
+            <resource>Ced_Houzz::system_config</resource>
+            <group id="houzzsetting" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Houzz Api Settings</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="environment" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Select Environment</label>
+                    <source_model>Ced\Houzz\Model\Config\Environment</source_model>
+                    <tooltip>Used for API URLs</tooltip>
+                    <validate>required-entry</validate>
+                </field>
+
+                <field id="api_token" translate="label comment" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API Token</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enable" separator=",">1</field>
+                    </depends>
+                </field>
+                <field id="api_username" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API Username</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enable" separator=",">1</field>
+                    </depends>
+                </field>
+                <field id="api_appname" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>API App Name</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enable" separator=",">1</field>
+                    </depends>
+                </field>
+
+                <field id="debug" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Debug Log</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable" separator=",">1</field>
+                    </depends>
+                </field>
+
+                <field id="houzz_storeid" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Select Store</label>
+                    <source_model>Magento\Config\Model\Config\Source\Store</source_model>
+                </field>
+
+            </group>
+
+            <group id="productinfo_map" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0"  >
+                <label>Houzz Global Settings</label>
+                <field id="houzz_orderid_prefix" translate="label" type="text" sortOrder="21" showInDefault="1" showInWebsite="0" showInStore="0" >
+                    <label>Houzz Order Id Prefix</label>
+                    <comment>Prefix for Houzz Increment ID</comment>
+                </field>
+                <field id="config_prod_default_values" translate="label" sortOrder="70" showInDefault="1" showInWebsite="0" showInStore="0" showInProfile="1">
+                    <label>Config Product Default Values</label>
+                    <frontend_model>Ced\Houzz\Block\Adminhtml\Form\Field\DefaultConfigValues</frontend_model>
+                    <backend_model>Ced\Houzz\Model\System\Config\Backend\DefaultConfigValues</backend_model>
+                </field>
+            </group>
+            <group id="houzz_cron_settings" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Houzz Cron Settings</label>
+                <field id="order_cron" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Houzz Order Cron</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <comment>Order Fetch Cron </comment>
+                </field>
+                <field id="price_cron" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Houzz Price Cron</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <comment>Price Sync Cron</comment>
+                </field>
+                <field id="inventory_cron" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Houzz Inventory Cron</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <comment>Inventory Sync Cron</comment>
+                </field>
+            </group>
+        </section>
+        <!-- section end for Houzz Cofiguration Tab in Cedcommerce Tab -->
+
+        <!-- section start for Shipping Methods Tab in Sales Tab -->
+        <section id="carriers" >
+            <group id="shiphouzzcom" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Houzz.com</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+            </group>
+        </section>
+        <!-- section end for Shipping Methods Tab in Sales Tab -->
+
+        <!-- section start for Payment Methods Tab in Sales Tab -->
+        <section id="payment">
+            <group id="payhouzzcom" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Houzz.com</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="order_status" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>New order status</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
+                </field>
+            </group>
+        </section>
+        <!-- section start for Payment Methods Tab in Sales Tab -->
+    </system>
+</config>

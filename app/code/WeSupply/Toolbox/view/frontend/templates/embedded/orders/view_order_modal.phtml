@@ -1,0 +1,13 @@
+<?php
+$helper = $this->helper('WeSupply\Toolbox\Helper\Data');
+$cspNonceProvider = $helper->getCspNonceProvider();
+?>
+<div id="order-view-container" class="embedded-iframe-container"></div>
+<script <?php if ($cspNonceProvider) /* @noEscape */ echo ' nonce="' .  $cspNonceProvider->generateNonce() . '" ' ?>>
+    require(['jquery', 'wesupplyOrderView' ],
+        function ($, wesupplyOrderView) {
+            $(function () {
+                wesupplyOrderView.init('order-view-container', '<?php /* @noEscape */ echo $helper->getPlatform(); ?>');
+            });
+        });
+</script>

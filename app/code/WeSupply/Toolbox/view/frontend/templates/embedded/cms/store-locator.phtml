@@ -1,0 +1,12 @@
+<?php
+    $helper = $this->helper('WeSupply\Toolbox\Helper\Data');
+    $cspNonceProvider = $helper->getCspNonceProvider();
+?>
+<script <?php if ($cspNonceProvider) /* @noEscape */ echo ' nonce="' .  $cspNonceProvider->generateNonce() . '" ' ?>>
+    require(['jquery', 'wesupplyStoreLocator' ],
+        function ($, wesupplyStoreLocator) {
+            $(function () {
+                wesupplyStoreLocator.init('embedded-iframe-container');
+            });
+        });
+</script>

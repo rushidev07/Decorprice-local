@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright © 2016 MB Vienas bitas. All rights reserved.
+ * @website    www.magetrend.com
+ * @package    Newsletter Popup Pro from M2
+ * @author     Edvinas Stulpinas <edwin@magetrend.com>
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Text */ ?>
+<script id="custom-option-checkbox-type-template" type="text/x-magento-template"><div  id="field_option_<%- data.option_id %>_type_<%- data.group %>" class="fieldset checkbox-additional-options">
+    <div class="field field-option-frontend_label">
+        <label class="label" for="<?php echo $block->getFieldId() ?>_<%- data.option_id %>_frontend_label">
+            <?php echo __('Store Frontend Label') ?>
+        </label>
+        <div class="control">
+            <input id="field_option_<%- data.option_id %>_frontend_label"
+                   name="field[options][<%- data.option_id %>][frontend_label]"
+                   class="input-text"
+                   type="text"
+                   value="<%- data.frontend_label %>"
+                   data-store-label="<%- data.frontend_label %>">
+        </div>
+    </div>
+    <div class="field field-option-error_message">
+        <label class="label" for="<?php echo $block->getFieldId() ?>_<%- data.option_id %>_error_message_is_required">
+            <?php echo __('Error Message: field is required') ?>
+        </label>
+        <div class="control">
+            <input id="field_option_<%- data.option_id %>_error_message_is_required"
+                   name="field[options][<%- data.option_id %>][error_message][is_required]"
+                   class="input-text"
+                   type="text"
+                   value="<%- data.error_message_is_required %>"
+                   data-store-label="<%- data.error_message_is_required %>">
+        </div>
+    </div>
+    </div>
+</script>

@@ -1,0 +1,49 @@
+From 7d5bd4a30e1ec11ce8811f2a4d9a5bc980207cac Mon Sep 17 00:00:00 2001
+From: Ahy DO Server <harpreet@ahyconsulting.com>
+Date: Sat, 18 Jul 2020 05:00:08 +0000
+Subject: [PATCH] commit explaining the changes contained in the patch
+
+---
+ view/adminhtml/web/css/source/_module.less     | 11 +++++++++++
+ view/adminhtml/web/css/source/_module.less.NEW | 11 +++++++++++
+ 2 files changed, 22 insertions(+)
+ create mode 100644 view/adminhtml/web/css/source/_module.less
+ create mode 100644 view/adminhtml/web/css/source/_module.less.NEW
+
+diff --git a/view/adminhtml/web/css/source/_module.less b/view/adminhtml/web/css/source/_module.less
+new file mode 100644
+index 0000000..8cd1dbc
+--- /dev/null
++++ b/view/adminhtml/web/css/source/_module.less
+@@ -0,0 +1,11 @@
++.admin__old #row_aw_rewardpoints_calculation_earn_rates input[type=text], .admin__old #row_aw_rewardpoints_calculation_spend_rates input[type=text] {
++	box-sizing: border-box;
++    border: 1px solid #adadad;
++    border-radius: 1px;
++    padding: .6rem 1rem .6rem;
++    color: #303030;
++    background-color: #ffffff;
++    font-weight: 500;
++    font-size: 14px;
++    height: 34px;
++}
+diff --git a/view/adminhtml/web/css/source/_module.less.NEW b/view/adminhtml/web/css/source/_module.less.NEW
+new file mode 100644
+index 0000000..8cd1dbc
+--- /dev/null
++++ b/view/adminhtml/web/css/source/_module.less.NEW
+@@ -0,0 +1,11 @@
++.admin__old #row_aw_rewardpoints_calculation_earn_rates input[type=text], .admin__old #row_aw_rewardpoints_calculation_spend_rates input[type=text] {
++	box-sizing: border-box;
++    border: 1px solid #adadad;
++    border-radius: 1px;
++    padding: .6rem 1rem .6rem;
++    color: #303030;
++    background-color: #ffffff;
++    font-weight: 500;
++    font-size: 14px;
++    height: 34px;
++}
+-- 
+2.17.1
+

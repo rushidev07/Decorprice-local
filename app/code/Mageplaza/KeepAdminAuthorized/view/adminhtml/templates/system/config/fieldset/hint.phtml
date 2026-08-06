@@ -1,0 +1,35 @@
+<?php
+/**
+ * Copyright © Mageplaza. All rights reserved.
+ * See MS-LICENSE.txt for license details.
+ */
+?>
+<?php /** @var Mageplaza\KeepAdminAuthorized\Block\Adminhtml\System\Config\Fieldset\Hint $block */ ?>
+
+<div class="mageplaza-hint">
+    <img src="https://mageplaza.com/skin/frontend/rwd/mageplaza_shop/images/logo.png"/><br><br>
+    <div class="content">
+        <p>
+            <strong class="module-name">
+                <?= $block->getModuleName() ?> <?= $block->getVersion() ?>
+            </strong>
+            <?= __(' by') ?>
+            <a target="_blank" href="https://mageplaza.com/">
+                <strong>Mageplaza</strong>
+            </a>
+        </p>
+        <p>
+            <?= __('Your feedback for ') ?>
+            <a href="<?= $block->getModulePage() ?>" target="_blank"><?php echo $block->getModuleName() ?></a>
+            <?= __('is highly appreciated.') ?>
+        </p>
+        <p>
+            <?= __('Found an issue? Need help? Got custom request? Please ') ?>
+            <a href="https://mageplaza.com/contacts/" target="_blank"><?= __('Contact us') ?></a>.
+        </p>
+        <p>
+            <?= __('You can check more extensions designed by our team in our ') ?>
+            <a href="<?= $block->getExtensionsPage() ?>" target="_blank"><?= __('Store') ?></a>.
+        </p>
+    </div>
+</div>

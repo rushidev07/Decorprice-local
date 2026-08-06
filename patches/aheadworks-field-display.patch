@@ -1,0 +1,34 @@
+From aba78ecf785b05ec8b2453cbf268e06d144f399e Mon Sep 17 00:00:00 2001
+From: Ahy DO Server <harpreet@ahyconsulting.com>
+Date: Thu, 6 Aug 2020 05:47:15 +0000
+Subject: [PATCH] fix field display issue in the aheadworks reward points
+ module
+
+---
+ view/adminhtml/web/css/source/_module.less     | 1 +
+ view/adminhtml/web/css/source/_module.less.NEW | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/view/adminhtml/web/css/source/_module.less b/view/adminhtml/web/css/source/_module.less
+index 8cd1dbc..341a94c 100755
+--- a/view/adminhtml/web/css/source/_module.less
++++ b/view/adminhtml/web/css/source/_module.less
+@@ -8,4 +8,5 @@
+     font-weight: 500;
+     font-size: 14px;
+     height: 34px;
++	width: 60px;
+ }
+diff --git a/view/adminhtml/web/css/source/_module.less.NEW b/view/adminhtml/web/css/source/_module.less.NEW
+index 8cd1dbc..341a94c 100755
+--- a/view/adminhtml/web/css/source/_module.less.NEW
++++ b/view/adminhtml/web/css/source/_module.less.NEW
+@@ -8,4 +8,5 @@
+     font-weight: 500;
+     font-size: 14px;
+     height: 34px;
++	width: 60px;
+ }
+-- 
+2.17.1
+

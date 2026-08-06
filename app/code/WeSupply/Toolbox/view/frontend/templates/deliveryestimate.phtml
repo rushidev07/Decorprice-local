@@ -1,0 +1,38 @@
+<?php
+    if($block->getDeliveryEstimationsEnabled() && $block->productIsShippable())
+    {
+        $postCode = $block->getAddressDetail('postcode');
+        $countryCode = $block->getAddressDetail('country_id');
+        $selectedDeliveryInfo = $block->getSelectedDeliveryEstimate();
+        $estimationsAlreadyMade = false;
+
+        $wsHelper = $this->helper('WeSupply\Toolbox\Helper\Data');
+        $cspNonceProvider = $wsHelper->getCspNonceProvider();
+        ?>
+        <div id="estimated_content">
+            <strong>Estimated Arrival </strong>
+            <div class="loader" style="display:none">
+                <img style="height:30px" src="<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif') ?>"
+                     alt="<?= /* @escapeNotVerified */ __('Loading...') ?>">
+            </div>
+            <div id="estimated_response" style="display:none">
+                <span id="date"></span>&nbsp;<span id="pre_zip">at ZIP</span>&nbsp;<span id="zip" style="cursor:pointer; text-decoration:underline" ></span><input class="wesupply_estimations_zip" id="input_zip" value="<?php /* @noEscape */ echo $postCode; ?>" />&nbsp;<span id="country"></span>
+            </div>
+            <div id="error" style="display:none"><span id="error-message" style="color:red"></span></div>
+
+        </div>
+        <script <?php if ($cspNonceProvider) /* @noEscape */ echo ' nonce="' .  $cspNonceProvider->generateNonce() . '" ' ?>>
+            requirejs(['jquery', 'wesupplyestimations' ],
+                function   ($, wesupplyestimations) {
+                    $(document).ready(function() {
+                        wesupplyestimations.initialize("<?php echo $block->escapeUrl($block->getEstimationsUrl()) ?>",  "<?php /* @noEscape */ echo $block->getCurrentStoreId(); ?>", "<?php /* @noEscape */ echo $postCode; ?>", "<?php /* @noEscape */ echo $countryCode; ?>",  "<?php /* @noEscape */ echo $block->getProductPrice(); ?>", "<?php /* @noEscape */ echo  $block->getStoreCurrency(); ?>", "<?php /* @noEscape */  echo $estimationsAlreadyMade; ?>");
+                    });
+                });
+        </script>
+
+        <?php
+    }
+?>
+
+
+

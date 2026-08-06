@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="mppricebargain_email_template_confirm" label="Confirmation Email Template" file="mppricebargain_email_template_confirm.html" type="html" module="Mageplaza_NameYourPrice" area="frontend"/>
+    <template id="mppricebargain_email_template_approve" label="Approval Email Template" file="mppricebargain_email_template_approve.html" type="html" module="Mageplaza_NameYourPrice" area="frontend"/>
+    <template id="mppricebargain_email_template_reject" label="Rejection Email Template" file="mppricebargain_email_template_reject.html" type="html" module="Mageplaza_NameYourPrice" area="frontend"/>
+    <template id="mppricebargain_email_notify_admin" label="Notify Email Template" file="mppricebargain_email_notify_admin.html" type="html" module="Mageplaza_NameYourPrice" area="frontend"/>
+</config>

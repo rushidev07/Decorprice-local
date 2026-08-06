@@ -1,0 +1,35 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Notification\Manage $this */
+?>
+<div class="page-title">
+    <h1><?php echo $this->escapeHtml(__('Manage Notification List')) ?></h1>
+</div>
+<form action="<?php echo $this->escapeUrl($this->getFormAction()); ?>" id="aw_pq_notification_manage_form" method="post">
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->escapeHtml(__('Notifications')) ?></h2><br>
+        <?php $notificationTypes = $this->getNotificationTypes(); ?>
+        <ul style="list-style: none;">
+            <?php foreach ($notificationTypes as $type): ?>
+                <li>
+                    <input type="checkbox" id="aw_pq_notification_subscribe_to_<?php echo $this->escapeHtml($type['value'])?>"
+                           name="aw_pq_notification_subscribe_to[]" value="<?php echo $this->escapeHtml($type['value'])?>"
+                        <?php echo $type['checked']?'checked':'';?>
+                        />
+                    <label for="aw_pq_notification_subscribe_to_<?php echo $this->escapeHtml($type['value'])?>"><?php echo $this->escapeHtml($type['label']);?></label>
+                </li>
+            <?php endforeach;?>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <button type="submit" title="<?php echo $this->escapeHtml(__('Save')) ?>" class="button">
+            <span><span><?php echo $this->escapeHtml(__('Save')) ?></span></span>
+        </button>
+    </div>
+</form>

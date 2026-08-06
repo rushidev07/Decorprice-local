@@ -1,0 +1,208 @@
+<div id="ahy-holiday-timings-for-dp" class="ahy-marquee">
+    <div class="ahy-marquee-inner">
+
+        <!-- Set 1 -->
+        <div class="ahy-marquee-item offer-high">
+            <span class="sale-badge">SALE</span>
+            <span class="text">
+                Extra 10% Off orders over $10K · Coupon
+            </span>
+            <span class="coupon-chip">BFCM10</span>
+        </div>
+
+        <div class="ahy-marquee-item offer-mid">
+            <span class="sale-badge">SALE</span>
+            <span class="text">
+                Extra 5% Off orders over $5K · Coupon
+            </span>
+            <span class="coupon-chip">BFCM5</span>
+        </div>
+
+        <div class="ahy-marquee-item offer-low">
+            <span class="sale-badge">SALE</span>
+            <span class="text">
+                Extra 2% Off orders over $2K · Coupon
+            </span>
+            <span class="coupon-chip">BFCM2</span>
+        </div>
+
+        <!-- Duplicate for seamless loop -->
+        <div class="ahy-marquee-item offer-high">
+            <span class="sale-badge">SALE</span>
+            <span class="text">
+                Extra 10% Off orders over $10K · Coupon
+            </span>
+            <span class="coupon-chip">BFCM10</span>
+        </div>
+
+        <div class="ahy-marquee-item offer-mid">
+            <span class="sale-badge">SALE</span>
+            <span class="text">
+                Extra 5% Off orders over $5K · Coupon
+            </span>
+            <span class="coupon-chip">BFCM5</span>
+        </div>
+
+        <div class="ahy-marquee-item offer-low">
+            <span class="sale-badge">SALE</span>
+            <span class="text">
+                Extra 2% Off orders over $2K · Coupon
+            </span>
+            <span class="coupon-chip">BFCM2</span>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Always keep normal cursor (even on hover) */
+    #ahy-holiday-timings-for-dp .ahy-marquee-item,
+    #ahy-holiday-timings-for-dp .ahy-marquee-item * {
+        cursor: auto !important;
+    }
+
+    /* MAIN BAR – BFCM THEME BACKGROUND */
+    #ahy-holiday-timings-for-dp.ahy-marquee {
+        width: 100%;
+        overflow: hidden;
+        padding: 14px 0;
+        box-sizing: border-box;
+        background: radial-gradient(circle at top, #1f2937 0%, #020617 45%, #020617 100%);
+        border-top: 1px solid rgba(248, 250, 252, 0.08);
+        border-bottom: 1px solid rgba(248, 250, 252, 0.18);
+        box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.8) inset,
+        0 10px 30px rgba(0, 0, 0, 0.6);
+        font-family: inherit;
+    }
+
+    /* SCROLLING */
+    .ahy-marquee-inner {
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+        animation: ahy-marquee-scroll 26s linear infinite;
+        will-change: transform;
+    }
+
+    #ahy-holiday-timings-for-dp.ahy-marquee:hover .ahy-marquee-inner {
+        animation-play-state: paused;
+    }
+
+    @keyframes ahy-marquee-scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    /* PILL STYLE */
+    .ahy-marquee-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 22px;
+        padding: 10px 20px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, rgba(15,23,42,0.96), rgba(30,64,175,0.95));
+        border: 1px solid rgba(148,163,184,0.8);
+        box-shadow:
+                0 4px 10px rgba(15,23,42,0.7),
+                0 0 0 1px rgba(255,255,255,0.06) inset;
+        transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease,
+                background 0.25s ease;
+        flex-shrink: 0;
+        min-width: max-content;
+    }
+
+    .ahy-marquee-item .text {
+        white-space: nowrap;
+        color: #e5e7eb;
+        font-size: 14px;
+        font-weight: 500;
+        flex-shrink: 0;
+    }
+
+    /* LEFT COLOR STRIP */
+    .ahy-marquee-item::before {
+        content: "";
+        width: 4px;
+        height: 60%;
+        border-radius: 999px;
+        margin-right: 8px;
+    }
+
+    .offer-high::before { background: linear-gradient(180deg, #f97316, #facc15); }
+    .offer-mid::before  { background: linear-gradient(180deg, #ef4444, #fb7185); }
+    .offer-low::before  { background: linear-gradient(180deg, #0ea5e9, #6366f1); }
+
+    /* SALE BADGE */
+    .sale-badge {
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #ffffff;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        box-shadow: 0 2px 8px rgba(248,113,113,0.55);
+        flex-shrink: 0;
+    }
+
+    /* COUPON CHIP */
+    .coupon-chip {
+        padding: 5px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        border: 1px solid rgba(21,128,61,0.7);
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    /* HOVER EFFECT */
+    .ahy-marquee-item:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow:
+                0 14px 30px rgba(0,0,0,0.85),
+                0 0 0 1px rgba(248,250,252,0.2);
+        border-color: rgba(251,191,36,0.9);
+        background: linear-gradient(135deg, rgba(15,23,42,1), rgba(30,64,175,1));
+    }
+
+    .ahy-marquee-item:hover .coupon-chip {
+        text-decoration: underline;
+        text-decoration-style: dashed;
+        text-underline-offset: 3px;
+    }
+
+    /* 📱 MOBILE TWEAKS */
+    @media (max-width: 768px) {
+        .ahy-marquee-inner {
+            animation-duration: 30s;
+        }
+
+        .ahy-marquee-item {
+            padding: 8px 14px;
+            margin-right: 12px;
+            gap: 6px;
+            border-radius: 999px;
+        }
+
+        .ahy-marquee-item .text {
+            font-size: 12px;
+        }
+
+        .coupon-chip {
+            font-size: 11px;
+            padding: 3px 9px;
+        }
+
+        .sale-badge {
+            font-size: 10px;
+            padding: 3px 8px;
+        }
+    }
+</style>

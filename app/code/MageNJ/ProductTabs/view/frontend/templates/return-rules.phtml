@@ -1,0 +1,24 @@
+<?php
+$product = $block->getProduct();
+$return_rules = $product->getAttributeText('return_rules');
+
+// Check if return rules exist
+if ($return_rules !== false) {
+    switch ($return_rules) {
+        case 0:
+            echo '<span class="product_return_rules">Product is a final sale and cannot be returned.</span>';
+            break;
+        case 1:
+            echo '<span class="product_return_rules">Product can be returned within 30 days of receipt with no restocking fee. Buyer pays return shipping costs.</span>';
+            break;
+        case 2:
+            echo '<span class="product_return_rules">Product can be returned within 30 days of receipt with 15% restocking fee. Buyer pays return shipping costs.</span>';
+            break;
+        default:
+            echo '<span class="product_return_rules">No information available</span>';
+            break;
+    }
+} else {
+    echo '<span class="product_return_rules">No information available</span>';
+}
+?>

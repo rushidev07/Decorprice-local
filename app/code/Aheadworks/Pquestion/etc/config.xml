@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+        <aw_pquestion>
+            <general>
+                <allow_guest_to_ask_question>1</allow_guest_to_ask_question>
+                <allow_customer_to_add_answer_from_product_page>0</allow_customer_to_add_answer_from_product_page>
+                <require_moderate_customer_answer>0</require_moderate_customer_answer>
+                <allow_guest_rate_helpfulness>1</allow_guest_rate_helpfulness>
+                <allow_subscribe_to_notification_automatically>1</allow_subscribe_to_notification_automatically>
+                <allow_customer_defined_question_visibility>1</allow_customer_defined_question_visibility>
+            </general>
+            <interface>
+                <number_questions_to_display>5</number_questions_to_display>
+                <number_answers_to_display>5</number_answers_to_display>
+                <allow_display_url_as_link>1</allow_display_url_as_link>
+                <default_questions_sort_by>2</default_questions_sort_by>
+                <default_sort_order>DESC</default_sort_order>
+            </interface>
+            <notification>
+                <send_notification_new_question_to></send_notification_new_question_to>
+                <email_sender>general</email_sender>
+                <new_question_to_admin_template>aw_pquestion_notification_new_question_to_admin_template</new_question_to_admin_template>
+                <new_answer_to_admin_template>aw_pquestion_notification_new_answer_to_admin_template</new_answer_to_admin_template>
+                <new_reply_on_question_to_customer_template>aw_pquestion_notification_new_reply_on_question_to_customer_template</new_reply_on_question_to_customer_template>
+                <question_status_change_to_customer_template>aw_pquestion_notification_question_status_change_to_customer_template</question_status_change_to_customer_template>
+                <answer_status_change_to_customer_template>aw_pquestion_notification_answer_status_change_to_customer_template</answer_status_change_to_customer_template>
+                <auto_responder_question_template></auto_responder_question_template>
+                <auto_responder_answer_template></auto_responder_answer_template>
+                <stored_emails_lifetime>0</stored_emails_lifetime>
+            </notification>
+        </aw_pquestion>
+    </default>
+</config>

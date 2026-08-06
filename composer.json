@@ -1,0 +1,172 @@
+{
+    "name": "magento/project-community-edition",
+    "description": "eCommerce Platform for Growth (Community Edition)",
+    "type": "project",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "magento/magento-composer-installer": true,
+            "magento/inventory-composer-installer": true,
+            "laminas/laminas-dependency-plugin": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "magento/composer-dependency-version-audit-plugin": true,
+            "magento/composer-root-update-plugin": true
+        }
+    },
+    "require": {
+        "aheadworks/module-onestepcheckout": "2.2.1",
+        "alekseon/custom-forms-builder": "^102.0",
+        "alekseon/widget-forms": "^102.0",
+        "colinmollenhour/cache-backend-redis": "1.11.0 as 1.10.6",
+        "cweagans/composer-patches": "^1.7",
+        "firebear/importexport": "^3.3",
+        "firebear/importexport-msi": "^1.0",
+        "laminas/laminas-dependency-plugin": "^2.1.0",
+        "magemojo/m2-ce-cron": "1.4.2",
+        "magento/composer-dependency-version-audit-plugin": "~0.1",
+        "magento/composer-root-update-plugin": "~1.1",
+        "magento/payment-services": "1.6.1",
+        "magento/product-community-edition": "2.4.3",
+        "onestepcheckout/iosc": "1.2.059",
+        "ulmod/module-xmlsitemapsplitter": "2.3.12",
+        "weltpixel/m2-theme-frontend-weltpixel": "^101.16",
+        "weltpixel/m2-theme-frontend-weltpixel-custom": "^101.16",
+        "weltpixel/m2-weltpixel-google-automated-discounts": "^1.17.0",
+        "weltpixel/m2-weltpixel-speed-optimization": "^1.16",
+        "weltpixel/module-ga4": "^1.16",
+        "yireo/magento2-webp2": "^0.14.3"
+    },
+    "require-dev": {
+        "allure-framework/allure-phpunit": "~1.4",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "friendsofphp/php-cs-fixer": "~2.18.1",
+        "honl/magento2-templatehints": "^0.2.5",
+        "lusitanian/oauth": "~0.8.10",
+        "magento/magento-coding-standard": "*",
+        "magento/magento2-functional-testing-framework": "^3.0",
+        "pdepend/pdepend": "~2.7.1",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "phpmd/phpmd": "^2.8.0",
+        "phpstan/phpstan": "^0.12.77",
+        "phpunit/phpunit": "^9",
+        "sebastian/phpcpd": "^6.0.3",
+        "squizlabs/php_codesniffer": "~3.5.4",
+        "symfony/finder": "^5.2"
+    },
+    "conflict": {
+        "gene/bluefoot": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Magento\\": "app/code/Magento/",
+            "Magento\\Framework\\": "lib/internal/Magento/Framework/",
+            "Magento\\Setup\\": "setup/src/Magento/Setup/"
+        },
+        "psr-0": {
+            "": [
+                "app/code/",
+                "generated/code/"
+            ]
+        },
+        "files": [
+            "app/etc/NonComposerComponentRegistration.php"
+        ],
+        "exclude-from-classmap": [
+            "**/dev/**",
+            "**/update/**",
+            "**/Test/**"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Magento\\PhpStan\\": "dev/tests/static/framework/Magento/PhpStan/",
+            "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",
+            "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
+            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/",
+            "Magento\\Tools\\": "dev/tools/Magento/Tools/",
+            "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/"
+        }
+    },
+    "version": "2.4.3",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "repositories": {
+        "weltpixel": {
+            "type": "composer",
+            "url": "https://weltpixel.repo.packagist.com/wpx-1231/"
+        },
+        "aheadworks": {
+            "type": "composer",
+            "url": "https://dist.aheadworks.com/"
+        },
+        "0": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        },
+        "firebear": {
+            "type": "composer",
+            "url": "https://firebearstudio.com/composer/download/package/type/ce/user/e27d21f9295728cac78253d4be0f0dae/password/e2ae77550dcdae739d5c109b20ad8a45/"
+        },
+        "osc": {
+            "type": "composer",
+            "url": "https://repo.onestepcheckout.com/9ZBOW5YP18P7K4Y14LGI/"
+        },
+        "ulmod_2106": {
+            "type": "composer",
+            "url": "https://www.ulmod.com/umcomposer/index/packagist/packages.json?um_id=2106"
+        }
+    },
+    "extra": {
+        "magento-force": "override",
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "magento/framework": {
+                "MDVA-43395": "patches/MDVA-43395_magento-framework.patch",
+                "MDVA-43443": "patches/MDVA-43443_magento-framework.patch",
+                "VULN-27015": "patches/VULN-27015-2.4.4x.magento-framework.patch",
+                "Fix ServiceInputProcessor API Data Object issue": "patches/VULN-32437_2.4.X.patch"
+            },
+            "magento/module-email": {
+                "MDVA-43395": "patches/MDVA-43395_magento-module-email.patch",
+                "MDVA-43443": "patches/MDVA-43443_magento-module-email.patch"
+            },
+            "klarna/module-core": {
+                "Klarna's cron error fix": "patches/diff.patch"
+            },
+            "aheadworks/module-onestepcheckout": {
+                "Aheadworks OSC": "patches/M2OSC-3446.patch"
+            },
+            "magento/module-payment-services-paypal": {
+                "Magento Payment Services": "patches/M2PSP-34462.patch"
+            },
+            "magento/module-quote": {
+                "Fix for customer ID parameter issue": "patches/module-quote.patch"
+            },
+            "magento/module-customer": {
+                "Fix for customer ID parameter issue": "patches/module-customer.patch"
+            },
+            "braintree/braintree_php": {
+                "Braintree SSL Certificate Update": "patches/braintree_php_sdk_update_ssl_certificate.patch"
+            },
+            "weltpixel/m2-social-login": {
+                "Magento 2.4.0-2.4.3 compatibility": "patches/weltpixel-social-login.patch"
+            },
+            "weltpixel/m2-weltpixel-speed-optimization": {
+                "Remove SRI hash": "patches/weltpixel-speed-optimization-remove-srihash.patch"
+            },
+            "alekseon/custom-forms-builder": {
+                "Fix trailing comma syntax error in CreateFrontendNotesTable patch": "patches/alekseon-custom-forms-builder-fix-trailing-comma.patch"
+            }
+        }
+    },
+    "replace": {
+        "weltpixel/m2-weltpixel-product-page": "1.16.0",
+        "weltpixel/cmsblockscheduler": "1.16.0"
+    }
+}

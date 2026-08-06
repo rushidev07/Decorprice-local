@@ -1,0 +1,12 @@
+<!-- ko if: isNsgPpEnabled() -->
+<tr class="totals nsgpp checkout">
+    <td colspan="2">
+        <div class="_GUARANTEE_Kicker_Widget"></div>
+        <!-- ko with: getNonce() -->
+        <script data-bind="attr: {nonce: $data}">
+            if(window._GUARANTEE) _GUARANTEE.WriteKickers();
+        </script>
+        <!-- /ko -->
+    </td>
+</tr>
+<!-- /ko -->

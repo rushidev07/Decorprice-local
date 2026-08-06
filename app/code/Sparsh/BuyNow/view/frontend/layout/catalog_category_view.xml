@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page layout="2columns-left"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!--         <referenceBlock name="category.products.list">
+            <action method="setTemplate" ifconfig="buynow/advance/enable_category">
+                <argument name="template" xsi:type="string">Sparsh_BuyNow::catalog/product/list/list.phtml</argument>
+            </action>
+        </referenceBlock> -->
+    </body>
+</page>

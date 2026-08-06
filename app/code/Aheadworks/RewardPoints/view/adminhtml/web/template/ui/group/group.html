@@ -1,0 +1,11 @@
+<div class="admin__fieldset"
+     visible="visible"
+     attr="'data-index': index"
+     css="$data.additionalClasses">
+    <each args="elems">
+        <if args="visible()">
+            <render args="$parent.fieldTemplate" if="element.input_type != 'checkbox' || element.input_type != 'radio'"/>
+            <render args="elementTmpl" if="element.input_type == 'checkbox' || element.input_type == 'radio'"/>
+        </if>
+    </each>
+</div>

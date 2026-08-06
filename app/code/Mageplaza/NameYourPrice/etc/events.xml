@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_cart_product_add_after">
+        <observer name="mppricebargain_ser_price_in_cart" instance="Mageplaza\NameYourPrice\Observer\SetPriceBargain"/>
+    </event>
+    <event name="checkout_cart_update_items_after">
+        <observer name="mppricebargain_checkout_cart_update_items_after" instance="Mageplaza\NameYourPrice\Observer\UpdateCart"/>
+    </event>
+    <event name="sales_quote_address_collect_totals_after">
+        <observer name="changeTaxTotal" instance="Mageplaza\NameYourPrice\Observer\ChangeTax"/>
+    </event>
+    <event name="admin_system_config_save">
+        <observer name="mppricebargain_change_config" instance="Mageplaza\NameYourPrice\Observer\ChangeConfig" disabled="true"/>
+    </event>
+</config>

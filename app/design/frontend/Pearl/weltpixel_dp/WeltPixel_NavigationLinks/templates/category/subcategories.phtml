@@ -1,0 +1,73 @@
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Magento\Catalog\Block\Category\View
+ */
+
+$_category = $block->getCurrentCategory();
+$subcategoriesLayout = $_category->getData('weltpixel_sc_layout');
+$_helper = $this->helper(WeltPixel\NavigationLinks\Helper\Subcategories::class);
+$categoryGridColsNr = $_category->getData('weltpixel_sc_columns');
+$categoryTitlePosition = $_category->getData('weltpixel_sc_title_position');
+$categoryShowDescription = $_category->getData('weltpixel_sc_show_description');
+$gridColNr = ($categoryGridColsNr) ? $categoryGridColsNr : '4';
+
+if ($subcategoriesLayout == \WeltPixel\NavigationLinks\Model\Attribute\Source\CategoryLayout::LAYOUT_IMAGES) :
+    $subcategories = $_helper->getSubcategories($_category);
+    ?>
+    <div class="wp-subcategories">
+        <ul class="wp-subcategories-grid wp-subcategories-col-<?= $gridColNr ?>">
+            <?php foreach ($subcategories as $subcateg) : ?>
+                <?php
+                // ✅ Ensure subcategory truly belongs to current category
+                if (strpos($subcateg->getPath(), $_category->getPath() . '/') !== 0) {
+                    continue; // Skip unrelated categories like Style subcats
+                }
+
+                $subCategoryImage = $subcateg->getData('weltpixel_sc_image');
+                if (!$subCategoryImage) {
+                    $subCategoryImage = $block->getViewFileUrl('Magento_Catalog::images/product/placeholder/image.jpg');
+                } else {
+                    $subCategoryImage = $block->getMediaUrl() . $subCategoryImage;
+                    $subCategoryImage = $_helper->parseMediaUrl($subCategoryImage);
+                }
+                $categoryUrl = $_helper->getCustomCategoryUrl($subcateg);
+                ?>
+                <li class="wp-subcategories-item">
+                    <?php if ($categoryTitlePosition == \WeltPixel\NavigationLinks\Model\Attribute\Source\SubCategoryTitlePosition::POSITION_ABOVE_IMAGE) : ?>
+                        <div class="wp-subcategory-name wp-subcategory-top">
+                            <a href="<?= $categoryUrl ?>" title="<?= $block->escapeHtml($subcateg->getName()); ?> ">
+                                <?= $block->escapeHtml($subcateg->getName()); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+                    <a class="wp-subcategories-image" href="<?= $categoryUrl ?>" title="<?= $block->escapeHtml($subcateg->getName()); ?>">
+                        <img src="<?= $subCategoryImage ?>"  width="350" alt="<?=  $block->escapeHtml($subcateg->getName()) ?>">
+                    </a>
+
+                    <?php if ($categoryTitlePosition == \WeltPixel\NavigationLinks\Model\Attribute\Source\SubCategoryTitlePosition::POSITION_UNDER_IMAGE) : ?>
+                        <div class="wp-subcategory-name wp-subcategory-bottom">
+                            <a href="<?= $categoryUrl ?>" title="<?= $block->escapeHtml($subcateg->getName()); ?> ">
+                                <?= $block->escapeHtml($subcateg->getName()); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($categoryShowDescription) : ?>
+                        <div class="wp-subcategory-description">
+                            <a href="<?= $categoryUrl ?>" title="<?= $block->escapeHtml($subcateg->getName()); ?>" class="wp-subcateg-descr-content">
+                                <?php
+                                $description = $subcateg->getDescription() ?? '';
+                                $description = preg_replace("/<style.*?\/style>/s", "", $description) ? : $description;
+                                ?>
+                                <?=  substr($block->stripTags($description), 0, 400); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>

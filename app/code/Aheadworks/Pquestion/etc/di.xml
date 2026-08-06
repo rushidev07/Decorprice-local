@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\User\Model\User">
+        <plugin name="aw-pq-user-model" type="Aheadworks\Pquestion\Model\User\UserPlugin"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="aw_pq_question_listing_data_source" xsi:type="string">Aheadworks\Pquestion\Model\ResourceModel\Question\Grid\Collection</item>
+                <item name="aw_pq_product_listing_data_source" xsi:type="string">Aheadworks\Pquestion\Model\ResourceModel\Product\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\Pquestion\Model\ResourceModel\Product\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_pq_question</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_pquestion_product_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">product_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\Pquestion\Model\ResourceModel\Question</argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\Pquestion\Model\ResourceModel\Question\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_pq_question</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_pquestion_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">question_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\Pquestion\Model\ResourceModel\Question</argument>
+        </arguments>
+    </type>
+    <virtualType name="AWPQProductGridDataProvider" type="Aheadworks\Pquestion\Ui\DataProvider\Product\ProductDataProvider"/>
+    <virtualType name="QuestionGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Aheadworks\Pquestion\Ui\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="QuestionGridDataProviderReporting" type="Magento\Framework\View\Element\UiComponent\DataProvider\Reporting">
+        <arguments>
+            <argument name="filterPool" xsi:type="object" shared="false">QuestionGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="QuestionGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="reporting" xsi:type="object" shared="false">QuestionGridDataProviderReporting</argument>
+            <argument name="collection" xsi:type="object" shared="false">Aheadworks\Pquestion\Model\ResourceModel\Question\Collection</argument>
+        </arguments>
+    </virtualType>
+</config>

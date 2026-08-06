@@ -1,0 +1,25 @@
+<!--@subject Deleted Purchase Order for Order # {{var order.increment_id}} from {{var store_name}} @-->
+{{template config_path="design/email/header_template"}}
+<table>
+    <tr>
+        <td>
+            <p><strong>Dear {{var vendor_name}},</strong></p>
+
+            <p>Please note that we DELETED purchase order # {{var po_id}} for order # {{var order_id}} for:</p>
+
+            <p><strong>{{var customer_info}}</strong></p>
+
+            {{layout handle="udpo_email_po_items" po=$po order=$order}}
+
+            {{depend comment}}
+            <h4>Administrator comments:</h4>
+            <p>{{var comment}}</p>
+            {{/depend}}
+
+            <p>Thank you for your partnership.</p>
+
+            <p><a href="{{store url=''}}">{{var store_name}}</a></p>
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,16 @@
+--- vendor/magento/module-directory/Model/Currency.php	2021-07-13 21:08:00.000000000 +0530
++++ vendor/magento/module-directory/Model/Currency.php.modified	2023-11-08 18:37:07.032448741 +0530
+@@ -364,10 +364,11 @@
+          * %F - the argument is treated as a float, and presented as a floating-point number (non-locale aware).
+          */
+         $price = sprintf("%F", $price);
+-
++/*
+         if ($this->canUseNumberFormatter($options)) {
+             return $this->formatCurrency($price, $options);
+-        }
++	}
++ */
+ 
+         return $this->_localeCurrency->getCurrency($this->getCode())->toCurrency($price, $options);
+     }

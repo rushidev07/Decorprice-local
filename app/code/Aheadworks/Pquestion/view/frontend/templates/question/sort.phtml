@@ -1,0 +1,46 @@
+<?php
+/**
+ * Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\Pquestion\Block\Question\Sort $this */
+?>
+<div class="aw-pq-question-sort-block">
+    <?php echo $this->escapeHtml(__('Sort by')) ?>
+    <select class="aw-pq-question-sort__sortby">
+        <?php foreach ($this->getOptions() as $value => $label): ?>
+            <option value="<?php echo $this->escapeHtml($value); ?>" <?php if ($this->getCurrentOrder() == $value): ?> selected="selected"<?php endif ?>>
+                <?php echo $this->escapeHtml($label); ?>
+            </option>
+        <?php endforeach ?>
+    </select>
+    <a href="javascript:void(0)" class="aw-pq-question-sort__dir">
+        <img src="<?php echo $this->escapeUrl($this->getImageUrl($this->getCurrentDir())); ?>" alt=<?php echo $this->escapeHtml($this->getTargetDir()); ?>/>
+    </a>
+    <script type="text/javascript">
+        require([
+            'AWPquestionSorter'
+        ], function($) {
+            var config = {
+                'sortBlockSelector': '.aw-pq-question-sort-block',
+                'sortbySelector': '.aw-pq-question-sort__sortby',
+                'dirSelector': '.aw-pq-question-sort__dir',
+                'updateContainerSelector': '.aw-pq-question-list-wrapper',
+                'sortUrl': <?php /* @noEscape */ echo $this->getSortUrl(); ?>,
+                'sortDirValue': <?php /* @noEscape */ echo \Zend_Json::encode($this->getCurrentDir()); ?>,
+                'sortDirValueTarget': <?php /* @noEscape */ echo $this->getTargetDir(); ?>,
+                'sortByValue': <?php /* @noEscape */ echo \Zend_Json::encode($this->getCurrentOrder()); ?>,
+                'dirImagesUrl': <?php /* @noEscape */ echo $this->getImages(); ?>,
+                'overlayCssClass': 'aw-pq-overlay',
+                'overlayImage': <?php /* @noEscape */ echo $this->getOverlayImage(); ?>,
+                'overlayContainerSelector': '.aw-pq-list.box-content',
+                'product': <?php /* @noEscape */ echo $this->getProduct(); ?>,
+                'formKey': '<?php /* @noEscape */ echo $this->getSessionFormKey(); ?>'
+            };
+            new AWPqSorter(config);
+        });
+    </script>
+</div>

@@ -1,0 +1,34 @@
+/* Modal */
+.umodal-wrapper { background:url(../images/window_overlay.png) repeat; background:rgba(0, 0, 0, 0.35); z-index:990; }
+.umodal { width:500px; height:500px !important; overflow:auto; background:#fff; -webkit-border-radius:8px;-moz-border-radius:8px; border-radius:8px; border:1px solid #999; padding:25px 30px; position:relative; box-shadow:0 0 30px #666; -moz-box-shadow:0 0 30px #666; -webkit-box-shadow:0 0 30px #666; font-size:14px; text-align:left; }
+.umodal .block-title { border-bottom:4px double #eee; margin-bottom:20px; padding-bottom:10px; color:#0A263C; font-size:26px; line-height:1.1 }
+.umodal .block-title h1 { color:#0A263C; font-size:1.3em; }
+.umodal h4 { font-size:18px;  text-align:center; }
+.modal .divider3 { margin:10px 0; }
+.umodal table { margin:15px 0; }
+.umodal table thead tr { background:#ccc; }
+.umodal table th,
+.umodal table td { text-align:left; padding:5px; }
+.umodal table th { font-weight:bold; }
+.umodal table td { border-bottom:1px solid #ddd; }
+.umodal p { margin-bottom:.8em; }
+.umodal .close { width:25px; height:25px; background:url(../images/close_icon.png) no-repeat; float:right; margin:-15px -15px 0 480px; text-indent:-999em; }
+.umodal h3 {margin: 0 0 5px; line-height: 1.35; font-size: 18px;}
+.umodal h2 {margin: 0 0 5px; line-height: 1.35; font-size: 18px;}
+.umodal .message {float: left; margin-bottom: 10px}
+
+/* Global Messages  */
+.success { color:#3d6611; font-weight:bold; }
+.error { color:#df280a; font-weight:bold; }
+.notice { color:#e26703; }
+
+.files .row:after,
+.files-wide .row:after,
+.clear:after,
+.main-nav:after,
+.header:after,
+.main:after,
+.footer:after,
+.col3-set:after,
+.col2-set:after,
+.pager:after { display:block; content:"."; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }

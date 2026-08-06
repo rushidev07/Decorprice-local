@@ -1,0 +1,7 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/* @var $block \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn */
+?>
+<?php $block->setPriceDataObject($block->getItem()) ?>
+<?php echo /* @noEscape */ $block->displayPriceAttribute('aw_reward_points_amount') ?> (<?php /* @noEscape */ echo $block->getItem()->getAwRewardPoints() * 1 ?>)

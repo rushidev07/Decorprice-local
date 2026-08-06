@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+  <template id="udropship_purchase_order_new_po_vendor_email_template" label="New PO Vendor Notification" file="udpo_vendor_po.html" type="html" area="frontend" module="Unirgy_DropshipPo"/>
+  <template id="udropship_purchase_order_delete_po_vendor_email_template" label="PO Deleted Vendor Notification" file="udpo_vendor_po_deleted.html" type="html" area="frontend" module="Unirgy_DropshipPo"/>
+  <template id="udropship_purchase_order_po_comment_vendor_email_template" label="PO Comment Vendor Notification" file="udpo_vendor_po_comment.html" type="html" area="frontend" module="Unirgy_DropshipPo"/>
+</config>

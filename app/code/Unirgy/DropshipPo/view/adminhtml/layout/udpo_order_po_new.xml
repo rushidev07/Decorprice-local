@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Unirgy\DropshipPo\Block\Adminhtml\Po\Create" name="udpo_po_create">
+                <block class="Unirgy\DropshipPo\Block\Adminhtml\Po\Create\Form"
+                       template="Unirgy_DropshipPo::udpo/po/create/form.phtml" name="form">
+                    <block class="Unirgy\DropshipPo\Block\Adminhtml\SalesOrderView\Info"
+                           template="Unirgy_Dropship::sales/order/view/info.phtml" name="order_info"/>
+                    <block class="Magento\Sales\Block\Adminhtml\Order\Payment" name="order_payment"/>
+                    <block class="Unirgy\DropshipPo\Block\Adminhtml\Po\Create\Items"
+                           template="Unirgy_DropshipPo::udpo/po/create/items.phtml" name="order_items">
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRenderer" as="default"
+                               template="Unirgy_DropshipPo::udpo/po/create/items/renderer/default.phtml"/>
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Column\Qty" name="column_qty"
+                               template="Unirgy_DropshipPo::udpo/sales/items/column/qty.phtml" group="column"/>
+                        <block class="Magento\Sales\Block\Adminhtml\Items\Column\Name" name="column_name"
+                               template="Magento_Sales::items/column/name.phtml" group="column"/>
+                    </block>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,34 @@
+From 25fd2bfa52a140536140fbdc11cbe43f05e673ab Mon Sep 17 00:00:00 2001
+From: Ahy DO Server <harpreet@ahyconsulting.com>
+Date: Wed, 9 Jun 2021 10:37:33 +0000
+Subject: [PATCH] remove google plus share button from PDP,add pinterest share
+ button
+
+---
+ view/frontend/templates/product/view/share.phtml | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/view/frontend/templates/product/view/share.phtml b/view/frontend/templates/product/view/share.phtml
+index 5513677..602164c 100644
+--- a/view/frontend/templates/product/view/share.phtml
++++ b/view/frontend/templates/product/view/share.phtml
+@@ -23,12 +23,12 @@ if (!$block->isAjax()): ?>
+                 data-mage-init='{"awRewardPointsShare": {"productId": "<?php /* @noEscape */ echo $block->escapeHtml($block->getProductId());?>", "url": "<?php /* @noEscape */ echo $block->escapeHtml($block->getAjaxActionUrl());?>", "network": "twitter"}}'
+             <?php endif; ?>
+            target="_blank"><?php echo $block->escapeHtml(__('twitter')) ?></a>
+-        <a href="<?php echo $block->escapeHtml($block->getGooglePlusShareUrl()); ?>"
+-           class="reward-points-share-google-plus"
++        <a href="<?php echo $block->escapeHtml($block->getPinterestShareUrl()); ?>"
++           class="reward-points-share-pinterest"
+             <?php if (!$block->isGuest()) : ?>
+-                data-mage-init='{"awRewardPointsShare": {"productId": "<?php /* @noEscape */ echo $block->escapeHtml($block->getProductId());?>", "url": "<?php /* @noEscape */ echo $block->escapeHtml($block->getAjaxActionUrl());?>", "network": "google-plus"}}'
++                data-mage-init='{"awRewardPointsShare": {"productId": "<?php /* @noEscape */ echo $block->escapeHtml($block->getProductId());?>", "url": "<?php /* @noEscape */ echo $block->escapeHtml($block->getAjaxActionUrl());?>", "network": "pinterest"}}'
+             <?php endif; ?>
+-           target="_blank"><?php echo $block->escapeHtml(__('google-plus')) ?></a>
++           target="_blank"><?php echo $block->escapeHtml(__('pinterest')) ?></a> 
+         <?php if (!$block->isGuest() && $block->getAwardedPointsForShare() > 0) : ?>
+             <br />
+             <?php /* @noEscape */ echo __('Share this page to earn <strong>%1</strong> point(s) (<strong>%2</strong> discount).',
+-- 
+2.17.1
+

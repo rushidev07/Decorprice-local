@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Mageplaza_NameYourPrice::mppricebargain" title="Name Your Price" module="Mageplaza_NameYourPrice" sortOrder="999" resource="Mageplaza_NameYourPrice::mppricebargain" parent="Magento_Backend::marketing"/>
+        <add id="Mageplaza_NameYourPrice::requests" title="Bargain Requests List" module="Mageplaza_NameYourPrice" sortOrder="10" action="mppricebargain/requests" resource="Mageplaza_NameYourPrice::requests" parent="Mageplaza_NameYourPrice::mppricebargain"/>
+        <add id="Mageplaza_NameYourPrice::configuration" title="Configuration" module="Mageplaza_NameYourPrice" sortOrder="100" action="adminhtml/system_config/edit/section/mppricebargain" resource="Mageplaza_NameYourPrice::configuration" parent="Mageplaza_NameYourPrice::mppricebargain"/>
+    </menu>
+</config>

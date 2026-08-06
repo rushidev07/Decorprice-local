@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/pdf_file.xsd">
+  <renderers>
+    <page type="udpo">
+      <renderer product_type="default">Unirgy\DropshipPo\Model\Pdf\PoItems\DefaultPoItems</renderer>
+      <renderer product_type="grouped">Unirgy\DropshipPo\Model\Pdf\PoItems\Grouped</renderer>
+      <renderer product_type="bundle">Unirgy\DropshipPo\Model\Pdf\PoItems\Bundle</renderer>
+    </page>
+  </renderers>
+</config>

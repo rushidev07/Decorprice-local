@@ -1,0 +1,227 @@
+<?php
+/**
+ * Copyright � 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+<?php
+$_hlp = \Magento\Framework\App\ObjectManager::getInstance()->get('Unirgy\Dropship\Helper\Data');
+$_poHlp = \Magento\Framework\App\ObjectManager::getInstance()->get('Unirgy\DropshipPo\Helper\Data');
+$_po = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Registry')->registry('current_udpo');
+$method = explode('_', $_po->getUdropshipMethod(), 2);
+$_vendor = $_po->getVendor();
+$carrierCode = !empty($method[0]) ? $method[0] : $_vendor->getCarrierCode();
+$poShippingMethod = $_po->getUdropshipMethod();
+if (null == $poShippingMethod) {
+    $poShippingMethod = $_po->getOrder()->getShippingMethod();
+}
+?>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Items to Ship') ?></span>
+    </div>
+    <div class="admin__table-wrapper">
+        <table class="data-table admin__table-primary order-shipment-table">
+            <thead>
+            <tr class="headings">
+                <th class="col-product"><span><?php /* @escapeNotVerified */ echo __('Product') ?></span></th>
+                <th class="col-ordered-qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></th>
+                <th class="col-qty<?php if ($block->isShipmentRegular()): ?> last<?php endif; ?>">
+                    <span><?php /* @escapeNotVerified */ echo __('Qty to Ship') ?></span>
+                </th>
+                <?php if (!$block->canShipPartiallyItem()): ?>
+                    <th class="col-ship last"><span><?php /* @escapeNotVerified */ echo __('Ship') ?></span></th>
+                <?php endif; ?>
+            </tr>
+            </thead>
+            <?php $_items = $block->getShipment()->getAllItems() ?>
+            <?php $_i = 0; foreach ($_items as $_item): if ($_item->getOrderItem()->getIsVirtual() || $_item->getOrderItem()->getParentItem()): continue; endif; $_i++ ?>
+                <tbody class="<?php /* @escapeNotVerified */ echo $_i%2 ? 'odd' : 'even' ?>">
+                <?php echo $block->getItemHtml($_item) ?>
+                <?php echo $block->getItemExtraInfoHtml($_item->getOrderItem()) ?>
+                </tbody>
+            <?php endforeach; ?>
+        </table>
+    </div>
+</section>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?php /* @escapeNotVerified */ echo __('Shipment Total') ?></span>
+    </div>
+    <div class="admin__page-section-content order-comments-history">
+        <div class="admin__page-section-item">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?php /* @escapeNotVerified */ echo __('Shipment Comments') ?></span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <div id="order-history_form" class="admin__field">
+                    <label class="admin__field-label"
+                           for="shipment_comment_text">
+                        <span><?php /* @escapeNotVerified */ echo __('Comment Text') ?></span></label>
+                    <div class="admin__field-control">
+                        <textarea id="shipment_comment_text"
+                                  class="admin__control-textarea"
+                                  name="shipment[comment_text]"
+                                  rows="3"
+                                  cols="5"><?php /* @escapeNotVerified */ echo $block->getShipment()->getCommentText(); ?></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="admin__page-section-item order-totals order-totals-actions">
+        <div class="admin__page-section-item-title">
+            <span class="title"><?php /* @escapeNotVerified */ echo __('Shipment Options') ?></span>
+        </div>
+        <div class="admin__page-section-item-content order-totals-actions">
+                <div class="admin__field admin__field-option">
+                    <label class="normal" for="shipment_generate_label"><?php echo __('Generate Label') ?></label>
+                    <input id="shipment_generate_label" name="shipment[generate_label]" value="1" type="checkbox" onclick="$('shipment_generate_label_form').toggle()" />
+                </div>
+                <div id="shipment_generate_label_form" style="display:none">
+
+                    <div class="admin__field admin__field-option">
+                        <label for="shipment_label_use_method_code"><?php echo __('Shipping Method') ?></label>
+                        <select id="shipment_label_use_method_code" name="shipment[label_info][use_method_code]">
+                            <?php foreach($_poHlp->getPoAvailableMethods($_po) as $_amCode => $_amDesc): ?>
+                                <option value="<?php echo $_amCode?>" <?php if ($poShippingMethod==$_amCode): ?> selected<?php endif?>><?php echo $_amDesc?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="admin__field admin__field-option">
+                        <label for="shipment_label_weight"><?php echo __('Shipment Info')?></label>
+                        <?php echo __('Weight:') ?>
+                        <input id="shipment_label_weight" name="shipment[label_info][weight]" value="<?php echo $_po->getRemainingWeight() ?>" title="<?php echo __('Weight') ?>" type="text" class="input-text" style="width:50px;" /> LB
+                        &nbsp;&nbsp;
+                        <?php echo __('Value:') ?>
+                        <input id="shipment_label_value" name="shipment[label_info][value]" value="<?php echo $_po->getRemainingValue() ?>" title="<?php echo __('Declared Value') ?>" type="text" class="input-text" style="width:50px;"/> <?php echo $_po->getOrder()->getStoreCurrencyCode() ?>
+                    </div>
+                    <div class="admin__field admin__field-option">
+                        <label for="shipment_label_length"><?php echo __('Pkg. Dimensions')?></label>
+                        <?php echo __('Length:') ?>
+                        <input id="shipment_label_length" name="shipment[label_info][length]" value="<?php echo (float)$_vendor->getDefaultPkgLength()?>" title="<?php echo __('Length') ?>" type="text" class="input-text" style="width:30px;" />
+                        &nbsp;&nbsp;
+                        <?php echo __('Width:') ?>
+                        <input id="shipment_label_width" name="shipment[label_info][width]" value="<?php echo (float)$_vendor->getDefaultPkgWidth()?>" title="<?php echo __('Width') ?>" type="text" class="input-text" style="width:30px;" />
+                        &nbsp;&nbsp;
+                        <?php echo __('Height:') ?>
+                        <input id="shipment_label_height" name="shipment[label_info][height]" value="<?php echo (float)$_vendor->getDefaultPkgHeight()?>" title="<?php echo __('Height') ?>" type="text" class="input-text" style="width:30px;" />
+                    </div>
+                    <div class="admin__field admin__field-option">
+                        <?php if ($carrierCode=='fedex'): ?>
+                            <label for="shipment_label_package_count"><?php echo __('Package Count') ?></label>
+                            <select id="shipment_label_package_count" name="shipment[label_info][package_count]" value="1" title="<?php echo __('Package Count') ?>">
+                                <?php foreach(range(1,10) as $pcIdx): ?>
+                                    <option value="<?php echo $pcIdx?>"><?php echo $pcIdx?></option>
+                                <?php endforeach ?>
+                            </select>
+                            <br />
+                        <?php endif ?>
+                    </div>
+                    <div class="admin__field admin__field-option">
+                        <label for="shipment_label_reference"><?php echo __('Reference') ?></label>
+                        <input id="shipment_label_reference" name="shipment[label_info][reference]" value="<?php echo $_po->getIncrementId() ?>" title="<?php echo __('Reference') ?>" type="text" class="input-text" style="width:250px;" />
+                    </div>
+                    <div class="admin__field admin__field-option">
+                        <label for="shipment_label_use_label_shipping_amount"><?php echo __('Use Label Amount') ?></label>
+                        <input id="shipment_label_use_label_shipping_amount" name="shipment[use_label_shipping_amount]" value="1" title="<?php echo __('Use Label Shipping Amount') ?>" type="checkbox" class="input-checkbox" onchange="$('shipment_shipping_amount_ctr').toggle()" />
+                        <br />
+                    </div>
+                </div>
+
+                <div id="shipment_shipping_amount_ctr" class="admin__field admin__field-option">
+                    <label class="normal" for="shipment_shipping_amount"><?php echo __('Shipping Amount') ?></label>
+                    <input id="shipment_shipping_amount" name="shipment[shipping_amount]" value="<?php echo $_po->getBaseShippingAmountLeft()?>" />
+                </div>
+
+                <div class="field choice admin__field admin__field-option field-append">
+                    <input id="shipment_do_invoice" class="admin__control-checkbox" name="shipment[do_invoice]" value="1" type="checkbox" />
+                    <label class="admin__field-label" for="shipment_do_invoice"><?=$block->escapeHtml(__('Invoice Shipment')) ?></label>
+                </div>
+
+                <div class="field choice admin__field admin__field-option field-append">
+                    <input id="shipment_mark_as_shipped" class="admin__control-checkbox" name="shipment[mark_as_shipped]" value="1" type="checkbox" />
+                    <label class="admin__field-label" for="shipment_mark_as_shipped"><?=$block->escapeHtml(__('Mark As Shipped')) ?></label>
+                </div>
+
+             <div class="field choice admin__field admin__field-option field-append">
+                <input id="notify_customer"
+                       class="admin__control-checkbox"
+                       name="shipment[comment_customer_notify]"
+                       value="1"
+                       type="checkbox"/>
+                <label class="admin__field-label"
+                       for="notify_customer">
+                    <span><?=$block->escapeHtml(__('Append Comments')) ?></span></label>
+            </div>
+
+            <?php if ($block->canSendShipmentEmail()) : ?>
+                <div class="field choice admin__field admin__field-option field-email">
+                    <input id="send_email"
+                           class="admin__control-checkbox"
+                           name="shipment[send_email]"
+                           value="1"
+                           type="checkbox"/>
+                    <label class="admin__field-label"
+                           for="send_email">
+                        <span><?= $block->escapeHtml(__('Email Copy of Shipment')) ?></span></label>
+                </div>
+            <?php endif; ?>
+
+            <?php echo $block->getChildHtml('submit_before') ?>
+            <div class="order-history-comments-actions actions">
+                <?php echo $block->getChildHtml('submit_button') ?>
+                <?php echo $block->getChildHtml('submit_after') ?>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+require([
+    "jquery",
+    "Magento_Ui/js/modal/alert",
+    "prototype"
+], function(jQuery, alert){
+
+//<![CDATA[
+var sendEmailCheckbox = $('send_email');
+if (sendEmailCheckbox) {
+    var notifyCustomerCheckbox = $('notify_customer');
+    var shipmentCommentText = $('shipment_comment_text');
+    Event.observe(sendEmailCheckbox, 'change', bindSendEmail);
+    bindSendEmail();
+}
+function bindSendEmail() {
+    if (sendEmailCheckbox.checked == true) {
+        notifyCustomerCheckbox.disabled = false;
+    }
+    else {
+        notifyCustomerCheckbox.disabled = true;
+    }
+}
+window.toggleCreateLabelCheckbox = function() {
+    var checkbox = $('create_shipping_label');
+    var submitButton = checkbox.up('.order-totals').select('.submit-button span')[0];
+    if (checkbox.checked) {
+        submitButton.innerText += '...';
+    } else {
+        submitButton.innerText = submitButton.innerText.replace(/\.\.\.$/, '');
+    }
+}
+
+window.bindSendEmail = bindSendEmail;
+
+window.shipmentCommentText = shipmentCommentText;
+window.notifyCustomerCheckbox = notifyCustomerCheckbox;
+window.sendEmailCheckbox = sendEmailCheckbox;
+//]]>
+
+});
+</script>

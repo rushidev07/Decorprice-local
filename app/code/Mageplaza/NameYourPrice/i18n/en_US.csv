@@ -1,0 +1,158 @@
+"Save & Approve","Save & Approve"
+"Save & Reject","Save & Reject"
+"Edit Request '%1'","Edit Request '%1'"
+"New Request","New Request"
+General,General
+"Customer Name","Customer Name"
+"Customer Email","Customer Email"
+"Customer Phone","Customer Phone"
+"Product Name","Product Name"
+SKU,SKU
+"Original Price","Original Price"
+"Your Committed Min. Qty","Your Committed Min. Qty"
+"Bargain Price","Bargain Price"
+"Store View","Store View"
+"Submitted Date","Submitted Date"
+Status,Status
+"Order ID","Order ID"
+None,None
+Message,Message
+"Customer's Message","Customer's Message"
+"Admin's Response","Admin's Response"
+"The admin's response will be sent to customers via email when the admin clicks on ""Save & Approve"" or ""Save & Reject""","The admin's response will be sent to customers via email when the admin clicks on ""Save & Approve"" or ""Save & Reject"""
+"Name Your Price","Name Your Price"
+"Request Information","Request Information"
+"This bargain no longer exists.","This bargain no longer exists."
+"This price lasts for %1 days.","This price lasts for %1 days."
+"The bargain has been deleted.","The bargain has been deleted."
+"Bargain to delete was not found.","Bargain to delete was not found."
+"This request no longer exists.","This request no longer exists."
+"Edit Bargain Price","Edit Bargain Price"
+"Bargain Requests List","Bargain Requests List"
+"Cannot approve the bargain request ID %1. It has been approved/rejected, closed or cancelled by customer","Cannot approve the bargain request ID %1. It has been approved/rejected, closed or cancelled by customer"
+"A total of %1 record(s) have been approved.","A total of %1 record(s) have been approved."
+"Something went wrong while deleting. %1","Something went wrong while deleting. %1"
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"Cannot reject the bargain request ID %1. It has been approved/rejected, closed or cancelled by customer","Cannot reject the bargain request ID %1. It has been approved/rejected, closed or cancelled by customer"
+"A total of %1 record(s) have been rejected.","A total of %1 record(s) have been rejected."
+"The bargain has been approved.","The bargain has been approved."
+"The request has been rejected.","The request has been rejected."
+"You saved the request.","You saved the request."
+"My Bargain Prices","My Bargain Prices"
+"This email has bargained for this product.","This email has bargained for this product."
+"This request has been sent to the admin. Please wait for the response.","This request has been sent to the admin. Please wait for the response."
+"Invalid Form Key.","Invalid Form Key."
+Approved,Approved
+"Rejected by Admin","Rejected by Admin"
+Closed,Closed
+Pending,Pending
+"Cancelled by Customer","Cancelled by Customer"
+"Price Bargain","Price Bargain"
+Name,Name
+Phone,Phone
+"Fixed Price","Fixed Price"
+"Percentage of Original Price","Percentage of Original Price"
+Close,Close
+"The quantity of %1 must be equal to or greater than %2 items.","The quantity of %1 must be equal to or greater than %2 items."
+"The quantity must be equal to or greater than %1 items.","The quantity must be equal to or greater than %1 items."
+Edit,Edit
+"All Store Views","All Store Views"
+"Bargain Price Details","Bargain Price Details"
+"Original Price: ","Original Price: "
+"Your Suggested Price Per Item: ","Your Suggested Price Per Item: "
+"Your Committed Min. Qty: ","Your Committed Min. Qty: "
+"Status: ","Status: "
+"Use before: ","Use before: "
+Unlimited,Unlimited
+"Your message: ","Your message: "
+"Store Owners's Message: ","Store Owners's Message: "
+"View Product Page","View Product Page"
+Requests,Requests
+Created,Created
+"Created #","Created #"
+Actions,Actions
+"See Details","See Details"
+"You have no requests.","You have no requests."
+"This request is waiting for approval.","This request is waiting for approval."
+"This request has been approved.","This request has been approved."
+"Cancel Your Price Bargain","Cancel Your Price Bargain"
+"Your Bargain Price: %1","Your Bargain Price: %1"
+"Your Committed Min. Qty: %1","Your Committed Min. Qty: %1"
+"* Required Fields","* Required Fields"
+"Your Suggested Price Per Item","Your Suggested Price Per Item"
+"Your Name","Your Name"
+"Your Email Address","Your Email Address"
+"Your Phone Number","Your Phone Number"
+"Your Message","Your Message"
+Submit,Submit
+Loading...,Loading...
+"A new bargain price request has been sent.","A new bargain price request has been sent."
+"Hi Store Owner","Hi Store Owner"
+"There is a new bargain price request for %productName. Please follow this:","There is a new bargain price request for %productName. Please follow this:"
+"Best regards,","Best regards,"
+"Congratulations! Your bargain price has been approved.","Congratulations! Your bargain price has been approved."
+"Hi %customer_name,","Hi %customer_name,"
+"Your bargain price for %product_name has been accepted. %limit_time_label","Your bargain price for %product_name has been accepted. %limit_time_label"
+"Click ","Click "
+here,here
+"to buy this product at your bargain price.","to buy this product at your bargain price."
+"The message from the store owner:","The message from the store owner:"
+"Your bargain price has been sent to the store owner.","Your bargain price has been sent to the store owner."
+"Hi %customerName,","Hi %customerName,"
+"Your bargain request has been sent to our store.","Your bargain request has been sent to our store."
+%thumbnail,%thumbnail
+%productName,%productName
+"Product Name: %productName","Product Name: %productName"
+"Your Price Bargain (for each item): %bargainPrice","Your Price Bargain (for each item): %bargainPrice"
+"Qty: %bargainQty","Qty: %bargainQty"
+"We will take the time to decide whether or not to approve your price suggestion. We will contact you as soon as possible. Thank you!","We will take the time to decide whether or not to approve your price suggestion. We will contact you as soon as possible. Thank you!"
+"Sorry, your bargain price has been rejected","Sorry, your bargain price has been rejected"
+"We have received your bargain price for %product_name.","We have received your bargain price for %product_name."
+"Unfortunately, we cannot accept this price.","Unfortunately, we cannot accept this price."
+"Thank you for your interest in our products. Hope you will always have a great time shopping at our store.","Thank you for your interest in our products. Hope you will always have a great time shopping at our store."
+"Your Bargain Price: ","Your Bargain Price: "
+"Mageplaza Name Your Price","Mageplaza Name Your Price"
+"Bargain Requests","Bargain Requests"
+Enable,Enable
+"Select Yes to enable this module","Select Yes to enable this module"
+"Customer Group(s)","Customer Group(s)"
+"Apply For","Apply For"
+"If no condition, bargain function will be applied to all products.","If no condition, bargain function will be applied to all products."
+"Bargain Price Type","Bargain Price Type"
+"Min Bargain Value","Min Bargain Value"
+"Apply For Tax","Apply For Tax"
+"If Yes, tax will be included in the bargain price of customers. Default is No.","If Yes, tax will be included in the bargain price of customers. Default is No."
+"Allow Using Discounts","Allow Using Discounts"
+"If Yes, the approved bargain products can be applied with current discounts (from cart price rules, coupon codes, affiliate policies)","If Yes, the approved bargain products can be applied with current discounts (from cart price rules, coupon codes, affiliate policies)"
+"Bargain Usage Time","Bargain Usage Time"
+"Day(s). Number of days that customers can use their bargain price after being approved by the admin. If empty or 0, there is no time limitation.","Day(s). Number of days that customers can use their bargain price after being approved by the admin. If empty or 0, there is no time limitation."
+"Commit Minimum Quantity","Commit Minimum Quantity"
+"If Yes, the customer will have to fill in a quantity to get bargain authorization. If admins approve the bargain, the customer will have to buy with the minimum of this quantity.","If Yes, the customer will have to fill in a quantity to get bargain authorization. If admins approve the bargain, the customer will have to buy with the minimum of this quantity."
+"Bargain Form","Bargain Form"
+"Use Popup","Use Popup"
+"If Yes, the form will display via popup. If No, the form will appear right below the Price Bargain button","If Yes, the form will display via popup. If No, the form will appear right below the Price Bargain button"
+"Additional Fields","Additional Fields"
+"The default form includes the fields: bargain price and customer's email.","The default form includes the fields: bargain price and customer's email."
+"Button Label","Button Label"
+"Default: Price Bargain","Default: Price Bargain"
+"Notification Email","Notification Email"
+"Install <a href=""https://www.mageplaza.com/magento-2-smtp/?utm_source=mageplaza&utm_medium=mageplaza&utm_campaign=mageplaza-review&utm_content=SMTP"" target=""_blank"">Mageplaza_SMTP</a> to avoid sending emails to spam box.","Install <a href=""https://www.mageplaza.com/magento-2-smtp/?utm_source=mageplaza&utm_medium=mageplaza&utm_campaign=mageplaza-review&utm_content=SMTP"" target=""_blank"">Mageplaza_SMTP</a> to avoid sending emails to spam box."
+Sender,Sender
+"Admin Email","Admin Email"
+"Separated by comma(,). When the customer submits a bargain request, a notification email will be sent to the admin via this address.","Separated by comma(,). When the customer submits a bargain request, a notification email will be sent to the admin via this address."
+"Confirmation Email","Confirmation Email"
+"Approval Email","Approval Email"
+"Rejection Email","Rejection Email"
+Delete,Delete
+"Delete Request(s)","Delete Request(s)"
+"Are you sure you want to delete the selected request(s)?","Are you sure you want to delete the selected request(s)?"
+Approve,Approve
+"Approve Request(s)","Approve Request(s)"
+"Are you sure you want to approve the selected request(s)?","Are you sure you want to approve the selected request(s)?"
+Reject,Reject
+"Reject Request(s)","Reject Request(s)"
+"Are you sure you want to reject the selected request(s)?","Are you sure you want to reject the selected request(s)?"
+ID,ID
+Quantity,Quantity
+Email,Email
+Date,Date

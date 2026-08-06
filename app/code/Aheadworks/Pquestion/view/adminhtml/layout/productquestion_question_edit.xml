@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <head>
+        <css src="Aheadworks_Pquestion::css/style.css"/>
+    </head>
+    <body>
+        <referenceContainer name="page.main.actions">
+            <block class="Aheadworks\Pquestion\Block\Adminhtml\Question\Menu" name="aw_pq.menu" template="Aheadworks_Pquestion::widget/menu.phtml"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Aheadworks\Pquestion\Block\Adminhtml\Question\Edit" name="aw_pq.question.edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Aheadworks\Pquestion\Block\Adminhtml\Question\Edit\Tabs" name="aw_pq.question.edit_tabs" />
+        </referenceContainer>
+    </body>
+</page>

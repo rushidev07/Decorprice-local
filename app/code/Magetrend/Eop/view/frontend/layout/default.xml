@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * MB "Vienas bitas" (Magetrend.com)
+ *
+ * PHP version 5.3 or later
+ *
+ * @category MageTrend
+ * @package  Magetend/Eop
+ * @author   Edvinas Stulpinas <edwin@magetrend.com>
+ * @license  http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link     https://www.magetrend.com/magento-2-exit-intent-popup-extension
+ */
+ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magetrend_Eop::css/eop.css"/>
+    </head>
+    <body>
+        <referenceContainer name="root">
+            <block class="Magetrend\Eop\Block\Popup" template="eop/popup.phtml"  after="-">
+                <block class="Magetrend\Eop\Block\Popup\Theme" template="eop/popup/theme/basic.phtml" name="eop.theme.basic" as="basic">
+                    <block class="Magetrend\Eop\Block\Popup\Content" template="eop/popup/content/subscription.phtml" name="eop.content.subscription" as="newsletter_subscription_form"/>
+                    <block class="Magetrend\Eop\Block\Popup\Content" template="eop/popup/content/yesno.phtml" name="eop.content.yesno" as="yes_no_buttons"/>
+                    <block class="Magetrend\Eop\Block\Popup\Content" template="eop/popup/content/contact.phtml" name="eop.theme.contact" as="contact_form"/>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

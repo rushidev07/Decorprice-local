@@ -1,0 +1,11 @@
+--- vendor/weltpixel/m2-social-login/Model/Google.php
++++ vendor/weltpixel/m2-social-login/Model/Google.php
+@@ -114,7 +114,7 @@
+                     "verify_peer_name"=>false,
+                 ),
+             );
+-            $userDetails = file_get_contents($this->_requestEndpoint . $tokenInfo['access_token'], false, stream_context_create($arrContextOptions));
++            $userDetails = @file_get_contents($this->_requestEndpoint . $tokenInfo['access_token'], false, stream_context_create($arrContextOptions));
+             $data = json_decode($userDetails, true);
+             if(!empty($data)) {
+                 $userData = [

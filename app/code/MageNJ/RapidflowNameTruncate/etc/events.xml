@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+  <event name="urapidflow_catalog_product_export_before_output">
+    <observer name="urapidflow" instance="MageNJ\RapidflowNameTruncate\Observer\DataManipulation"/>
+  </event>
+</config>

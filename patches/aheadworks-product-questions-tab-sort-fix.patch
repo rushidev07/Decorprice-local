@@ -1,0 +1,26 @@
+From 412442ab727307928cf05257fa66ae2a50b2e7e8 Mon Sep 17 00:00:00 2001
+From: Ahy DO Server <harpreet@ahyconsulting.com>
+Date: Thu, 21 Oct 2021 07:26:53 +0000
+Subject: [PATCH] product questions tab sort fix
+
+---
+ view/frontend/layout/catalog_product_view.xml | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/view/frontend/layout/catalog_product_view.xml b/view/frontend/layout/catalog_product_view.xml
+index 1f2b38c..84310d3 100755
+--- a/view/frontend/layout/catalog_product_view.xml
++++ b/view/frontend/layout/catalog_product_view.xml
+@@ -18,6 +18,9 @@ See LICENSE.txt for license details.
+                     <block class="Aheadworks\Pquestion\Block\Question\Form" name="aw_pq_ask_question_form" template="Aheadworks_Pquestion::question/form.phtml" />
+                     <block class="Aheadworks\Pquestion\Block\Answer\Form" name="aw_pq_add_answer_form" template="Aheadworks_Pquestion::answer/form.phtml" />
+                 </block>
++                <arguments>
++                    <argument name="sort_order" xsi:type="string">60</argument>
++                </arguments>
+             </block>
+         </referenceBlock>
+         <referenceBlock name="before_body_end">
+-- 
+2.17.1
+

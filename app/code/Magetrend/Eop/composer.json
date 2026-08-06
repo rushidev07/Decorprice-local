@@ -1,0 +1,15 @@
+{
+    "name": "magetrend/eop",
+    "autoload": {
+        "psr-4": {"Magetrend\\Eop\\":""},
+        "files": ["registration.php"]
+    },
+    "description": "Exit offer popup with newsletter subscription",
+    "type": "magento2-module",
+    "version": "1.1.5",
+    "support": {
+        "email": "info@magetrend.com",
+        "wiki": "http://wiki2.magetrend.com",
+        "author": "Edvinas Stulpinas"
+    }
+}

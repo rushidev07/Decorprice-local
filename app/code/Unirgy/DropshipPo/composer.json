@@ -1,0 +1,24 @@
+{
+    "name": "unirgy/m2-dropship-po",
+    "description": "uDropship AdvancedPO add-on",
+    "require": {
+        "unirgy/m2-dropship": "3.2.*"
+    },
+    "repositories": [
+        {"type": "composer", "url": "https://repo.packagist.com/unirgy/"},
+        {"packagist.org": false}
+    ],
+    "type": "magento2-module",
+    "version": "3.2.46",
+    "license": [
+        "Proprietary"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Unirgy\\DropshipPo\\": ""
+        }
+    }
+}

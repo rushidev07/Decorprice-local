@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2020 aheadWorks. All rights reserved.
+See LICENSE.txt for license details.
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <referenceBlock name="content">
+            <block class="Aheadworks\Pquestion\Block\Customer\Question\Grid" name="aw_pq.customer.question.grid" template="Aheadworks_Pquestion::customer/question/grid.phtml" cacheable="false" />
+            <block class="Aheadworks\Pquestion\Block\Customer\Answer\Grid" name="aw_pq.customer.answer.grid" template="Aheadworks_Pquestion::customer/answer/grid.phtml" cacheable="false" />
+            <block class="Aheadworks\Pquestion\Block\Customer\Subscribe" name="aw_pq.customer.subscribe" template="Aheadworks_Pquestion::customer/subscribe.phtml" cacheable="false" />
+        </referenceBlock>
+    </body>
+</page>

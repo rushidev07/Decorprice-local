@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:DataObject/etc/fieldset.xsd">
+    <scope id="global">
+        <fieldset id="sales_convert_quote">
+            <field name="aw_reward_points_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="base_aw_reward_points_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="aw_reward_points">
+                <aspect name="to_order" />
+            </field>
+            <field name="aw_reward_points_description">
+                <aspect name="to_order" />
+            </field>
+        </fieldset>
+        <fieldset id="sales_convert_quote_address">
+            <field name="aw_reward_points_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="base_aw_reward_points_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="aw_reward_points_shipping_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="base_aw_reward_points_shipping_amount">
+                <aspect name="to_order" />
+            </field>
+            <field name="aw_reward_points_shipping">
+                <aspect name="to_order" />
+            </field>
+        </fieldset>
+        <fieldset id="quote_convert_item">
+            <field name="aw_reward_points_amount">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="base_aw_reward_points_amount">
+                <aspect name="to_order_item" />
+            </field>
+            <field name="base_aw_reward_points">
+                <aspect name="to_order_item" />
+            </field>
+        </fieldset>
+        <fieldset id="quote_convert_earn_item">
+            <field name="product_id">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="product_type">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="is_children_calculated">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_row_total">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_row_total_incl_tax">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_discount_amount">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_aw_reward_points_amount">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="qty">
+                <aspect name="to_earn_item" />
+            </field>
+        </fieldset>
+        <fieldset id="invoice_convert_earn_item">
+            <field name="product_id">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="product_type">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="is_children_calculated">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_row_total">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_row_total_incl_tax">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_discount_amount">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_aw_reward_points_amount">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="qty">
+                <aspect name="to_earn_item" />
+            </field>
+        </fieldset>
+        <fieldset id="creditmemo_convert_earn_item">
+            <field name="product_id">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="product_type">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="is_children_calculated">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_row_total">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_row_total_incl_tax">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_discount_amount">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="base_aw_reward_points_amount">
+                <aspect name="to_earn_item" />
+            </field>
+            <field name="qty">
+                <aspect name="to_earn_item" />
+            </field>
+        </fieldset>
+    </scope>
+</config>      

@@ -1,0 +1,62 @@
+<?php
+/**
+ * Preload fonts to reduce FOUT
+ */
+?>
+<style>
+@font-face {
+    font-family: 'Questrial';
+    font-style: normal;
+    font-weight: 400;
+    src: url('https://fonts.gstatic.com/s/questrial/v19/QdVUSTchPBm7nuUeVf70viFluW44JQ.woff2') format('woff2');
+    font-display: block;
+}
+
+/* Open Sans preloaded fonts */
+@font-face {
+    font-family: 'Open Sans';
+    font-weight: 300;
+    font-style: normal;
+    src: url('<?= $block->getViewFileUrl("fonts/opensans/light/opensans-300.woff2") ?>') format('woff2'),
+         url('<?= $block->getViewFileUrl("fonts/opensans/light/opensans-300.woff") ?>') format('woff');
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-weight: 400;
+    font-style: normal;
+    src: url('<?= $block->getViewFileUrl("fonts/opensans/regular/opensans-400.woff2") ?>') format('woff2'),
+         url('<?= $block->getViewFileUrl("fonts/opensans/regular/opensans-400.woff") ?>') format('woff');
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-weight: 600;
+    font-style: normal;
+    src: url('<?= $block->getViewFileUrl("fonts/opensans/semibold/opensans-600.woff2") ?>') format('woff2'),
+         url('<?= $block->getViewFileUrl("fonts/opensans/semibold/opensans-600.woff") ?>') format('woff');
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-weight: 700;
+    font-style: normal;
+    src: url('<?= $block->getViewFileUrl("fonts/opensans/bold/opensans-700.woff2") ?>') format('woff2'),
+         url('<?= $block->getViewFileUrl("fonts/opensans/bold/opensans-700.woff") ?>') format('woff');
+    font-display: block;
+}
+</style>
+
+<?php
+// Preload fonts for browser priority
+$weights = ['300','400','600','700'];
+foreach ($weights as $w): ?>
+    <link rel="preload"
+          href="<?= $block->getViewFileUrl("fonts/opensans/". ($w==300?'light':($w==400?'regular':($w==600?'semibold':'bold'))) ."/opensans-{$w}.woff2") ?>"
+          as="font"
+          type="font/woff2"
+          crossorigin="anonymous">
+<?php endforeach; ?>

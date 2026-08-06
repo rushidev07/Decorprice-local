@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework/Event/etc/events.xsd">
+
+    <!-- Single product save -->
+    <event name="catalog_product_save_after">
+        <observer name="ahy_product_data_cleanup" instance="Ahy\Automation\Observer\ProductDataCleanupObserver" />
+    </event>
+
+    <!-- Bulk import -->
+    <event name="catalog_product_import_bunch_save_after">
+        <observer name="ahy_product_data_cleanup_bulk" instance="Ahy\Automation\Observer\ProductDataCleanupObserver" />
+    </event>
+
+    <!-- Stock updates -->
+    <event name="cataloginventory_stock_item_save_after">
+        <observer name="ahy_product_stock_cleanup" instance="Ahy\Automation\Observer\ProductDataCleanupObserver" />
+    </event>
+
+    <event name="urapidflow_product_import_after_save">
+        <observer name="ahy_productdata_cleanup_after_import_save"
+                  instance="Ahy\Automation\Observer\AfterRapidflowProductImportSave"/>
+    </event>
+
+</config>

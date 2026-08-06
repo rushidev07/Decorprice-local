@@ -1,0 +1,68 @@
+<?php
+$isModuleEnable = $this->helper(\Sparsh\BuyNow\Helper\Data::class)->getConfig('buynow/general/enable_buynow');
+$hideCart = $this->helper(\Sparsh\BuyNow\Helper\Data::class)->getConfig('buynow/advance/hide_add_to_cart');
+$flag = 1;
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if ($_product->isSaleable() && $_product->isSalable()): ?>
+    <div class="box-tocart">
+        <div class="fieldset flex-column">
+            <?php if ($block->shouldRenderQuantity()): ?>
+                <div class="field qty">
+                    <label class="label" for="qty"><span><?= /* @noEscape */ __('Qty') ?></span></label>
+                    <div class="control">
+                        <input type="number"
+                               name="qty"
+                               id="qty"
+                               min="0"
+                               value="<?= /* @noEscape */ $block->getProductDefaultQty() * 1 ?>"
+                               title="<?= /* @noEscape */ __('Qty') ?>"
+                               class="input-text qty"
+                               data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                        />
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="actions flex-column">
+                <div>
+                    <?php if ($isModuleEnable ? ($hideCart ? $flag = 0 : $flag) : $flag): ?>
+                        <button type="submit"
+                                title="<?= /* @noEscape */ $buttonTitle ?>"
+                                class="action primary tocart"
+                                id="product-addtocart-button">
+                            <span><?= /* @noEscape */ $buttonTitle ?></span>
+                        </button>
+                    <?php endif; ?>
+                    <?php if ($isModuleEnable):
+                        $buttonTitle = $this->helper(\Sparsh\BuyNow\Helper\Data::class)->getConfig('buynow/advance/button_title'); ?>
+                        <div class="sparsh-buynow-view">
+                            <button type="submit"
+                                    title="<?= /* @noEscape */ __($buttonTitle) ?>"
+                                    class="action primary"
+                                    id="product-sparsh-buynow-button"
+                                    data-mage-init='
+                                {
+                                    "Sparsh_BuyNow/js/buy-now":
+                                    {
+                                        "form": "#product_addtocart_form"
+                                    }
+                                }
+                                '>
+                                <span><?= /* @noEscape */ __($buttonTitle) ?></span>
+                            </button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <?= $block->getChildHtml('', true) ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>

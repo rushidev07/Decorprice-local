@@ -1,0 +1,33 @@
+<div id="udpo_progress_modal" style="display: none;" class="modal-wrapper">
+<div class="umodal">
+    <div class="umodal-main">
+        <div class="content">
+
+<div class="block-title">
+	<h3 id="udpo_progress_modal_title"><?php echo __('Progress') ?></h3>
+</div>
+
+<div id="udpo_progress_modal_content">
+    <div id="udpo_progress_modal_error">
+        <div class="message"></div>
+        <div id="modal_try_later" class="try_later" style="float: left; margin-left: 10px"><a href="<?php echo $this->getUrl('*/*/*', ['_current'=>true])?>"><?php echo __('Close') ?></a></div>
+        <div id="modal_close" style="display: none; float: left; margin-left: 10px"><a href="javascript: void(0)"  onclick="unirgyGetModal().hideCurrentModal();" class="close"><?php echo __('Close') ?></a></div>
+    </div>
+    <div id="udpo_progress_modal_grid" class="grid">
+    <table cellspacing="0" class="data" id="udpo_progress_modal_table" style="width:350px">
+        <col width="250" />
+        <col width="100" />
+        <tbody>
+            <tr>
+                <td><?php echo __('Progress') ?></td>
+                <td class="progress"><div class="progress_percent"></div></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+</div>
+</div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,147 @@
+.aw_reward_points__balance-green {
+  color: #329c6e;
+}
+.aw_reward_points__balance-red {
+  color: #d13441;
+}
+
+.aw-reward-points-admin-file-uploader .file-uploader-preview {
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 0;
+  line-height: 0;
+  margin-bottom: 0;
+  overflow: visible;
+  position: relative;
+  width: auto;
+}
+.aw-reward-points-admin-file-uploader .file-uploader-preview .actions {
+  position: absolute;
+  left: 100px;
+  bottom: -5px;
+}
+.aw-reward-points-admin-file-uploader .file-uploader .file-uploader-filename:first-child {
+  margin-bottom: 0;
+}
+
+/** Grid Import */
+.aw-reward-points__data-grid-action-import .admin__action-dropdown:before {
+  content: '\e636';
+  font-size: 1.7rem;
+  margin-right: 0.7rem;
+  vertical-align: top;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Admin Icons';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  speak: none;
+}
+.admin__data-grid-actions-wrap .aw-reward-points__data-grid-action-import .admin__action-dropdown:after {
+  display: none;
+}
+.admin__data-grid-actions-wrap .aw-reward-points__data-grid-action-import .admin__action-dropdown {
+  padding-right: 2rem;
+}
+.sticky-header .admin__data-grid-actions-wrap .aw-reward-points__data-grid-action-import .admin__action-dropdown {
+  padding-right: 0.6rem;
+}
+
+.aw-reward-points-customers-index .sticky-header .admin__data-grid-actions-wrap,
+.aw_reward_points-customers-index .sticky-header .admin__data-grid-actions-wrap {
+  .admin__data-grid-action-export button span,
+  .aw-reward-points__data-grid-action-import button span {
+    display: none;
+  }
+}
+
+.no-more-selection {
+    font-weight: 700;
+}
+
+.aw_reward_points-earning_rules-index,
+.aw-reward-points-earning-rules-index {
+  .data-grid {
+    .name-column {
+      min-width: 230px;
+    }
+
+    .date-column {
+      min-width: 105px;
+    }
+  }
+}
+
+.aw-reward-points-earning-rules-edit,
+.aw_reward_points-earning_rules-edit {
+    #rule_conditions_fieldset {
+
+        .legend {
+            border-bottom: 1px solid #cac3b4;
+            width: 100%;
+
+            span {
+                font-size: 1.7rem;
+                padding: 7px 0 10px;
+                font-weight: 600;
+                display: inline-block;
+            }
+        }
+
+        .label {
+            font-weight: 600;
+        }
+    }
+
+    .rule_actions_fieldset {
+        .action-type-group {
+            padding-top: 0;
+
+            .admin__additional-info {
+                font-size: 1.2rem;
+                padding-top: 0;
+            }
+        }
+    }
+}
+
+.aw-reward-points.promo_settings_fieldset.labels-dynamic-rows {
+  .select_field {
+    width: 20%;
+
+    .admin__field.select_field {
+      width: 100%;
+    }
+  }
+
+  .action_delete_button._disabled {
+    opacity: 1;
+
+    button {
+      visibility: hidden;
+    }
+  }
+
+  td {
+    &._disabled {
+      opacity: 1;
+    }
+
+    .admin__field .admin__field-label {
+      display: none;
+    }
+  }
+
+  td:nth-child(2), th:nth-child(2) {
+    padding-left: 1rem;
+  }
+
+  .admin__control-table-wrapper {
+    overflow: visible;
+
+      .admin__field-tooltip-action {
+        margin-left: 0;
+      }
+  }
+}

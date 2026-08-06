@@ -1,0 +1,31 @@
+<?php if ($this->canShowEmbedded()): ?>
+    <?php
+        $order = $this->getOrderId() ? '?orderID=' . $this->getOrderId() : '';
+        $platform = ($this->getOrderId() ? '&' : '?') . 'platformType=' . $this->getPlatform();
+        $weSupplyTrackUrl = $this->getWeSupplyTrackUrl() . $order . $platform;
+
+        $wsHelper = $this->helper('WeSupply\Toolbox\Helper\Data');
+        $cspNonceProvider = $wsHelper->getCspNonceProvider();
+    ?>
+    <div class="loading-container">
+        <p><?php /* @noEscape */ echo __('Loading...') ?></p>
+        <div class="loading-image"></div>
+    </div>
+    <div id="orders-lookup-container" class="embedded-iframe-container"></div>
+
+    <script <?php if ($cspNonceProvider) /* @noEscape */ echo ' nonce="' .  $cspNonceProvider->generateNonce() . '" ' ?>>
+        require(['jquery', 'iframeLoader' ],
+            function ($, iframeLoader) {
+                $(function () {
+                    iframeLoader.load('<?php  /* @noEscape */ echo $weSupplyTrackUrl; ?>', 'orders-lookup-container');
+                });
+            });
+    </script>
+<?php else: ?>
+    <div class="not-found">
+        <h1><?= /* @escapeNotVerified */ __('Shipment Tracking is currently disabled.') ?></h1>
+        <div class="message">
+            <p><?= /* @escapeNotVerified */ __('Please contact support.') ?></p>
+        </div>
+    </div>
+<?php endif; ?>

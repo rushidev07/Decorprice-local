@@ -1,0 +1,114 @@
+<div class="aw-onestep-sidebar-block payment-option _collapsible opc-payment-additional aw-reward-points"
+     data-role="aw-async-collapsible"
+     data-bind="visible: isNeedToDisplayComponent()">
+    <div class="payment-option-content" data-role="content">
+
+
+        <!-- ko ifnot: isCustomerLoggedIn() -->
+            <div class="payment-option-inner">
+                <div class="field"
+                     data-bind="i18n: 'Please login for use reward points'"
+                ></div>
+            </div>
+        <!--/ko-->
+
+        <!-- ko if: isCustomerLoggedIn() -->
+            <form class="form form-reward-points"
+                  data-bind="
+                        blockLoader: isLoading,
+                        attr:{
+                            id: formId
+                        }
+                ">
+                <div class="payment-option-inner">
+                    <div class="payment-option-title field choice"
+                         data-role="title">
+                        <span class="action action-toggle"
+                              id="block-discount-heading"
+                              role="heading"
+                              aria-level="2"
+                              data-bind="i18n: 'Reward Points'">
+                        </span>
+                    </div>
+                    <!-- ko foreach: getRegion('messages') -->
+                    <!-- ko template: getTemplate() --><!-- /ko -->
+                    <!--/ko-->
+                    <div class="label conversion-rate">
+                        <span data-bind="text: getConversionRateText()"></span>
+                    </div>
+
+                    <div class="field">
+                        <!-- ko ifnot: areRewardPointsApplied() -->
+                            <div class="label for-input before">
+                                <label class="label" for="aw-reward-points-qty">
+                                    <span data-bind="i18n: 'Use '"></span>
+                                </label>
+                            </div>
+                            <div class="control">
+                                <input class="input-text"
+                                       type="text"
+                                       id="aw-reward-points-qty"
+                                       name="aw_reward_points_qty"
+                                       data-validate="{
+                                                    'required-entry':true,
+                                                    'aw-reward-points__validate-integer-greater-than-zero':true,
+                                                    'less-than-equals-to':'#aw-reward-points-qty-max'
+                                               }"
+                                       data-bind="  value: rewardPointsQtyToApply,
+                                                            attr:{
+                                                                disabled: areRewardPointsApplied()
+                                                            }"
+                                />
+                                <input type="hidden"
+                                       id="aw-reward-points-qty-max"
+                                       data-bind="value: rewardPointsMaxAllowedQtyToApply()"
+                                />
+                            </div>
+                            <div class="label for-input after">
+                                <label class="label" for="aw-reward-points-qty">
+                                    <span data-bind="i18n: ' points'"></span>
+                                </label>
+                            </div>
+                        <!--/ko-->
+
+                        <!-- ko if: areRewardPointsApplied() -->
+                            <label class="label">
+                                <span data-bind="text: getAppliedRewardPointsText()"></span>
+                            </label>
+                        <!-- /ko -->
+                    </div>
+
+                    <!-- ko if: isNeedToShowMaxAllowedQtyToApplyText() -->
+                        <div class="label max-allowed-points-qty">
+                            <span data-bind="text: getMaxAllowedQtyToApplyText()"></span>
+                        </div>
+                    <!--/ko-->
+                </div>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <!-- ko ifnot: areRewardPointsApplied() -->
+                            <button class="action action-apply"
+                                    type="submit"
+                                    data-bind="
+                                        'value': $t('Use reward points'),
+                                        click: applyRewardPoints
+                                    ">
+                                <span data-bind="i18n: 'Use Reward Points'"></span>
+                            </button>
+                        <!--/ko-->
+                        <!-- ko if: areRewardPointsApplied() -->
+                            <button class="action action-cancel"
+                                    type="submit"
+                                    data-bind="
+                                        'value': $t('Remove reward points'),
+                                        click: removeRewardPoints
+                                    ">
+                                <span data-bind="i18n: 'Remove reward points'"></span>
+                            </button>
+                        <!--/ko-->
+                    </div>
+                </div>
+            </form>
+        <!--/ko-->
+    </div>
+</div>

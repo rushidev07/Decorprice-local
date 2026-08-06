@@ -1,0 +1,16 @@
+<?php
+	$return_rules = $this->helper('Magento\Catalog\Helper\Output')->productAttribute($block->getProduct(), $block->getProduct()->getReturnRules(), 'return_rules');
+	//var_dump($return_rules);exit;
+	
+	switch ($return_rules){
+		case 15326:
+		echo '<span style="color:#303030;font-size:18px;font-weight:bolder;">Product is a final sale and cannot be returned</span>';
+		break;
+		case 15327:
+		echo '<span style="color:#303030;font-size:18px;font-weight:bolder;">Product can be returned within 30 days of receipt with no restocking fee. Buyer pays return shipping costs.</span>';
+		break;
+		case 15328:
+		echo '<span style="color:#303030;font-size:18px;font-weight:bolder;">Product can be returned within 30 days of receipt with 15% restocking fee. Buyer pays return shipping costs.</span>';
+		break;
+	}
+?>

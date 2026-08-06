@@ -1,0 +1,53 @@
+<!--
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_NameYourPrice
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+-->
+
+<!--@subject {{trans "Sorry, your bargain price has been rejected" }} @-->
+<!--@styles
+    .mppricebargain-admin-message{
+        padding: 15px;
+        background: #eee;
+    }
+    .label{
+        font-style: italic;
+    }
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<div>
+    <span>{{trans "Hi %customer_name," customer_name=$customer_name}}</span><br/><br/>
+    <span>{{trans "We have received your bargain price for %product_name." product_name=$product_name}}</span>
+    <span>{{trans "Unfortunately, we cannot accept this price."}}</span><br/>
+    <span>{{trans "Thank you for your interest in our products. Hope you will always have a great time shopping at our store."}}</span>
+
+    {{if admin_message}}
+    <div class="mppricebargain-admin-message">
+        <span class="label">{{trans "The message from the store owner:"}}</span><br/>
+        <span class="admin-message">{{var admin_message}}</span>
+    </div>
+    <br/>
+    {{/if}}
+
+    <span>{{trans "Best regards,"}}</span>
+</div>
+
+{{template config_path="design/email/footer_template"}}
