@@ -107,7 +107,6 @@ class Payload extends AbstractHelper {
         $payload['products'][] = $this->serializeProduct($product);
         return $payload;
     }
-
     public function getCartViewPayload()
     {
         return array('products' => $this->getProductsInCart());
@@ -142,7 +141,7 @@ class Payload extends AbstractHelper {
         );
 
         $search_block = $this->_layoutInterface->getBlock('search_result_list');
-        $productCollection = $search_block->getLoadedProductCollection();
+        $productCollection = $search_block ? $search_block->getLoadedProductCollection() : [];
         $counter = 0;
         $limit = 15;
         foreach ($productCollection as $product) {

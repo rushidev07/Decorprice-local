@@ -322,6 +322,12 @@ $nrCfg             = $nrEnabled ? $block->getNoResultsModalConfig() : [];
         .page-layout-2columns-left .sidebar-additional{width: 100%}
     </style>
 
+    <?php if ($searchQuery): ?>
+    <div id="ahy-search-heading" style="padding:24px 0 12px;font-size:28px;font-weight:800;color:#1d1d1f;text-transform:uppercase;letter-spacing:-.5px;border-bottom:2px solid #1d1d1f;margin-bottom:20px;">
+        Search Results For: &ldquo;<?= $escaper->escapeHtml($block->getSearchQuery()) ?>&rdquo;
+    </div>
+    <?php endif; ?>
+
     <!-- Loading skeleton shown first -->
     <div id="ahy-did-you-mean" style="display:none;padding:10px 0 6px;font-size:14px;color:#444"></div>
 
@@ -817,8 +823,8 @@ $nrCfg             = $nrEnabled ? $block->getNoResultsModalConfig() : [];
         var buckets = priceRangeBuckets();
         if (buckets.length) {
             html += '<div class="ahy-filter-section">';
-            html += '<div class="ahy-filter-section-title collapsed" data-filter-toggle="price">Price <span class="ahy-arrow">▼</span></div>';
-            html += '<div class="ahy-filter-options" data-filter-id="price" style="display:none">';
+            html += '<div class="ahy-filter-section-title" data-filter-toggle="price">Price <span class="ahy-arrow">▼</span></div>';
+            html += '<div class="ahy-filter-options" data-filter-id="price">';
             buckets.forEach(function (b) {
                 var checked = isPendingPriceActive(b.label) ? 'checked' : '';
                 html += '<label><input type="checkbox" ' + checked + ' data-price-bucket="' + escapeHtml(b.label) + '" data-price-min="' + b.min + '" data-price-max="' + b.max + '"> ' + escapeHtml(b.label) + '</label>';
@@ -829,8 +835,8 @@ $nrCfg             = $nrEnabled ? $block->getNoResultsModalConfig() : [];
         _state.filters.forEach(function (filter) {
             var opts = filter.showAll ? filter.options : filter.options.slice(0, 5);
             html += '<div class="ahy-filter-section">';
-            html += '<div class="ahy-filter-section-title collapsed" data-filter-toggle="' + escapeHtml(filter.key) + '">' + escapeHtml(filter.label) + ' <span class="ahy-arrow">▼</span></div>';
-            html += '<div class="ahy-filter-options" data-filter-id="' + escapeHtml(filter.key) + '" style="display:none">';
+            html += '<div class="ahy-filter-section-title" data-filter-toggle="' + escapeHtml(filter.key) + '">' + escapeHtml(filter.label) + ' <span class="ahy-arrow">▼</span></div>';
+            html += '<div class="ahy-filter-options" data-filter-id="' + escapeHtml(filter.key) + '">';
             opts.forEach(function (opt) {
                 var checked = isPendingFilterActive(filter.key, opt.value) ? 'checked' : '';
                 var count   = opt.count != null ? ' <span class="ahy-filter-count">(' + opt.count + ')</span>' : '';

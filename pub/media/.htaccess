@@ -27,9 +27,9 @@ SetHandler default-handler
     #RewriteBase /magento/pub/media/
 
 ############################################
-## fallback: serve missing media files from production
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.+\.(jpg|jpeg|png|gif|webp|avif|avifs|svg|ico))$ https://www.decorprice.com/media/$1 [R=302,L,NC]
+## NOTE: no image fallback active.
+## Production site is behind Cloudflare — proxy/redirect approaches are blocked.
+## To get images locally, rsync from the production server via SSH (see below).
 
 ############################################
 ## never rewrite for existing files
