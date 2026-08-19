@@ -347,6 +347,7 @@ return [
         'Ahy_CheckoutRedirect' => 1,
         'Ahy_NameYourPricePatch' => 1,
         'Ahy_OrderNumberFix' => 1,
+        'Ahy_ShadowDomBenchmark' => 1,
         'Ahy_SmartSearchLuma' => 1,
         'Ahy_ThemeCustomizations' => 1,
         'Ahy_UpdateOrderStatus' => 1,
