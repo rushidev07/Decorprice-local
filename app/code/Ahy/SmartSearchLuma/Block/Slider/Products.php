@@ -141,9 +141,16 @@ class Products extends Template
         return $this->getUrl('smsl/product/variantimages');
     }
 
+    /**
+     * Points at the module's own cart endpoint (VariantResolverInterface +
+     * CartAdapterInterface), not Magento's native checkout/cart/add directly —
+     * see the implementation plan's decision to bring slider cart-wiring in
+     * line with the other three surfaces, even though slider rendering itself
+     * stays out of scope.
+     */
     public function getAddToCartUrl(): string
     {
-        return $this->getUrl('checkout/cart/add');
+        return $this->getUrl('smsl/cart/add');
     }
 
     public function getMediaBaseUrl(): string

@@ -38,5 +38,16 @@
         </arguments>
     </type>
 
+    <!--
+        Ports & Adapters for cart integration. The default adapters below drive
+        Magento's own real cart/quote and configurable-attribute APIs — never a
+        SKU-string guess, never a bypass of the native add-to-cart contract. A client
+        with a non-standard cart (marketplace, custom checkout) swaps either
+        preference in their own module's di.xml, without touching this module.
+    -->
+    <preference for="Ahy\SmartSearchLuma\Api\CartAdapterInterface"
+                type="Ahy\SmartSearchLuma\Model\Cart\NativeCartAdapter"/>
+    <preference for="Ahy\SmartSearchLuma\Api\VariantResolverInterface"
+                type="Ahy\SmartSearchLuma\Model\Cart\NativeVariantResolver"/>
 
 </config>

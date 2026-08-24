@@ -19,9 +19,15 @@ class Search extends Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Suppressed once the Shadow DOM widget is active — see
+     * Block\Category::isEnabled()'s docblock for why this is enough on its own
+     * to prevent the legacy and new search implementations from ever running
+     * at the same time.
+     */
     public function isEnabled(): bool
     {
-        return $this->helper->isFrontendEnabled();
+        return $this->helper->isFrontendEnabled() && !$this->helper->isWidgetEnabled();
     }
 
     public function getProductsApiUrl(): string
@@ -71,8 +77,14 @@ class Search extends Template
         return $base . '/api/v1/suggest';
     }
 
+    /**
+     * The branded /fs/search URL, not the Magento-native-looking
+     * /catalogsearch/result — both render the identical page (see
+     * view/frontend/layout/fs_search_index.xml), this is purely which one
+     * the header search form itself links to.
+     */
     public function getSearchResultUrl(): string
     {
-        return $this->getUrl('catalogsearch/result');
+        return $this->getUrl('fs/search');
     }
 }
