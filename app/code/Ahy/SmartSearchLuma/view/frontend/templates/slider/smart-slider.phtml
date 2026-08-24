@@ -342,16 +342,20 @@ $mediaBase        = rtrim($block->getMediaBaseUrl(), '/');
         return wrap;
     }
 
-    function addToCart(productId, btn) {
+    function addToCart(productId, btn, selectedOptions) {
         btn.disabled  = true;
         btn.innerHTML = '<span>Adding…</span>';
-        var fd = new FormData();
-        fd.append('product', productId);
-        fd.append('qty', 1);
-        fd.append('form_key', getFormKey());
-        fetch(ADD_TO_CART_URL, { method: 'POST', body: fd })
-            .then(function (r) {
-                if (r.ok || r.redirected) {
+        var body = new URLSearchParams();
+        body.set('platform_product_id', productId);
+        body.set('qty', '1');
+        body.set('form_key', getFormKey());
+        if (selectedOptions && Object.keys(selectedOptions).length) {
+            body.set('selected_options', JSON.stringify(selectedOptions));
+        }
+        fetch(ADD_TO_CART_URL, { method: 'POST', body: body, credentials: 'same-origin' })
+            .then(function (r) { return r.json().catch(function () { return null; }); })
+            .then(function (data) {
+                if (data && data.success) {
                     btn.innerHTML = '<span>Added ✓</span>';
                     // Reload cart: Luma (require) + Hyva (CustomEvent)
                     if (window.require) {
@@ -381,7 +385,12 @@ $mediaBase        = rtrim($block->getMediaBaseUrl(), '/');
             if (!btn) return;
 
             if ((btn.classList.contains('ahy-sl-atc') || btn.classList.contains('ahy-add-to-cart')) && !btn.disabled) {
-                addToCart(btn.dataset.productId, btn);
+                var selected = btn.dataset.selectedOptions ? JSON.parse(btn.dataset.selectedOptions) : null;
+                // dataset.productId is always the parent/original id — see the
+                // swatch-selection handler below. The server resolves the real
+                // variant from (parent id + selected options), never a client-
+                // guessed child id.
+                addToCart(btn.dataset.productId, btn, selected);
 
             } else if (btn.classList.contains('ahy-opts-btn')) {
                 var wrap    = btn.closest('.ahy-config-wrap');
@@ -415,12 +424,25 @@ $mediaBase        = rtrim($block->getMediaBaseUrl(), '/');
                     swapImage(wrap, btn.dataset.val, optsEl.dataset.baseSku, JSON.parse(optsEl.dataset.variants));
                 }
 
+                // productId stays the parent id throughout — never overwritten
+                // with the resolved child's id. The selection itself (e.g.
+                // { Color: 'Black', Size: 'M' }) is what gets sent to the
+                // server, which resolves the real variant via Magento's own
+                // configurable-attribute data (VariantResolverInterface), not
+                // a client-side match against a SKU pattern.
+                var selectedOptions = {};
+                optsEl.querySelectorAll('.ahy-opt-swatches').forEach(function (row) {
+                    var sel = row.querySelector('.ahy-swatch.selected');
+                    if (sel) selectedOptions[sel.dataset.attr] = sel.dataset.val;
+                });
+
                 var match = resolveVariant(optsEl);
                 if (match) {
-                    cartBtn.dataset.productId = String(match.variant_id);
+                    cartBtn.dataset.selectedOptions = JSON.stringify(selectedOptions);
                     cartBtn.disabled = !match.in_stock;
                     cartBtn.innerHTML = '<span>' + (match.in_stock ? 'Add to Cart' : 'Out of Stock') + '</span>';
                 } else {
+                    delete cartBtn.dataset.selectedOptions;
                     cartBtn.disabled = true;
                     cartBtn.innerHTML = '<span>Add to Cart</span>';
                 }

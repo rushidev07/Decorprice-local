@@ -26,9 +26,16 @@ class Category extends Template
         return (string) $this->getRequest()->getParam('q', '');
     }
 
+    /**
+     * Suppressed once the Shadow DOM widget is active (isWidgetEnabled()) —
+     * results.phtml's own early-return guard on this method is what keeps the
+     * legacy and new implementations from ever running at the same time,
+     * without any extra layout-XML conditionals. See the implementation plan's
+     * two-flag design (frontend_enabled vs. widget_enabled).
+     */
     public function isEnabled(): bool
     {
-        return $this->helper->isFrontendEnabled();
+        return $this->helper->isFrontendEnabled() && !$this->helper->isWidgetEnabled();
     }
 
     public function getProductsApiUrl(): string
